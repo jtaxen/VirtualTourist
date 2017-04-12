@@ -22,6 +22,10 @@ extension ErrorHandler {
 	
 	110: No data was returned
 	
+	jsonParsingError:
+	
+	200: 
+	
 */
 	
 }

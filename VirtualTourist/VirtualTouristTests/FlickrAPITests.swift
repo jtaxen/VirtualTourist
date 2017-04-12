@@ -22,8 +22,6 @@ class FlickrAPITests: XCTestCase {
 			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject,
 			FlickrClient.ParameterKeys.APIKey: FlickrClient.ParameterValues.APIKey as AnyObject
 		]
-		
-		
 	}
 	
 	override func tearDown() {
@@ -31,12 +29,18 @@ class FlickrAPITests: XCTestCase {
 		super.tearDown()
 	}
 	
-	func testServerReturnsAStatusCode() {
-		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (data, error) in
-			let statusCode: Int? = FlickrClient.sharedInstance.returnStatusCode()
+	/// All tests in one function, because of asynchronous chaos.
+	func testServerCompletion() {
+		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (results, error) in
+			let statusCode = FlickrClient.sharedInstance.returnStatusCode()
 			XCTAssertNotNil(statusCode)
-			XCTAssertLessThan(statusCode!, 300)
-			XCTAssertGreaterThanOrEqual(statusCode!, 200)
+			
+			let data: [[String: AnyObject]]? = FlickrClient.sharedInstance.returnParsedResults()
+			XCTAssertNotNil(results)
+			XCTAssertNotNil(data)
+			XCTAssertNil(error)
+			
+			guard data != nil && results != nil else { return }
 		}
 	}
 }

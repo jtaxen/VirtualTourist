@@ -13,10 +13,11 @@ class FlickrClient {
 	static let sharedInstance = FlickrClient()
 	
 	private var statusCode: Int? = nil
+	private var parsedResults: [[String: AnyObject]]? = nil
 	
 	private init() {}
 	
-	func searchRequest(_ parameters: [String: AnyObject]?, searchReuestCompletionHandler: @escaping (_ result: [[String: AnyObject]], _ error: NSError?) -> Void ) -> URLSessionDataTask {
+	func searchRequest(_ parameters: [String: AnyObject]?, searchReuestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
 	
 		var urlComponents = URLComponents()
 		urlComponents.scheme = Constants.Scheme
@@ -40,21 +41,40 @@ class FlickrClient {
 		let session = URLSession.shared
 		let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
 			
-			let error1 = ErrorHandler.checkServerResponse(withData: data, inResponse: response, forError: error as NSError?)
+			let error1 = ErrorHandler.checkServerResponse(withData: data, inResponse: response, forError: error as NSError?)
 			
 			guard error1 == nil else {
-				debugPrint(error1!)
+				searchReuestCompletionHandler(nil, error1)
 				return
 			}
-			
-			print("\(response as? HTTPURLResponse)?.statusCode)")
 			self.statusCode = (response as? HTTPURLResponse)?.statusCode
+			
+			self.parseResults(data!) { (results, error) in
+				self.parsedResults = results
+				searchReuestCompletionHandler(results, error)
+			}
 		}
 		task.resume()
 		return task
 	}
 	
+	private func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
+		
+		var parsedData: [String: AnyObject]!
+		do {
+			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
+			parseDataCompletionHandler(parsedData["photo"] as? [[String: AnyObject]] , nil)
+		} catch {
+			
+		}
+		
+	}
+	
 	func returnStatusCode() -> Int? {
 		return statusCode
+	}
+	
+	func returnParsedResults() -> [[String: AnyObject]]? {
+		return parsedResults
 	}
 }
