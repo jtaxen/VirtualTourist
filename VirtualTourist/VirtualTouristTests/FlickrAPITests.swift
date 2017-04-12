@@ -11,16 +11,32 @@ import XCTest
 
 class FlickrAPITests: XCTestCase {
 	
+	var parameters: [String: AnyObject]!
+	
 	override func setUp() {
 		super.setUp()
+		
+		parameters = [
+			FlickrClient.ParameterKeys.Extras: FlickrClient.ParameterValues.Extras as AnyObject,
+			FlickrClient.ParameterKeys.Format: FlickrClient.ParameterValues.Format as AnyObject,
+			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject,
+			FlickrClient.ParameterKeys.APIKey: FlickrClient.ParameterValues.APIKey as AnyObject
+		]
+		
+		
 	}
 	
 	override func tearDown() {
+		
 		super.tearDown()
 	}
 	
 	func testServerReturnsAStatusCode() {
-		var statusCode: String? = FlickrClient.sharedInstance.returnStatusCode()
-		XCTAssertNotNil(statusCode)
+		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (data, error) in
+			let statusCode: Int? = FlickrClient.sharedInstance.returnStatusCode()
+			XCTAssertNotNil(statusCode)
+			XCTAssertLessThan(statusCode!, 300)
+			XCTAssertGreaterThanOrEqual(statusCode!, 200)
+		}
 	}
 }
