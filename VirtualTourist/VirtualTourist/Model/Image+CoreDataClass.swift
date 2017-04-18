@@ -11,5 +11,13 @@ import CoreData
 
 @objc(Image)
 public class Image: NSManagedObject {
-
+	
+	convenience init?(modelName: String = "New image", context: NSManagedObjectContext) {
+	
+		if let ent = NSEntityDescription.entity(forEntityName: "Image", in: context) {
+			self.init(entity: ent, insertInto: context)
+		} else {
+			fatalError("Unable to find entity name.")
+		}
+	}
 }

@@ -106,7 +106,6 @@
 				A03034971E9E32A300870661 /* Keys.swift */,
 				A09AC80F1EA6230D00F70A7C /* FlickrImage.swift */,
 				A09AC87B1EA6439E00F70A7C /* DataModel */,
-				A09AC8711EA63C5200F70A7C /* CoreDataStack.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -174,6 +173,7 @@
 		A09AC87B1EA6439E00F70A7C /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				A09AC8711EA63C5200F70A7C /* CoreDataStack.swift */,
 				A09AC87C1EA6444400F70A7C /* Location+CoreDataClass.swift */,
 				A09AC87D1EA6444400F70A7C /* Location+CoreDataProperties.swift */,
 				A09AC87E1EA6444400F70A7C /* Image+CoreDataClass.swift */,

@@ -37,7 +37,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Wb4-bo-GAt">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Wb4-bo-GAt" customClass="VTMapView" customModule="VirtualTourist" customModuleProvider="target">
                                 <rect key="frame" x="67" y="205" width="240" height="128"/>
                             </mapView>
                         </subviews>
@@ -51,7 +51,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Qv1-JY-zsy"/>
                     <connections>
-                        <outlet property="map" destination="Wb4-bo-GAt" id="oHV-GJ-UNZ"/>
+                        <outlet property="map" destination="Wb4-bo-GAt" id="Pmi-aH-HDg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hac-vY-qa2" userLabel="First Responder" sceneMemberID="firstResponder"/>
