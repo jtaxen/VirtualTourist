@@ -41,8 +41,7 @@ class FlickrClient {
 		let session = URLSession.shared
 		let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
 			
-			let error1 = ErrorHandler.checkServerResponse(withData: data, inResponse: response, forError: error as NSError?)
-			
+			let error1 = ErrorHandler.checkServerResponse(withData: data, inResponse: response, forError: error as NSError?)
 			guard error1 == nil else {
 				searchReuestCompletionHandler(nil, error1)
 				return
@@ -65,7 +64,7 @@ class FlickrClient {
 			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
 			parseDataCompletionHandler(parsedData["photo"] as? [[String: AnyObject]] , nil)
 		} catch {
-			
+			/// Handle error≠
 		}
 		
 	}
@@ -75,6 +74,10 @@ class FlickrClient {
 	}
 	
 	func returnParsedResults() -> [[String: AnyObject]]? {
+		for item in parsedResults!{
+			print("\(item)")
+		}
+		
 		return parsedResults
 	}
 }

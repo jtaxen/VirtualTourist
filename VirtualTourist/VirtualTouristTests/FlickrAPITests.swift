@@ -25,7 +25,7 @@ class FlickrAPITests: XCTestCase {
 	}
 	
 	override func tearDown() {
-		
+		parameters = nil
 		super.tearDown()
 	}
 	
