@@ -12,10 +12,14 @@ import CoreData
 @objc(Image)
 public class Image: NSManagedObject {
 	
-	convenience init?(modelName: String = "New image", context: NSManagedObjectContext) {
-	
+	convenience init?(_ image: FlickrImage, context: NSManagedObjectContext) {
+		
 		if let ent = NSEntityDescription.entity(forEntityName: "Image", in: context) {
 			self.init(entity: ent, insertInto: context)
+			self.id = image.id
+			self.owner = image.owner
+			self.title = image.title
+			self.url_m = image.url_m
 		} else {
 			fatalError("Unable to find entity name.")
 		}

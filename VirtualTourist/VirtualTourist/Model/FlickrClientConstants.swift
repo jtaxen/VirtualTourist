@@ -38,6 +38,13 @@ extension FlickrClient {
 		static let NoJSONCallback = "1"
 	}
 	
+	struct ImageProperties {
+		static let ID = "id"
+		static let Owner = "owner"
+		static let Url = "url_m"
+		static let Title = "title"
+	}
+	
 	struct Timer {
 		
 		static let Timeout: Double = 10

@@ -12,16 +12,16 @@ struct FlickrImage {
 
 	init(_ parameters: [String: AnyObject]) {
 	
-		id = parameters["id"]
-		owner = parameters["owner"]
-		title = parameters["title"]
-		url_m = parameters["url_m"]
+		id = parameters["id"] as! String?
+		owner = parameters["owner"] as! String?
+		title = parameters["title"] as! String?
+		url_m = parameters["url_m"] as! String?
 		
 	}
 	
-	let id: AnyObject?
-	let owner: AnyObject?
-	let title: AnyObject?
-	let url_m: AnyObject?
+	let id: String?
+	let owner: String?
+	let title: String?
+	let url_m: String?
 	
 }

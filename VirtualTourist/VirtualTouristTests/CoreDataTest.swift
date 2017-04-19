@@ -13,14 +13,16 @@ import CoreData
 class CoreDataTest: XCTestCase {
 	
 	var stack: CoreDataStack!
+	var location: Location!
+	var testImageParameters: [String: AnyObject]!
+	var testImage: Image!
 
     override func setUp() {
         super.setUp()
 		
 		stack = CoreDataStack(modelName: "TestCoreData")
-		
-		do {
-			
+		testImageParameters = [
+		]
 		
 		
     }
@@ -28,4 +30,12 @@ class CoreDataTest: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
+	
+	func testSavingImage() {
+		
+		
+		
+		
+	}
+	
 }
