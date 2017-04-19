@@ -24,7 +24,7 @@ extension ErrorHandler {
 	
 	jsonParsingError:
 	
-	200: 
+	201: parsing failed
 	
 */
 	

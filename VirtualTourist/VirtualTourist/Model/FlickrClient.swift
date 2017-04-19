@@ -17,7 +17,7 @@ class FlickrClient {
 	
 	private init() {}
 	
-	func searchRequest(_ parameters: [String: AnyObject]?, searchReuestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
+	func searchRequest(_ parameters: [String: AnyObject]?, searchRequestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
 	
 		var urlComponents = URLComponents()
 		urlComponents.scheme = Constants.Scheme
@@ -43,14 +43,14 @@ class FlickrClient {
 			
 			let error1 = ErrorHandler.checkServerResponse(withData: data, inResponse: response, forError: error as NSError?)
 			guard error1 == nil else {
-				searchReuestCompletionHandler(nil, error1)
+				searchRequestCompletionHandler(nil, error1)
 				return
 			}
 			self.statusCode = (response as? HTTPURLResponse)?.statusCode
 			
 			self.parseResults(data!) { (results, error) in
 				self.parsedResults = results
-				searchReuestCompletionHandler(results, error)
+				searchRequestCompletionHandler(results, error)
 			}
 		}
 		task.resume()
@@ -64,20 +64,28 @@ class FlickrClient {
 			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
 			parseDataCompletionHandler(parsedData["photo"] as? [[String: AnyObject]] , nil)
 		} catch {
-			/// Handle error≠
+			let userInfo = [NSLocalizedDescriptionKey: "JSON data parsing failed."]
+			let error = NSError(domain: "jsonParsingError", code: 201, userInfo: userInfo)
+			parseDataCompletionHandler(nil, error)
 		}
-		
 	}
 	
-	func returnStatusCode() -> Int? {
+	func getStatusCode() -> Int? {
 		return statusCode
 	}
 	
-	func returnParsedResults() -> [[String: AnyObject]]? {
+	func getParsedResults() -> [[String: AnyObject]]? {
+		
+		guard parsedResults != nil else { return nil }
+		
 		for item in parsedResults!{
 			print("\(item)")
 		}
 		
 		return parsedResults
+	}
+	
+	func removeParsedResults() {
+		parsedResults = nil
 	}
 }

@@ -149,8 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */,
-				A0526F531E9D1584004367AA /* VirtualTouristTests.swift */,
 				A03034951E9E2C7000870661 /* FlickrAPITests.swift */,
+				A0526F531E9D1584004367AA /* VirtualTouristTests.swift */,
 				A0526F551E9D1584004367AA /* Info.plist */,
 			);
 			path = VirtualTouristTests;

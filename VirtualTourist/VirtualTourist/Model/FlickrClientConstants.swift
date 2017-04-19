@@ -39,6 +39,7 @@ extension FlickrClient {
 	}
 	
 	struct ImageProperties {
+		
 		static let ID = "id"
 		static let Owner = "owner"
 		static let Url = "url_m"

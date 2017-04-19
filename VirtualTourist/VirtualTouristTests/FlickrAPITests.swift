@@ -11,9 +11,9 @@ import XCTest
 
 class FlickrAPITests: XCTestCase {
 	
-	var parameters: [String: AnyObject]!
+	static var parameters: [String: AnyObject]!
 	
-	override func setUp() {
+	override class func setUp() {
 		super.setUp()
 		
 		parameters = [
@@ -24,23 +24,48 @@ class FlickrAPITests: XCTestCase {
 		]
 	}
 	
-	override func tearDown() {
-		parameters = nil
+	override class func tearDown() {
+		FlickrClient.sharedInstance.removeParsedResults()
 		super.tearDown()
 	}
 	
 	/// All tests in one function, because of asynchronous chaos.
 	func testServerCompletion() {
-		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (results, error) in
-			let statusCode = FlickrClient.sharedInstance.returnStatusCode()
+		
+		let expectation = self.expectation(description: "Server returns data")
+		
+		_ = FlickrClient.sharedInstance.searchRequest(FlickrAPITests.parameters) { (results, error) in
+			let statusCode = FlickrClient.sharedInstance.getStatusCode()
 			XCTAssertNotNil(statusCode)
 			
-			let data: [[String: AnyObject]]? = FlickrClient.sharedInstance.returnParsedResults()
-			XCTAssertNotNil(results)
-			XCTAssertNotNil(data)
-			XCTAssertNil(error)
+			guard error == nil else {
+				debugPrint(error!)
+				XCTFail("Server request returned an error.")
+				return
+			}
 			
-			guard data != nil && results != nil else { return }
+			XCTAssertNotNil(results)
+			expectation.fulfill()
+		}
+		self.waitForExpectations(timeout: 20.0) { (error) in
+			guard error == nil else {
+				debugPrint(error!)
+				return
+			}
+		}
+	}
+	
+	func testParsedResultsAreSaved() {
+		
+		guard FlickrClient.sharedInstance.getParsedResults() != nil else {
+			XCTFail("Parsed results do not exist")
+			return
+		}
+	
+		for item in FlickrClient.sharedInstance.getParsedResults()! {
+			for (key, value) in item {
+				print("\(key): \(value)")
+			}
 		}
 	}
 }
