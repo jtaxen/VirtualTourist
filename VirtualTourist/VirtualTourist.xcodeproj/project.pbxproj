@@ -28,6 +28,8 @@
 		A09AC8811EA6444400F70A7C /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09AC87D1EA6444400F70A7C /* Location+CoreDataProperties.swift */; };
 		A09AC8821EA6444400F70A7C /* Image+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09AC87E1EA6444400F70A7C /* Image+CoreDataClass.swift */; };
 		A09AC8831EA6444400F70A7C /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */; };
+		A0A59C651EA6611D00921967 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A59C641EA6611D00921967 /* MapViewDelegate.swift */; };
+		A0CAFC0B1EA7435100F74B20 /* CoreDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		A09AC87D1EA6444400F70A7C /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataProperties.swift"; path = "Model/Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A09AC87E1EA6444400F70A7C /* Image+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataClass.swift"; path = "Model/Image+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "Model/Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		A0A59C641EA6611D00921967 /* MapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewDelegate.swift; path = Controllers/MapViewDelegate.swift; sourceTree = "<group>"; };
+		A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,7 @@
 			children = (
 				A030348E1E9E1CDD00870661 /* MapNavigationController.swift */,
 				A0526F401E9D1584004367AA /* MapViewController.swift */,
+				A0A59C641EA6611D00921967 /* MapViewDelegate.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -143,6 +148,7 @@
 		A0526F521E9D1584004367AA /* VirtualTouristTests */ = {
 			isa = PBXGroup;
 			children = (
+				A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */,
 				A0526F531E9D1584004367AA /* VirtualTouristTests.swift */,
 				A03034951E9E2C7000870661 /* FlickrAPITests.swift */,
 				A0526F551E9D1584004367AA /* Info.plist */,
@@ -290,6 +296,7 @@
 			files = (
 				A09AC8801EA6444400F70A7C /* Location+CoreDataClass.swift in Sources */,
 				A09AC8101EA6230D00F70A7C /* FlickrImage.swift in Sources */,
+				A0A59C651EA6611D00921967 /* MapViewDelegate.swift in Sources */,
 				A0526F411E9D1584004367AA /* MapViewController.swift in Sources */,
 				A09AC86E1EA6304200F70A7C /* ImageModel.xcdatamodeld in Sources */,
 				A09AC8721EA63C5200F70A7C /* CoreDataStack.swift in Sources */,
@@ -311,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0CAFC0B1EA7435100F74B20 /* CoreDataTest.swift in Sources */,
 				A0526F541E9D1584004367AA /* VirtualTouristTests.swift in Sources */,
 				A03034961E9E2C7000870661 /* FlickrAPITests.swift in Sources */,
 			);
