@@ -9,23 +9,40 @@
 import Foundation
 
 extension ErrorHandler {
-	
-	/*
 
-	serverRequestError:
-	
-	100: No status code was returned
-	101: Server returned 1xx Informational response
-	103: Server returned 3xx Redirection response
-	104: Server returned 4xx Client error response
-	105: Server returned 5xx Server error response
-	
-	110: No data was returned
-	
-	jsonParsingError:
-	
-	201: parsing failed
-	
-*/
-	
+	internal static func errorMessage(errorCode code: Int) -> [String: String] {
+		
+		var errorInfo: [String: String] = [:]
+		var message: String = ""
+		
+		/// Server request error
+		if code >= 100 && code <= 199 {
+			errorInfo["domain"] = "serverRequestDomain"
+			
+			switch code {
+			case 100: message = "Server did not return any status code."
+			case 101: message = "Server returned 1xx - Informal response."
+			case 103: message = "Server returned 3xx - Redirection respone."
+			case 104: message = "Server returned 4xx - Client error response."
+			case 105: message = "Server returned 5xx - Server error response."
+			case 110: message = "No data was returned."
+			default: message = "Unknown server request error."
+			}
+		}
+		
+		/// JSON parsing error
+		if code >= 200 && code <= 299 {
+			errorInfo["domain"] = "jsonParsingError"
+			
+			switch code {
+			case 200: message = "JSON parsing failed."
+			case 201: message = "Could not find photos in JSON results."
+			case 202: message = "Could not find photo in JSON results."
+			default: message = "Unknown parsing error."
+			}
+		}
+		
+		errorInfo["message"] = message
+		return errorInfo
+	}
 }

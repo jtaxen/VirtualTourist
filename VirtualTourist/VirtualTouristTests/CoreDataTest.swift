@@ -103,11 +103,7 @@ class CoreDataTest: XCTestCase {
 			return
 		}
 		
-		for object in frc.fetchedObjects! {
-			XCTFail("Object ID: \((object as! Image).id).")
-		}
-		
-		XCTAssertNotEqual(frc.fetchedObjects?.count, 0)
+		XCTAssertNotEqual(frc.fetchedObjects!.count, 0)
 		guard (frc.fetchedObjects?.count)! > 0 else {
 			XCTFail("Array count is zero")
 			return

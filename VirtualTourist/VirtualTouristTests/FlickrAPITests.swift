@@ -17,6 +17,7 @@ class FlickrAPITests: XCTestCase {
 		super.setUp()
 		
 		parameters = [
+			FlickrClient.ParameterKeys.Method: FlickrClient.ParameterValues.MethodSearch as AnyObject,
 			FlickrClient.ParameterKeys.Extras: FlickrClient.ParameterValues.Extras as AnyObject,
 			FlickrClient.ParameterKeys.Format: FlickrClient.ParameterValues.Format as AnyObject,
 			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject,
@@ -44,7 +45,11 @@ class FlickrAPITests: XCTestCase {
 				return
 			}
 			
-			XCTAssertNotNil(results)
+			guard results != nil else {
+				XCTFail("No results returned")
+				return
+			}
+			
 			expectation.fulfill()
 		}
 		self.waitForExpectations(timeout: 20.0) { (error) in
@@ -52,19 +57,10 @@ class FlickrAPITests: XCTestCase {
 				debugPrint(error!)
 				return
 			}
-		}
-	}
-	
-	func testParsedResultsAreSaved() {
-		
-		guard FlickrClient.sharedInstance.getParsedResults() != nil else {
-			XCTFail("Parsed results do not exist")
-			return
-		}
-	
-		for item in FlickrClient.sharedInstance.getParsedResults()! {
-			for (key, value) in item {
-				print("\(key): \(value)")
+			
+			guard FlickrClient.sharedInstance.getParsedResults() != nil else {
+				XCTFail("Parsed results do not exist")
+				return
 			}
 		}
 	}

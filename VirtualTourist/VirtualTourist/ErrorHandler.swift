@@ -22,15 +22,14 @@ struct ErrorHandler {
 		/// Make sure that the server returns a 200-status code
 		guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
 		
-			let userInfo = [NSLocalizedDescriptionKey: "The server did not return any status code."]
-			return NSError(domain: "serverRequestError", code: 100, userInfo: userInfo)
+			return newError(code: 100)
 		}
 		
 		guard statusCode >= 200 && statusCode <= 299 else {
 			
-			let userInfo = [NSLocalizedDescriptionKey: "The server returned the status code \(statusCode)."]
+			debugPrint("The server returned the status code \(statusCode).")
 			let code = 100 + statusCode / 100
-			return NSError(domain: "serverRequestError", code: code, userInfo: userInfo)
+			return newError(code: code)
 		}
 		
 		print("The server returned the status code \(statusCode)")
@@ -39,11 +38,20 @@ struct ErrorHandler {
 		
 		guard data != nil else {
 			
-			let userInfo = [NSLocalizedDescriptionKey: "The server did not return any data."]
-			return NSError(domain: "serverRequestError", code: 110, userInfo: userInfo)
+			return newError(code: 110)
 		}
 		
 		return nil
+	}
+	
+	static func newError(code: Int) -> NSError {
+	
+		let message = errorMessage(errorCode: code)
+		
+		let userInfo = [NSLocalizedDescriptionKey: message["message"]]
+		let error = NSError(domain: message["domain"]!, code: code, userInfo: userInfo)
+		return error
+		
 	}
 	
 }

@@ -17,6 +17,7 @@ class FlickrClient {
 	
 	private init() {}
 	
+	/// MARK: - Search request
 	func searchRequest(_ parameters: [String: AnyObject]?, searchRequestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
 	
 		var urlComponents = URLComponents()
@@ -57,34 +58,35 @@ class FlickrClient {
 		return task
 	}
 	
+	/// MARK: - Parse results
 	private func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
 		
 		var parsedData: [String: AnyObject]!
 		do {
-			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject]
-			parseDataCompletionHandler(parsedData["photo"] as? [[String: AnyObject]] , nil)
+			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
 		} catch {
-			let userInfo = [NSLocalizedDescriptionKey: "JSON data parsing failed."]
-			let error = NSError(domain: "jsonParsingError", code: 201, userInfo: userInfo)
-			parseDataCompletionHandler(nil, error)
-		}
-	}
-	
-	func getStatusCode() -> Int? {
-		return statusCode
-	}
-	
-	func getParsedResults() -> [[String: AnyObject]]? {
-		
-		guard parsedResults != nil else { return nil }
-		
-		for item in parsedResults!{
-			print("\(item)")
+			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 200))
 		}
 		
-		return parsedResults
+		guard let photos = parsedData["photos"] as? [String: AnyObject] else {
+			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 201))
+			return
+		}
+		
+		guard let photo = photos["photo"] as? [[String: AnyObject]] else {
+			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 202))
+			return
+		}
+		
+		parseDataCompletionHandler(photo, nil)
 	}
 	
+	/// MARK: - Getters
+	func getStatusCode() -> Int? { return statusCode }
+	
+	func getParsedResults() -> [[String: AnyObject]]? { return parsedResults }
+	
+	/// MARK: - Remove parsed results
 	func removeParsedResults() {
 		parsedResults = nil
 	}
