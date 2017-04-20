@@ -16,7 +16,6 @@ struct FlickrImage {
 		owner = parameters["owner"] as! String?
 		title = parameters["title"] as! String?
 		url_m = parameters["url_m"] as! String?
-		
 	}
 	
 	let id: String?

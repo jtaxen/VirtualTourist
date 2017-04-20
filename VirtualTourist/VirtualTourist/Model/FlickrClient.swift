@@ -17,6 +17,16 @@ class FlickrClient {
 	
 	private init() {}
 	
+	/// MARK: - Getters
+	func getStatusCode() -> Int? { return statusCode }
+	
+	func getParsedResults() -> [[String: AnyObject]]? { return parsedResults }
+	
+	/// MARK: - Remove parsed results
+	func removeParsedResults() {
+		parsedResults = nil
+	}
+	
 	/// MARK: - Search request
 	func searchRequest(_ parameters: [String: AnyObject]?, searchRequestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
 	
@@ -79,15 +89,5 @@ class FlickrClient {
 		}
 		
 		parseDataCompletionHandler(photo, nil)
-	}
-	
-	/// MARK: - Getters
-	func getStatusCode() -> Int? { return statusCode }
-	
-	func getParsedResults() -> [[String: AnyObject]]? { return parsedResults }
-	
-	/// MARK: - Remove parsed results
-	func removeParsedResults() {
-		parsedResults = nil
 	}
 }

@@ -8,9 +8,9 @@
 
 import Foundation
 
-extension ErrorHandler {
+internal extension ErrorHandler {
 
-	internal static func errorMessage(errorCode code: Int) -> [String: String] {
+	static func errorMessage(errorCode code: Int) -> [String: String] {
 		
 		var errorInfo: [String: String] = [:]
 		var message: String = ""
