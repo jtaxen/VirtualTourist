@@ -1,5 +1,5 @@
 //
-//   ErrorHandlerErrors.swift
+//  ErrorHandlerErrors.swift
 //  VirtualTourist
 //
 //  Created by ÅF Jacob Taxén on 2017-04-12.

@@ -12,6 +12,7 @@ class FlickrClient {
 	
 	static let sharedInstance = FlickrClient()
 	
+	let coreDataStack = CoreDataStack.sharedInstance!
 	private var statusCode: Int? = nil
 	private var parsedResults: [[String: AnyObject]]? = nil
 	

@@ -18,7 +18,9 @@ class CoreDataStack {
 	internal let backgroundContext: NSManagedObjectContext
 	let context: NSManagedObjectContext
 	
-	init?(modelName: String) {
+	static let sharedInstance = CoreDataStack(modelName: "ImageModel")
+	
+	private init?(modelName: String) {
 
 		guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
 			print("Unable to find \(modelName) in the main bundle.")

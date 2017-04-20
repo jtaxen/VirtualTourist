@@ -13,7 +13,7 @@
 		A03034961E9E2C7000870661 /* FlickrAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03034951E9E2C7000870661 /* FlickrAPITests.swift */; };
 		A03034981E9E32A300870661 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03034971E9E32A300870661 /* Keys.swift */; };
 		A030349A1E9E4E2700870661 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03034991E9E4E2700870661 /* ErrorHandler.swift */; };
-		A030349C1E9E52B700870661 /*  ErrorHandlerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A030349B1E9E52B600870661 /*  ErrorHandlerErrors.swift */; };
+		A030349C1E9E52B700870661 /* ErrorHandlerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A030349B1E9E52B600870661 /* ErrorHandlerErrors.swift */; };
 		A0526F3F1E9D1584004367AA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0526F3E1E9D1584004367AA /* AppDelegate.swift */; };
 		A0526F411E9D1584004367AA /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0526F401E9D1584004367AA /* MapViewController.swift */; };
 		A0526F441E9D1584004367AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0526F421E9D1584004367AA /* Main.storyboard */; };
@@ -49,7 +49,7 @@
 		A03034951E9E2C7000870661 /* FlickrAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrAPITests.swift; sourceTree = "<group>"; };
 		A03034971E9E32A300870661 /* Keys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Keys.swift; path = Model/Keys.swift; sourceTree = "<group>"; };
 		A03034991E9E4E2700870661 /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
-		A030349B1E9E52B600870661 /*  ErrorHandlerErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = " ErrorHandlerErrors.swift"; sourceTree = "<group>"; };
+		A030349B1E9E52B600870661 /* ErrorHandlerErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandlerErrors.swift; sourceTree = "<group>"; };
 		A030349D1E9E556D00870661 /* VirtualTouristPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = VirtualTouristPlayground.playground; sourceTree = "<group>"; };
 		A0526F3B1E9D1584004367AA /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0526F3E1E9D1584004367AA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				A03034901E9E210100870661 /* FlickrClient.swift */,
 				A03034931E9E21C200870661 /* FlickrClientConstants.swift */,
 				A03034991E9E4E2700870661 /* ErrorHandler.swift */,
-				A030349B1E9E52B600870661 /*  ErrorHandlerErrors.swift */,
+				A030349B1E9E52B600870661 /* ErrorHandlerErrors.swift */,
 				A03034971E9E32A300870661 /* Keys.swift */,
 				A09AC80F1EA6230D00F70A7C /* FlickrImage.swift */,
 				A09AC87B1EA6439E00F70A7C /* DataModel */,
@@ -300,7 +300,7 @@
 				A0526F411E9D1584004367AA /* MapViewController.swift in Sources */,
 				A09AC86E1EA6304200F70A7C /* ImageModel.xcdatamodeld in Sources */,
 				A09AC8721EA63C5200F70A7C /* CoreDataStack.swift in Sources */,
-				A030349C1E9E52B700870661 /*  ErrorHandlerErrors.swift in Sources */,
+				A030349C1E9E52B700870661 /* ErrorHandlerErrors.swift in Sources */,
 				A030349A1E9E4E2700870661 /* ErrorHandler.swift in Sources */,
 				A09AC8831EA6444400F70A7C /* Image+CoreDataProperties.swift in Sources */,
 				A03034981E9E32A300870661 /* Keys.swift in Sources */,

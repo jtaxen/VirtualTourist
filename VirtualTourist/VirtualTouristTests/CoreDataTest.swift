@@ -125,12 +125,7 @@ class CoreDataTest: XCTestCase {
 		
 		let imageSet = NSSet(object: CoreDataTest.testImage)
 		
-		print("###################################")
-		
 		let location = Location(id: CoreDataTest.testLocationId, image: imageSet, context: CoreDataTest.stack!.context)
-		print("===================================")
-		print(location?.description)
-		print("===================================")
 		
 		XCTAssertNotNil(location)
 		
