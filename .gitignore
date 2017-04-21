@@ -52,3 +52,6 @@ fastlane/test_output
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
+
+*Keys.swift
+VirtualTourist/VirtualTourist/Model/Keys.swift
