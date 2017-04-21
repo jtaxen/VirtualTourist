@@ -15,7 +15,7 @@ class VTMapView: MKMapView {
 	/// The point where the user touches the map, in map coordinates.
 	public private(set) var clPoint = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 	
-	/// MARK: - Handle touch events
+	// MARK: - Handle touch events
 	/**
 	When the map view is touched, the point is converted from the view's coordinate system to the map's system (WGS 84) and stored in clPoint.
 	*/

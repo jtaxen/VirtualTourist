@@ -8,7 +8,7 @@
 
 import MapKit
 
-/// MARK: - MKMapView delegate
+// MARK: - MKMapView delegate
 extension MapViewController {
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

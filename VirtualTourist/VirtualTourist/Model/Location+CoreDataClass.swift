@@ -12,7 +12,7 @@ import CoreData
 @objc(Location)
 public class Location: NSManagedObject {
 	
-	/// MARK: - Initializer independent of the FlickrImage struct.
+	// MARK: - Initializer independent of the FlickrImage struct.
 	convenience init?(id: String?, image: NSSet?, context: NSManagedObjectContext) {
 		
 		guard let ent = NSEntityDescription.entity(forEntityName: "Location", in: context) else {

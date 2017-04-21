@@ -11,19 +11,19 @@ import UIKit
 import CoreData
 import MapKit
 
-/// MARK: - Delegate for the collection view
+// MARK: - Delegate for the collection view
 extension AlbumViewController: UICollectionViewDelegate {
 
 	 
 	
 }
 
-/// MARK: - Delegate for fetched results controller
+// MARK: - Delegate for fetched results controller
 extension AlbumViewController: NSFetchedResultsControllerDelegate {
 
 }
 
-/// MARK: - Delegate for map view
+// MARK: - Delegate for map view
 extension AlbumViewController: MKMapViewDelegate {
 	
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

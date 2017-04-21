@@ -24,7 +24,7 @@ public class Image: NSManagedObject {
 		self.url_m = image.url_m
 	}
 	
-	/// MARK: - Initializer independent of the FlickrImage struct.
+	// MARK: - Initializer independent of the FlickrImage struct.
 	convenience init?(_ parameters: [String: AnyObject], context: NSManagedObjectContext) {
 		
 		guard let ent = NSEntityDescription.entity(forEntityName: "Image", in: context) else {

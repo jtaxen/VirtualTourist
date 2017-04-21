@@ -49,6 +49,7 @@
 		A0244B311EAA050100C81DC2 /* AlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlbumViewController.swift; path = Controllers/AlbumViewController.swift; sourceTree = "<group>"; };
 		A0244B351EAA0D2600C81DC2 /* AlbumViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlbumViewDelegate.swift; path = Controllers/AlbumViewDelegate.swift; sourceTree = "<group>"; };
 		A0244B3C1EAA39CA00C81DC2 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pin.swift; path = View/Pin.swift; sourceTree = "<group>"; };
+		A0244B3E1EAA4A2200C81DC2 /* ImageModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ImageModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		A030348E1E9E1CDD00870661 /* MapNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapNavigationController.swift; path = Controllers/MapNavigationController.swift; sourceTree = "<group>"; };
 		A03034901E9E210100870661 /* FlickrClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrClient.swift; path = Model/FlickrClient.swift; sourceTree = "<group>"; };
 		A03034931E9E21C200870661 /* FlickrClientConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrClientConstants.swift; path = Model/FlickrClientConstants.swift; sourceTree = "<group>"; };
@@ -567,9 +568,10 @@
 		A09AC86C1EA6304200F70A7C /* ImageModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A0244B3E1EAA4A2200C81DC2 /* ImageModel 2.xcdatamodel */,
 				A09AC86D1EA6304200F70A7C /* ImageModel.xcdatamodel */,
 			);
-			currentVersion = A09AC86D1EA6304200F70A7C /* ImageModel.xcdatamodel */;
+			currentVersion = A0244B3E1EAA4A2200C81DC2 /* ImageModel 2.xcdatamodel */;
 			name = ImageModel.xcdatamodeld;
 			path = Model/ImageModel.xcdatamodeld;
 			sourceTree = "<group>";

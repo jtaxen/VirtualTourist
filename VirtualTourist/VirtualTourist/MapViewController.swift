@@ -33,7 +33,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	}
 }
 
-/// MARK: - Set up
+// MARK: - Set up
 extension MapViewController {
 	
 	/**
