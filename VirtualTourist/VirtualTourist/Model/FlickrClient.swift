@@ -14,29 +14,13 @@ class FlickrClient {
 	/// Singelton
 	static let sharedInstance = FlickrClient()
 	
-	let coreDataStack = CoreDataStack.sharedInstance!
-	private var statusCode: Int? = nil
-	private var parsedResults: [[String: AnyObject]]? = nil
+	private let coreDataStack = CoreDataStack.sharedInstance!
+	public private(set) var statusCode: Int? = nil
+	public private(set) var parsedResults: [[String: AnyObject]]? = nil
 	
 	/// Default initializer is hidden.
 	private init() {}
-	
-	/// MARK: - Getters
-	
-	/**
-	Get status code returned from the server after the latest request.
-	
-	- Returns: Status code from the latest server response.
-	*/
-	func getStatusCode() -> Int? { return statusCode }
-	
-	/**
-	Get the JSON response from the latest request as an array of dictionaries.
-	
-	- Returns: JSON response from the latest request.
-	*/
-	func getParsedResults() -> [[String: AnyObject]]? { return parsedResults }
-	
+		
 	/**
 	Removes the parsed results from the latest request. This function is mainly for testing purposes.
 	*/

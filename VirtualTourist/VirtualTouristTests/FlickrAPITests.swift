@@ -36,7 +36,7 @@ class FlickrAPITests: XCTestCase {
 		let expectation = self.expectation(description: "Server returns data")
 		
 		_ = FlickrClient.sharedInstance.searchRequest(FlickrAPITests.parameters) { (results, error) in
-			let statusCode = FlickrClient.sharedInstance.getStatusCode()
+			let statusCode = FlickrClient.sharedInstance.statusCode
 			XCTAssertNotNil(statusCode)
 			
 			guard error == nil else {
@@ -58,7 +58,7 @@ class FlickrAPITests: XCTestCase {
 				return
 			}
 			
-			guard FlickrClient.sharedInstance.getParsedResults() != nil else {
+			guard FlickrClient.sharedInstance.parsedResults != nil else {
 				XCTFail("Parsed results do not exist")
 				return
 			}

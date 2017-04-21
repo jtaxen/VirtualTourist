@@ -13,10 +13,7 @@ import CoreLocation
 class VTMapView: MKMapView {
 	
 	/// The point where the user touches the map, in map coordinates.
-	private var clPoint = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
-	
-	/// Getter for clPoint.
-	public func getLocation() -> CLLocationCoordinate2D { return clPoint }
+	public private(set) var clPoint = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 	
 	/// MARK: - Handle touch events
 	/**
@@ -26,7 +23,6 @@ class VTMapView: MKMapView {
 		
 		guard let location = touches.first?.location(in: self) else { return }
 		
-		print(annotations.count)
 		clPoint = convert(location, toCoordinateFrom: self)
 	}
 	

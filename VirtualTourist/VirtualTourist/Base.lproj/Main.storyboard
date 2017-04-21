@@ -53,32 +53,17 @@
                     <navigationItem key="navigationItem" id="Qv1-JY-zsy"/>
                     <connections>
                         <outlet property="map" destination="Wb4-bo-GAt" id="Pmi-aH-HDg"/>
+                        <segue destination="LOT-jR-DSP" kind="show" identifier="showAlbum" id="RNZ-wU-Mg2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hac-vY-qa2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="302" y="152"/>
         </scene>
-        <!--Album Navigation Controller-->
-        <scene sceneID="tem-JC-sLe">
-            <objects>
-                <navigationController storyboardIdentifier="albumNavigation" id="wTP-91-5UA" customClass="AlbumNavigationController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bqJ-aG-Nuv">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="LOT-jR-DSP" kind="relationship" relationship="rootViewController" id="mlZ-JT-IPK"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TzG-Nz-oSW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-522" y="843"/>
-        </scene>
         <!--Album View Controller-->
         <scene sceneID="s62-Qr-zPz">
             <objects>
-                <viewController id="LOT-jR-DSP" customClass="AlbumViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="albumView" id="LOT-jR-DSP" customClass="AlbumViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sjM-P7-hpe"/>
                         <viewControllerLayoutGuide type="bottom" id="Dgn-Pd-6LF"/>
@@ -112,6 +97,7 @@
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t4f-IX-gcc">
                                 <rect key="frame" x="0.0" y="611.5" width="375" height="55.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="Button"/>
                             </button>
                         </subviews>
@@ -140,7 +126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1hK-Rc-0on" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="302" y="842"/>
+            <point key="canvasLocation" x="1162" y="152"/>
         </scene>
     </scenes>
 </document>

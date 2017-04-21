@@ -15,14 +15,16 @@ extension MapViewController {
 		
 		let reuseID = "pin"
 		
-		var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? MKPinAnnotationView
+		var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? Pin
+		
+//		pinView?.coordinate = annotation.coordinate
 		
 		guard pinView == nil else {
 			pinView!.annotation = annotation
 			return pinView
 		}
 		
-		pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+		pinView = Pin(annotation: annotation, reuseIdentifier: reuseID, coordinate: annotation.coordinate)
 		pinView!.canShowCallout = false
 		pinView!.pinTintColor = UIColor.red
 		pinView!.animatesDrop = true
@@ -31,12 +33,11 @@ extension MapViewController {
 	
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 		
+		let pin = view as! Pin
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		let controller = storyboard.instantiateViewController(withIdentifier: "albumNavigation") as! AlbumNavigationController
+		let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
 		
-		controller.annotationCoordinate = map.getLocation()
-		
-		present(controller, animated: true, completion: nil)
-		
+		controller.setCenter(pin.coordinate)
+		navigationController?.pushViewController(controller, animated: true)
 	}
 }
