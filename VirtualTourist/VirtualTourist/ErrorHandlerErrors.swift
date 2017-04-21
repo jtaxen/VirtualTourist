@@ -10,6 +10,15 @@ import Foundation
 
 internal extension ErrorHandler {
 
+	/**
+	Creates an error message based on the error code.
+	
+	- Parameter errorCode: Error code representing the error.
+	
+	- Returns: A dictionary with two entries:
+	* The key *domain* contains the error domain.
+	* The key *message* contains a description of the error for debugging purposes.
+	*/
 	static func errorMessage(errorCode code: Int) -> [String: String] {
 		
 		var errorInfo: [String: String] = [:]

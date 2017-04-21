@@ -8,27 +8,51 @@
 
 import Foundation
 
+/// Class for handling communication with Flickr's server.
 class FlickrClient {
 	
+	/// Singelton
 	static let sharedInstance = FlickrClient()
 	
 	let coreDataStack = CoreDataStack.sharedInstance!
 	private var statusCode: Int? = nil
 	private var parsedResults: [[String: AnyObject]]? = nil
 	
+	/// Default initializer is hidden.
 	private init() {}
 	
 	/// MARK: - Getters
+	
+	/**
+	Get status code returned from the server after the latest request.
+	
+	- Returns: Status code from the latest server response.
+	*/
 	func getStatusCode() -> Int? { return statusCode }
 	
+	/**
+	Get the JSON response from the latest request as an array of dictionaries.
+	
+	- Returns: JSON response from the latest request.
+	*/
 	func getParsedResults() -> [[String: AnyObject]]? { return parsedResults }
 	
-	/// MARK: - Remove parsed results
+	/**
+	Removes the parsed results from the latest request. This function is mainly for testing purposes.
+	*/
 	func removeParsedResults() {
 		parsedResults = nil
 	}
 	
-	/// MARK: - Search request
+	/**
+	Creates and performs a request to the Flickr server, and handles the results.
+	
+	- Parameter parameters: key-value pairs of search terms for the REST API. A valid API key is required.
+	- Parameter searchRequestCompletionHandler: Completion handler for the request results.
+	- Parameter result: The parsed results from the request.
+	- Parameter error: Error if the request fails, nil otherwise.
+	
+	*/
 	func searchRequest(_ parameters: [String: AnyObject]?, searchRequestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
 	
 		var urlComponents = URLComponents()
@@ -69,7 +93,14 @@ class FlickrClient {
 		return task
 	}
 	
-	/// MARK: - Parse results
+	/**
+	Parses data of JSON format into a Swift format, and returns it as an array of dictionaries.
+	
+	- Parameter data: JSON data to be parsed.
+	- Parameter parseDataCompletionHandler: Completion handler for the parsed data.
+	- Parameter results: An array of dictionaries containing the JSON data parsed in a Swift compatible format.
+	- Parameter error: Error if the parsing fails, nil otherwise.
+	*/
 	private func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
 		
 		var parsedData: [String: AnyObject]!

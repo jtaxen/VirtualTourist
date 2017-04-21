@@ -10,10 +10,21 @@ import Foundation
 
 struct ErrorHandler {
 
+	/// Singelton
 	static let sharedInstance = ErrorHandler()
 	
+	/// Hides default initializer
 	private init() {}
 	
+	/**
+	Checks the server response for errors.
+	
+	- Parameter withData: Data returned from the server.
+	- Parameter inResponse: Metadata associated with the server response.
+	- Parameter forError: Error regarding the response.
+	
+	- Returns: If an error is found, it is returned together with its corresponding error code. If everything is good, nil is returned.
+	*/
 	static func checkServerResponse(withData data: Data?, inResponse response: URLResponse?, forError error: NSError?) -> NSError? {
 	
 		/// Check if error was returned
@@ -44,6 +55,16 @@ struct ErrorHandler {
 		return nil
 	}
 	
+	/**
+	Generates an error based on an error code.
+	
+	- Parameter code: The error code representing the error.
+	
+	- Returns: An error with the following information:
+	* Error code representing the error.
+	* Error domain.
+	* Description of the error.
+	*/
 	static func newError(code: Int) -> NSError {
 	
 		let message = errorMessage(errorCode: code)

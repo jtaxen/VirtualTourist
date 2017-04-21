@@ -10,6 +10,7 @@ import Foundation
 
 extension FlickrClient {
 
+	/// URL parts for accessing the Flickr REST API.
 	struct Constants {
 	
 		static let Scheme = "https"
@@ -17,6 +18,7 @@ extension FlickrClient {
 		static let Path = "/services/rest/"
 	}
 	
+	/// Flickr REST API parameter keys
 	struct ParameterKeys {
 	
 		static let Method = "method"
@@ -29,6 +31,7 @@ extension FlickrClient {
 		static let NoJSONCallback = "nojsoncallback"
 	}
 	
+	/// Flickr REST API parameter values
 	struct ParameterValues {
 		
 		static let MethodSearch = "flickr.photos.getRecent"
@@ -38,6 +41,7 @@ extension FlickrClient {
 		static let NoJSONCallback = "1"
 	}
 	
+	/// Parameter keys for the data returned from the server
 	struct ImageProperties {
 		
 		static let ID = "id"
@@ -46,6 +50,7 @@ extension FlickrClient {
 		static let Title = "title"
 	}
 	
+	/// Time limit for server requests.
 	struct Timer {
 		
 		static let Timeout: Double = 10

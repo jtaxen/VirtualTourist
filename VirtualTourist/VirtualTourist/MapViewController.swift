@@ -11,6 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 	
+	/// Map view
 	@IBOutlet weak var map: VTMapView!
 	
 	override func viewDidLoad() {
@@ -21,14 +22,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap)))
 	}
 	
+	/**
+	Adds annotation when gesture recognizer is triggered.
+	*/
 	@objc private func newAnnotationOnTap() {
 		map.createAnnotation()
 	}
 }
 
-// MARK: - Set up
+/// MARK: - Set up
 extension MapViewController {
 	
+	/**
+	Creates a long press gesture recognizer for the map view.
+	
+	- Parameter action: Function to be triggered by the gesture.
+	
+	- Returns: Long press gesture recognizer.
+	*/
 	func gestureRecognizer(action: Selector) -> UIGestureRecognizer {
 		
 		let gesture = UILongPressGestureRecognizer(target: self, action: action)

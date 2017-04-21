@@ -12,11 +12,16 @@ import CoreLocation
 
 class VTMapView: MKMapView {
 	
+	/// The point where the user touches the map, in map coordinates.
 	private var clPoint = CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0)
 	
+	/// Getter for clPoint.
 	public func getLocation() -> CLLocationCoordinate2D { return clPoint }
 	
 	/// MARK: - Handle touch events
+	/**
+	When the map view is touched, the point is converted from the view's coordinate system to the map's system (WGS 84) and stored in clPoint.
+	*/
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
 		guard let location = touches.first?.location(in: self) else { return }
@@ -25,14 +30,9 @@ class VTMapView: MKMapView {
 		clPoint = convert(location, toCoordinateFrom: self)
 	}
 	
-	override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-		
-		guard let location = touches.first?.location(in: self) else { return }
-		clPoint = convert(location, toCoordinateFrom: self)
-		createAnnotation()
-		
-	}
-	
+	/**
+	Creates a new annotation and adds it to the map.
+	*/
 	public func createAnnotation() {
 	
 		let annotation = MKPointAnnotation()
