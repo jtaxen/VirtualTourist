@@ -19,14 +19,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		
 		map.delegate = self
 		map.isUserInteractionEnabled = true
-		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap)))
+		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 	}
 	
 	/**
 	Adds annotation when gesture recognizer is triggered.
 	*/
-	@objc private func newAnnotationOnTap() {
-		map.createAnnotation()
+	@objc private func newAnnotationOnTap(gesture: UILongPressGestureRecognizer) {
+		
+		if gesture.state == .ended {
+			map.createAnnotation()
+		}
 	}
 }
 

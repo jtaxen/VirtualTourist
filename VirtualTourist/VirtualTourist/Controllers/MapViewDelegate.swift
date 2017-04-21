@@ -28,4 +28,15 @@ extension MapViewController {
 		pinView!.animatesDrop = true
 		return pinView
 	}
+	
+	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+		
+		let storyboard = UIStoryboard(name: "Main", bundle: nil)
+		let controller = storyboard.instantiateViewController(withIdentifier: "albumNavigation") as! AlbumNavigationController
+		
+		controller.annotationCoordinate = map.getLocation()
+		
+		present(controller, animated: true, completion: nil)
+		
+	}
 }

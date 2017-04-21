@@ -38,6 +38,5 @@ class VTMapView: MKMapView {
 		let annotation = MKPointAnnotation()
 		annotation.coordinate = clPoint
 		addAnnotation(annotation)
-		print("Added pin no. \(annotations.count)")
 	}
 }
