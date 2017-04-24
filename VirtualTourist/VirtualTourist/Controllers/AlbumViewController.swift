@@ -58,16 +58,8 @@ class AlbumViewController: UIViewController {
 	
 	private func prepareCollectionView() {
 		
-		let space = CGFloat(0.5)
-		let dimension = (collection.frame.size.width - (2 * space)) / 3.0
-		
-		flowLayout.minimumInteritemSpacing = space
-		flowLayout.minimumLineSpacing = space
-		flowLayout.itemSize = CGSize(width: dimension, height: dimension)
-		
 		collection.delegate = self
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
-		
 	}
 	
 	private func makeAPIRequest() {

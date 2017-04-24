@@ -78,7 +78,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wfF-z3-EL1">
                                 <rect key="frame" x="0.0" y="231" width="375" height="380.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="V4H-Wl-ilx">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yo4-rf-H62">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -144,7 +144,6 @@
                     <navigationItem key="navigationItem" id="cJU-hz-3MX"/>
                     <connections>
                         <outlet property="collection" destination="wfF-z3-EL1" id="Kxh-5p-1az"/>
-                        <outlet property="flowLayout" destination="V4H-Wl-ilx" id="Rip-NH-SJ7"/>
                         <outlet property="map" destination="yIj-mC-7vO" id="aan-h7-GPF"/>
                         <outlet property="newCollectionButton" destination="t4f-IX-gcc" id="ebc-7l-aFk"/>
                     </connections>

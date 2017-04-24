@@ -23,18 +23,13 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as! AlbumCell
-		/**
-		let urlString = images?[indexPath.row][FlickrClient.ParameterValues.Extras] as! String
-		let url = URL(string: urlString)
-		let image = getImage(from: url)
-		
-		guard image != nil else { return cell }
-		
-		cell.image.image = image */
-		cell.backgroundColor = UIColor.blue
+		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.blue : UIColor.brown
 		return cell
 	}
 	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		return CGSize(width: CGFloat((collectionView.frame.size.width - 100) / 3), height: CGFloat((collectionView.frame.size.width - 100 ) / 3))
+	}
 	
 	
 }
