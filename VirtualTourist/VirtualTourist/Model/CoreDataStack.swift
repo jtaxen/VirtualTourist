@@ -61,6 +61,7 @@ class CoreDataStack {
 		do {
 			try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: options as [NSObject: AnyObject]?)
 		} catch {
+			debugPrint(error)
 			print("Unable to add store at \(dbURL)")
 		}
 	}
@@ -89,6 +90,7 @@ extension CoreDataStack {
 			do {
 				try self.backgroundContext.save()
 			} catch {
+				debugPrint(error)
 				fatalError("Error while saving main context: \(error)")
 			}
 		}
@@ -104,6 +106,7 @@ extension CoreDataStack {
 				do {
 					try self.context.save()
 				} catch {
+					debugPrint(error)
 					fatalError("Error while saving main context \(error)")
 				}
 				
@@ -111,6 +114,7 @@ extension CoreDataStack {
 					do {
 						try self.persistingContext.save()
 					} catch {
+						debugPrint(error)
 						fatalError("Error while saving persisting context: \(error)")
 					}
 				}
@@ -125,6 +129,7 @@ extension CoreDataStack {
 				try self.context.save()
 				print("Autosaving")
 			} catch {
+				debugPrint(error)
 				print("Error while autosaving.")
 			}
 			

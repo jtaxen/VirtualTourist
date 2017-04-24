@@ -10,15 +10,8 @@ import UIKit
 
 class AlbumCell: UICollectionViewCell {
 	
-	private var spinner: UIActivityIndicatorView!
-	public var image: UIImageView!
 	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		contentView.addSubview(image)
-	}
+	@IBOutlet weak var image: UIImageView!
+	@IBOutlet weak var spinner: UIActivityIndicatorView!
 	
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
 }

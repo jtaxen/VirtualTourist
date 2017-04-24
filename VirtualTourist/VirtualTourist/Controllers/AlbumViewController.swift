@@ -14,8 +14,15 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var map: MKMapView!
 	@IBOutlet weak var collection: UICollectionView!
 	@IBOutlet weak var newCollectionButton: UIButton!
+	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
-	var images: [[String: AnyObject]]?
+	var images: [[String: AnyObject]]? {
+		didSet {
+			DispatchQueue.main.async{
+				self.collection.reloadData()
+			}
+		}
+	}
 	
 	private var centerPoint: CLLocationCoordinate2D!
 	
@@ -24,13 +31,16 @@ class AlbumViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		makeAPIRequest()
+		prepareCollectionView()
+		
+		collection.dataSource = self
 		collection.delegate = self
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
 		
-		makeAPIRequest()
-		
 		prepareMap()
     }
+
 	
 	private func prepareMap() {
 	
@@ -46,6 +56,20 @@ class AlbumViewController: UIViewController {
 		
 	}
 	
+	private func prepareCollectionView() {
+		
+		let space = CGFloat(0.5)
+		let dimension = (collection.frame.size.width - (2 * space)) / 3.0
+		
+		flowLayout.minimumInteritemSpacing = space
+		flowLayout.minimumLineSpacing = space
+		flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+		
+		collection.delegate = self
+		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
+		
+	}
+	
 	private func makeAPIRequest() {
 		
 		let parameters: [String: AnyObject] = [
@@ -55,7 +79,8 @@ class AlbumViewController: UIViewController {
 			FlickrClient.ParameterKeys.Method: FlickrClient.ParameterValues.MethodSearch as AnyObject,
 			FlickrClient.ParameterKeys.Latitude: "\(centerPoint.latitude)" as AnyObject,
 			FlickrClient.ParameterKeys.Longitude: "\(centerPoint.longitude)" as AnyObject,
-			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject
+			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject,
+			FlickrClient.ParameterKeys.PerPage: FlickrClient.ParameterValues.PerPage as AnyObject
 		]
 		
 		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (results, error) in
@@ -66,6 +91,21 @@ class AlbumViewController: UIViewController {
 			}
 			
 			self.images = results
+		}
+	}
+	
+	internal func getImage(from url: URL?) -> UIImage? {
+	
+		guard url != nil else { return nil }
+		
+		do {
+			let data = try Data(contentsOf: url!)
+			let image = UIImage(data: data)
+			return image
+		} catch {
+			debugPrint(error)
+			debugPrint(ErrorHandler.newError(code: 301))
+			return nil
 		}
 	}
 }

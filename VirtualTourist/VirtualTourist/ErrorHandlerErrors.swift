@@ -51,6 +51,16 @@ internal extension ErrorHandler {
 			}
 		}
 		
+		/// Network error
+		if code >= 300 && code <= 399 {
+			errorInfo["domain"] = "networkError"
+			
+			switch code {
+			case 301: message = "Could not find image from URL."
+			default: message = "Unknown network error"
+			}
+		}
+		
 		errorInfo["message"] = message
 		return errorInfo
 	}
