@@ -68,10 +68,7 @@ class FlickrClient {
 			}
 			self.statusCode = (response as? HTTPURLResponse)?.statusCode
 			
-			self.parseResults(data!) { (results, error) in
-				self.parsedResults = results
-				searchRequestCompletionHandler(results, error)
-			}
+			self.parseResults(data!, parseDataCompletionHandler: searchRequestCompletionHandler)
 		}
 		task.resume()
 		return task
@@ -85,13 +82,16 @@ class FlickrClient {
 	- Parameter results: An array of dictionaries containing the JSON data parsed in a Swift compatible format.
 	- Parameter error: Error if the parsing fails, nil otherwise.
 	*/
-	private func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
+	public func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
 		
-		var parsedData: [String: AnyObject]!
+		var parsedData: [String: AnyObject]
 		do {
 			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
 		} catch {
+			debugPrint(error)
 			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 200))
+			return
+	
 		}
 		
 		guard let photos = parsedData["photos"] as? [String: AnyObject] else {

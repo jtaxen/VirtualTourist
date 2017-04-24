@@ -12,9 +12,19 @@ import CoreData
 import MapKit
 
 // MARK: - Delegate for the collection view
-extension AlbumViewController: UICollectionViewDelegate {
+extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
-	 
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		guard images != nil else { return 0 }
+		return images!.count
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as! AlbumCell
+		return cell
+	}
+	
+	
 	
 }
 

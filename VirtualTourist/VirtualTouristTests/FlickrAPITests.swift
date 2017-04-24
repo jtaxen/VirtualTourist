@@ -21,7 +21,9 @@ class FlickrAPITests: XCTestCase {
 			FlickrClient.ParameterKeys.Extras: FlickrClient.ParameterValues.Extras as AnyObject,
 			FlickrClient.ParameterKeys.Format: FlickrClient.ParameterValues.Format as AnyObject,
 			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject,
-			FlickrClient.ParameterKeys.APIKey: FlickrClient.ParameterValues.APIKey as AnyObject
+			FlickrClient.ParameterKeys.APIKey: FlickrClient.ParameterValues.APIKey as AnyObject,
+			FlickrClient.ParameterKeys.Latitude: "13.13" as AnyObject,
+			FlickrClient.ParameterKeys.Longitude: "56.56" as AnyObject
 		]
 	}
 	
