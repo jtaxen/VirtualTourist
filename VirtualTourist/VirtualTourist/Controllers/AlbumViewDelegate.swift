@@ -16,7 +16,6 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		guard images != nil else { return 0 }
-		
 		return images!.count
 	}
 	

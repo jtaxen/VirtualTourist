@@ -32,12 +32,7 @@ class AlbumViewController: UIViewController {
         super.viewDidLoad()
 		
 		makeAPIRequest()
-		prepareCollectionView()
-		
-		collection.dataSource = self
-		collection.delegate = self
-		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
-		
+		prepareCollectionView()		
 		prepareMap()
     }
 
@@ -58,6 +53,7 @@ class AlbumViewController: UIViewController {
 	
 	private func prepareCollectionView() {
 		
+		collection.dataSource = self
 		collection.delegate = self
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
 	}

@@ -22,7 +22,6 @@ class VTMapView: MKMapView {
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
 		guard let location = touches.first?.location(in: self) else { return }
-		
 		clPoint = convert(location, toCoordinateFrom: self)
 	}
 	

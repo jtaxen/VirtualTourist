@@ -14,12 +14,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	/// Map view
 	@IBOutlet weak var map: VTMapView!
 	
+	internal fileprivate(set) var delitingIsEnabled: Bool = false
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		map.delegate = self
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
+		
+		let deleteButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(deletionMode))
+		navigationItem.rightBarButtonItem = deleteButton
 	}
 	
 	/**
@@ -36,6 +41,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 // MARK: - Set up
 extension MapViewController {
 	
+	@objc fileprivate func deletionMode() {
+		
+		delitingIsEnabled = !delitingIsEnabled
+		
+		if delitingIsEnabled {
+			navigationItem.rightBarButtonItem?.title = "Done"
+		} else {
+			navigationItem.rightBarButtonItem?.title = "Edit"
+		}
+	}
+	
+	
 	/**
 	Creates a long press gesture recognizer for the map view.
 	
@@ -43,7 +60,7 @@ extension MapViewController {
 	
 	- Returns: Long press gesture recognizer.
 	*/
-	func gestureRecognizer(action: Selector) -> UIGestureRecognizer {
+	fileprivate func gestureRecognizer(action: Selector) -> UIGestureRecognizer {
 		
 		let gesture = UILongPressGestureRecognizer(target: self, action: action)
 		return gesture
