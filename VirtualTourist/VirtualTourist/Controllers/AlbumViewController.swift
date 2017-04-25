@@ -8,14 +8,19 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class AlbumViewController: UIViewController {
-
+	
 	@IBOutlet weak var map: MKMapView!
 	@IBOutlet weak var collection: UICollectionView!
 	@IBOutlet weak var newCollectionButton: UIButton!
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
+	/// Turns true when a successful server requsest is finnished, to mark that the collection view can load the images.
+	internal var dataIsReady: Bool = false
+	
+	/// All pictures associated with a given location. When set, the collection view data source is reloaded.
 	var images: [[String: AnyObject]]? {
 		didSet {
 			DispatchQueue.main.async{
@@ -24,21 +29,28 @@ class AlbumViewController: UIViewController {
 		}
 	}
 	
-	private var centerPoint: CLLocationCoordinate2D!
+	/// The point on which the map is centered.
+	internal var centerPoint: CLLocationCoordinate2D!
 	
 	public func setCenter(_ point: CLLocationCoordinate2D) { centerPoint = point }
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	// MARK: - View did load
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		makeAPIRequest()
-		prepareCollectionView()		
+		prepareCollectionView()
 		prepareMap()
-    }
+		fetchImage()
+	}
+}
 
+// MARK: - Set up view
+extension AlbumViewController {
 	
-	private func prepareMap() {
-	
+	/// Set up the map view
+	internal func prepareMap() {
+		
 		map.isUserInteractionEnabled = false
 		map.centerCoordinate = centerPoint
 		let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
@@ -51,14 +63,20 @@ class AlbumViewController: UIViewController {
 		
 	}
 	
-	private func prepareCollectionView() {
+	/// Set up the collection view
+	internal func prepareCollectionView() {
 		
 		collection.dataSource = self
 		collection.delegate = self
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
 	}
-	
-	private func makeAPIRequest() {
+}
+
+/// MARK: - Handle server requests and images.
+extension AlbumViewController {
+
+	/// Makes a request to the Flickr server based on the location of the pin.
+	internal func makeAPIRequest() {
 		
 		let parameters: [String: AnyObject] = [
 			FlickrClient.ParameterKeys.APIKey: FlickrClient.ParameterValues.APIKey as AnyObject,
@@ -79,11 +97,15 @@ class AlbumViewController: UIViewController {
 			}
 			
 			self.images = results
+			FlickrClient.sharedInstance.parsedResults = results
+			FlickrClient.sharedInstance.saveImages()
+			self.dataIsReady = true
 		}
 	}
 	
-	internal func getImage(from url: URL?) -> UIImage? {
-	
+	/// The server request returns url paths for each image. This function downloads an image given one of these urls.
+	@available(*, deprecated: 0.1) internal func getImage(from url: URL?) -> UIImage? {
+		
 		guard url != nil else { return nil }
 		
 		do {
@@ -95,5 +117,24 @@ class AlbumViewController: UIViewController {
 			debugPrint(ErrorHandler.newError(code: 301))
 			return nil
 		}
+	}
+	
+	/// Fetches an image entity from the core data stack.
+	internal func fetchImage() {
+		
+		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: FlickrClient.ImageProperties.ID, ascending: true)]
+		let fetchedResultsController = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.sharedInstance!.context, sectionNameKeyPath: nil, cacheName: nil)
+		
+		do {
+			try fetchedResultsController.performFetch()
+		} catch {
+			debugPrint(ErrorHandler.newError(code: 402))
+			debugPrint(error)
+			return
+		}
+		
+		let objects = fetchedResultsController.fetchedObjects
+		print(objects)
 	}
 }

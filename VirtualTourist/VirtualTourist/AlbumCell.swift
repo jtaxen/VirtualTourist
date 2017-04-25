@@ -10,8 +10,17 @@ import UIKit
 
 class AlbumCell: UICollectionViewCell {
 	
-	
-	@IBOutlet weak var image: UIImageView!
 	@IBOutlet weak var spinner: UIActivityIndicatorView!
+
+	/**
+	Add image to cell
+	- Parameter image: image.
+	*/
+	public func addImage(_ image: UIImage?) {
 	
+		let imageView = UIImageView(image: image)
+		imageView.contentMode = UIViewContentMode.scaleAspectFit
+		contentView.addSubview(imageView)
+	}
 }
+

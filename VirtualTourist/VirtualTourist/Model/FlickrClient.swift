@@ -16,7 +16,7 @@ class FlickrClient {
 	
 	private let coreDataStack = CoreDataStack.sharedInstance!
 	public private(set) var statusCode: Int? = nil
-	public private(set) var parsedResults: [[String: AnyObject]]? = nil
+	public var parsedResults: [[String: AnyObject]]? = nil
 	
 	/// Default initializer is hidden.
 	private init() {}
@@ -105,5 +105,25 @@ class FlickrClient {
 		}
 		
 		parseDataCompletionHandler(photo, nil)
+	}
+	
+	/*
+	Save image data in parsed result array to the core data stack. This function should obviously take an array of FlickrImage objects as an argument, and not refer to an internal variable.
+	**/
+	func saveImages() {
+	
+		guard parsedResults != nil else {
+			let error = ErrorHandler.newError(code: 401)
+			debugPrint(error)
+			return
+		}
+		
+		for item in parsedResults! {
+			let image = FlickrImage(item)
+			_ = Image(image, context: coreDataStack.context)
+			print("")
+		}
+		
+		coreDataStack.save()
 	}
 }

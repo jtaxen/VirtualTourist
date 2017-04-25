@@ -61,6 +61,17 @@ internal extension ErrorHandler {
 			}
 		}
 		
+		/// Core data errors
+		if code >= 400 && code <= 499 {
+			errorInfo["domain"] = "coreDataError"
+			
+			switch code {
+			case 401: message = "No parsed results to store."
+			case 402: message = "Fetching entity Image failed."
+			default: message = "Unknown core data error."
+			}
+		}
+		
 		errorInfo["message"] = message
 		return errorInfo
 	}
