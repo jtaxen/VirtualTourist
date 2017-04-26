@@ -29,17 +29,20 @@ extension FlickrClient {
 		static let Extras = "extras"
 		static let Format = "format"
 		static let NoJSONCallback = "nojsoncallback"
+		static let PerPage = "per_page"
 	}
 	
 	/// Flickr REST API parameter values
 	struct ParameterValues {
 		
-		static let MethodSearch = "flickr.photos.getRecent"
+		static let MethodSearch = "flickr.photos.search"
 		static let APIKey = Keys.APIKey
 		static let Extras = "url_m"
 		static let Format = "json"
 		static let NoJSONCallback = "1"
+		static let PerPage = "39"
 	}
+	
 	
 	/// Parameter keys for the data returned from the server
 	struct ImageProperties {

@@ -16,7 +16,7 @@ class FlickrClient {
 	
 	private let coreDataStack = CoreDataStack.sharedInstance!
 	public private(set) var statusCode: Int? = nil
-	public private(set) var parsedResults: [[String: AnyObject]]? = nil
+	public var parsedResults: [[String: AnyObject]]? = nil
 	
 	/// Default initializer is hidden.
 	private init() {}
@@ -68,10 +68,7 @@ class FlickrClient {
 			}
 			self.statusCode = (response as? HTTPURLResponse)?.statusCode
 			
-			self.parseResults(data!) { (results, error) in
-				self.parsedResults = results
-				searchRequestCompletionHandler(results, error)
-			}
+			self.parseResults(data!, parseDataCompletionHandler: searchRequestCompletionHandler)
 		}
 		task.resume()
 		return task
@@ -85,13 +82,16 @@ class FlickrClient {
 	- Parameter results: An array of dictionaries containing the JSON data parsed in a Swift compatible format.
 	- Parameter error: Error if the parsing fails, nil otherwise.
 	*/
-	private func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
+	public func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
 		
-		var parsedData: [String: AnyObject]!
+		var parsedData: [String: AnyObject]
 		do {
 			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
 		} catch {
+			debugPrint(error)
 			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 200))
+			return
+	
 		}
 		
 		guard let photos = parsedData["photos"] as? [String: AnyObject] else {
@@ -105,5 +105,25 @@ class FlickrClient {
 		}
 		
 		parseDataCompletionHandler(photo, nil)
+	}
+	
+	/*
+	Save image data in parsed result array to the core data stack. This function should obviously take an array of FlickrImage objects as an argument, and not refer to an internal variable.
+	**/
+	func saveImages() {
+	
+		guard parsedResults != nil else {
+			let error = ErrorHandler.newError(code: 401)
+			debugPrint(error)
+			return
+		}
+		
+		for item in parsedResults! {
+			let image = FlickrImage(item)
+			_ = Image(image, context: coreDataStack.context)
+			print("")
+		}
+		
+//		coreDataStack.save()
 	}
 }

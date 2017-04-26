@@ -6,7 +6,9 @@
 //  Copyright © 2017 Jacob Taxén. All rights reserved.
 //
 
+import UIKit
 import CoreData
+
 
 class CoreDataStack {
 	
@@ -19,6 +21,7 @@ class CoreDataStack {
 	let context: NSManagedObjectContext
 	
 	static let sharedInstance = CoreDataStack(modelName: "ImageModel")
+	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	
 	init?(modelName: String) {
 
@@ -61,6 +64,7 @@ class CoreDataStack {
 		do {
 			try addStoreCoordinator(NSSQLiteStoreType, configuration: nil, storeURL: dbURL, options: options as [NSObject: AnyObject]?)
 		} catch {
+			debugPrint(error)
 			print("Unable to add store at \(dbURL)")
 		}
 	}
@@ -89,6 +93,7 @@ extension CoreDataStack {
 			do {
 				try self.backgroundContext.save()
 			} catch {
+				debugPrint(error)
 				fatalError("Error while saving main context: \(error)")
 			}
 		}
@@ -104,6 +109,7 @@ extension CoreDataStack {
 				do {
 					try self.context.save()
 				} catch {
+					debugPrint(error)
 					fatalError("Error while saving main context \(error)")
 				}
 				
@@ -111,6 +117,7 @@ extension CoreDataStack {
 					do {
 						try self.persistingContext.save()
 					} catch {
+						debugPrint(error)
 						fatalError("Error while saving persisting context: \(error)")
 					}
 				}
@@ -125,6 +132,7 @@ extension CoreDataStack {
 				try self.context.save()
 				print("Autosaving")
 			} catch {
+				debugPrint(error)
 				print("Error while autosaving.")
 			}
 			
@@ -136,4 +144,26 @@ extension CoreDataStack {
 			}
 		}
 	}
+}
+
+extension CoreDataStack {
+
+	public func fetchLocations() {
+	
+		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Location")
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+		
+		
+		do {
+			try controller.performFetch()
+		} catch {
+			debugPrint(error)
+			return
+		}
+		
+		appDelegate.locations = controller.fetchedObjects as! [Location]
+		print("Fetched \((controller.fetchedObjects?.count ?? 0 )) locations.")
+	}
+	
 }

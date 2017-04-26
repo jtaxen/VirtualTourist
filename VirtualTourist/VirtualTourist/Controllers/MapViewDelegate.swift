@@ -11,13 +11,14 @@ import MapKit
 // MARK: - MKMapView delegate
 extension MapViewController {
 	
+	/* 
+	Adds an annotation view for each annotation
+	**/
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 		
 		let reuseID = "pin"
 		
 		var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? Pin
-		
-//		pinView?.coordinate = annotation.coordinate
 		
 		guard pinView == nil else {
 			pinView!.annotation = annotation
@@ -31,13 +32,23 @@ extension MapViewController {
 		return pinView
 	}
 	
+	/*
+	In regular mode, selecting a pin pushes the album view. In deletion mode, it removes the annotation.
+	**/
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 		
-		let pin = view as! Pin
-		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
+		if !delitingIsEnabled {
+			let pin = view as! Pin
+			let storyboard = UIStoryboard(name: "Main", bundle: nil)
+			let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
+			
+			controller.setCenter(pin.coordinate)
+			navigationController?.pushViewController(controller, animated: true)
+		}
 		
-		controller.setCenter(pin.coordinate)
-		navigationController?.pushViewController(controller, animated: true)
+		if delitingIsEnabled {
+			guard let annotation = view.annotation else { return }
+			mapView.removeAnnotation(annotation)
+		}
 	}
 }

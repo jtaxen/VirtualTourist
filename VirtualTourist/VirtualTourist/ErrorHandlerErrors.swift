@@ -51,6 +51,27 @@ internal extension ErrorHandler {
 			}
 		}
 		
+		/// Network error
+		if code >= 300 && code <= 399 {
+			errorInfo["domain"] = "networkError"
+			
+			switch code {
+			case 301: message = "Could not find image from URL."
+			default: message = "Unknown network error"
+			}
+		}
+		
+		/// Core data errors
+		if code >= 400 && code <= 499 {
+			errorInfo["domain"] = "coreDataError"
+			
+			switch code {
+			case 401: message = "No parsed results to store."
+			case 402: message = "Fetching entity Image failed."
+			default: message = "Unknown core data error."
+			}
+		}
+		
 		errorInfo["message"] = message
 		return errorInfo
 	}

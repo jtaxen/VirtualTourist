@@ -22,17 +22,17 @@ class VTMapView: MKMapView {
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		
 		guard let location = touches.first?.location(in: self) else { return }
-		
 		clPoint = convert(location, toCoordinateFrom: self)
 	}
 	
 	/**
 	Creates a new annotation and adds it to the map.
 	*/
-	public func createAnnotation() {
+	public func createAnnotation() -> MKPointAnnotation {
 	
 		let annotation = MKPointAnnotation()
 		annotation.coordinate = clPoint
 		addAnnotation(annotation)
+		return annotation
 	}
 }

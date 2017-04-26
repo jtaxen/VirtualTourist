@@ -8,12 +8,13 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
 @objc(Location)
 public class Location: NSManagedObject {
 	
 	// MARK: - Initializer independent of the FlickrImage struct.
-	convenience init?(id: String?, image: NSSet?, context: NSManagedObjectContext) {
+	convenience init?(id: String?, image: NSSet?, coordinate: CLLocationCoordinate2D, context: NSManagedObjectContext) {
 		
 		guard let ent = NSEntityDescription.entity(forEntityName: "Location", in: context) else {
 			fatalError("Unable to find entity name.")
@@ -22,6 +23,8 @@ public class Location: NSManagedObject {
 		self.init(entity: ent, insertInto: context)
 		
 		self.id = id 
-		self.image = image 
+		self.image = image
+		self.latitude = Float(coordinate.latitude)
+		self.longitude = Float(coordinate.longitude)
 	}
 }
