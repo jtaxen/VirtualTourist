@@ -124,6 +124,6 @@ class FlickrClient {
 			print("")
 		}
 		
-		coreDataStack.save()
+//		coreDataStack.save()
 	}
 }

@@ -28,10 +28,11 @@ class VTMapView: MKMapView {
 	/**
 	Creates a new annotation and adds it to the map.
 	*/
-	public func createAnnotation() {
+	public func createAnnotation() -> MKPointAnnotation {
 	
 		let annotation = MKPointAnnotation()
 		annotation.coordinate = clPoint
 		addAnnotation(annotation)
+		return annotation
 	}
 }

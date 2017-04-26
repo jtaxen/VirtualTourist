@@ -6,7 +6,9 @@
 //  Copyright © 2017 Jacob Taxén. All rights reserved.
 //
 
+import UIKit
 import CoreData
+
 
 class CoreDataStack {
 	
@@ -19,6 +21,7 @@ class CoreDataStack {
 	let context: NSManagedObjectContext
 	
 	static let sharedInstance = CoreDataStack(modelName: "ImageModel")
+	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	
 	init?(modelName: String) {
 
@@ -141,4 +144,26 @@ extension CoreDataStack {
 			}
 		}
 	}
+}
+
+extension CoreDataStack {
+
+	public func fetchLocations() {
+	
+		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Location")
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+		
+		
+		do {
+			try controller.performFetch()
+		} catch {
+			debugPrint(error)
+			return
+		}
+		
+		appDelegate.locations = controller.fetchedObjects as! [Location]
+		print("Fetched \((controller.fetchedObjects?.count ?? 0 )) locations.")
+	}
+	
 }

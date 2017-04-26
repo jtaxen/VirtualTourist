@@ -98,7 +98,7 @@ extension AlbumViewController {
 			
 			self.images = results
 			FlickrClient.sharedInstance.parsedResults = results
-			FlickrClient.sharedInstance.saveImages()
+//			FlickrClient.sharedInstance.saveImages()
 			self.dataIsReady = true
 		}
 	}

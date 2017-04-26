@@ -17,6 +17,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	/// When true, annotations are deleted when touched, instead of pushing the album view controller.
 	internal fileprivate(set) var delitingIsEnabled: Bool = false
 	
+	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	
 	// MARK: - View did load
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -25,6 +27,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		map.delegate = self
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
+		
+		for location in appDelegate.locations {
+			let annotation = MKPointAnnotation()
+			annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+			map.addAnnotation(annotation)
+		}
 		
 		// Add bar button to switch between regular mode and deletion mode
 		let deleteButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(deletionMode))
@@ -37,7 +45,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	@objc private func newAnnotationOnTap(gesture: UILongPressGestureRecognizer) {
 		
 		if gesture.state == .ended {
-			map.createAnnotation()
+			let newAnnotation = map.createAnnotation()
+			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.context)!)
+			appDelegate.locations.append(newLocation!)
 		}
 	}
 }
