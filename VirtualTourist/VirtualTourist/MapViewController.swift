@@ -29,7 +29,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 		
 		for location in appDelegate.locations {
-			let annotation = MKPointAnnotation()
+			let annotation = VTAnnotation(location: location)
 			annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
 			map.addAnnotation(annotation)
 			

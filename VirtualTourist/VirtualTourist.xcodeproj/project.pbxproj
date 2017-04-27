@@ -34,6 +34,7 @@
 		A09AC8831EA6444400F70A7C /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */; };
 		A0A59C651EA6611D00921967 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A59C641EA6611D00921967 /* MapViewDelegate.swift */; };
 		A0CAFC0B1EA7435100F74B20 /* CoreDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */; };
+		A0E1CB1B1EB2300C0057CD29 /* VTAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1CB1A1EB2300C0057CD29 /* VTAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "Model/Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A0A59C641EA6611D00921967 /* MapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewDelegate.swift; path = Controllers/MapViewDelegate.swift; sourceTree = "<group>"; };
 		A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTest.swift; sourceTree = "<group>"; };
+		A0E1CB1A1EB2300C0057CD29 /* VTAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VTAnnotation.swift; path = Controllers/VTAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 			children = (
 				A03AF61C1EADE341002A0376 /* AlbumCell.swift */,
 				A0244B3C1EAA39CA00C81DC2 /* Pin.swift */,
+				A0E1CB1A1EB2300C0057CD29 /* VTAnnotation.swift */,
 				A09AC80C1EA61CD900F70A7C /* VTMapView.swift */,
 			);
 			name = View;
@@ -324,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0E1CB1B1EB2300C0057CD29 /* VTAnnotation.swift in Sources */,
 				A09AC8801EA6444400F70A7C /* Location+CoreDataClass.swift in Sources */,
 				A0244B361EAA0D2600C81DC2 /* AlbumViewDelegate.swift in Sources */,
 				A09AC8101EA6230D00F70A7C /* FlickrImage.swift in Sources */,

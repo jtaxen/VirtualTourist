@@ -25,7 +25,10 @@ extension MapViewController {
 			return pinView
 		}
 		
-		pinView = Pin(annotation: annotation, reuseIdentifier: reuseID, coordinate: annotation.coordinate)
+		let location = Location(id: UUID().uuidString, image: nil, coordinate: annotation.coordinate, context: CoreDataStack.sharedInstance!.context)!
+		let vtAnnotation = VTAnnotation(location: location)
+		
+		pinView = Pin(annotation: vtAnnotation, reuseIdentifier: reuseID, coordinate: annotation.coordinate)
 		pinView!.canShowCallout = false
 		pinView!.pinTintColor = UIColor.red
 		pinView!.animatesDrop = true
@@ -42,7 +45,7 @@ extension MapViewController {
 			let storyboard = UIStoryboard(name: "Main", bundle: nil)
 			let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
 			
-			controller.setCenter(pin.coordinate)
+			controller.currentAnnotation = pin.annotation as! VTAnnotation!
 			navigationController?.pushViewController(controller, animated: true)
 		}
 		

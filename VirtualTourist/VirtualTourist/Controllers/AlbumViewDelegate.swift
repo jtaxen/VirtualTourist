@@ -16,8 +16,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	/// Return the number of items in the collection view
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		guard images != nil else { return 0 }
-		return images!.count
+		return currentAnnotation.images.count
 	}
 	
 	/// Returns a cell

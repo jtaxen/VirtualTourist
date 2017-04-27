@@ -17,22 +17,17 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var newCollectionButton: UIButton!
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
-	/// Turns true when a successful server requsest is finnished, to mark that the collection view can load the images.
-	internal var dataIsReady: Bool = false
-	
-	/// All pictures associated with a given location. When set, the collection view data source is reloaded.
-	var images: [[String: AnyObject]]? {
+	public var currentAnnotation: VTAnnotation! {
 		didSet {
-			DispatchQueue.main.async{
-				self.collection.reloadData()
-			}
+			centerPoint = currentAnnotation.coordinate
 		}
 	}
 	
+	/// Turns true when a successful server requsest is finnished, to mark that the collection view can load the images.
+	internal var dataIsReady: Bool = false
+	
 	/// The point on which the map is centered.
 	internal var centerPoint: CLLocationCoordinate2D!
-	
-	public func setCenter(_ point: CLLocationCoordinate2D) { centerPoint = point }
 	
 	// MARK: - View did load
 	override func viewDidLoad() {
@@ -96,9 +91,12 @@ extension AlbumViewController {
 				return
 			}
 			
-			self.images = results
-			FlickrClient.sharedInstance.parsedResults = results
-//			FlickrClient.sharedInstance.saveImages()
+			guard results != nil else {
+				debugPrint(ErrorHandler.newError(code: 110))
+				return
+			}
+			
+			self.currentAnnotation.addImages(FlickrClient.sharedInstance.saveAsImages(results!, forLocation: self.currentAnnotation.location))
 			self.dataIsReady = true
 		}
 	}
