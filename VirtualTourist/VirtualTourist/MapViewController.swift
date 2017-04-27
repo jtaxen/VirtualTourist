@@ -32,11 +32,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 			let annotation = MKPointAnnotation()
 			annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
 			map.addAnnotation(annotation)
+			
+			deletionIndicationView()
 		}
 		
 		// Add bar button to switch between regular mode and deletion mode
 		let deleteButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(deletionMode))
 		navigationItem.rightBarButtonItem = deleteButton
+		
+
 	}
 	
 	/**
@@ -61,8 +65,10 @@ extension MapViewController {
 		delitingIsEnabled = !delitingIsEnabled
 		
 		if delitingIsEnabled {
+			presentDeletionIndicationView()
 			navigationItem.rightBarButtonItem?.title = "Done"
 		} else {
+			removeDeletionIndicationView()
 			navigationItem.rightBarButtonItem?.title = "Edit"
 		}
 	}
@@ -77,5 +83,42 @@ extension MapViewController {
 		
 		let gesture = UILongPressGestureRecognizer(target: self, action: action)
 		return gesture
+	}
+	
+	fileprivate func deletionIndicationView() {
+		
+		let deletionView = UILabel(frame: CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: CGFloat(0)))
+		deletionView.backgroundColor = UIColor(colorLiteralRed: 117/256, green: 8/256, blue: 28/256, alpha: 1)
+		deletionView.text = "Tap pin to delete it"
+		deletionView.font = UIFont(name: "Futura", size: CGFloat(20))
+		deletionView.textColor = UIColor.white
+		deletionView.textAlignment = NSTextAlignment.center
+		view.addSubview(deletionView)
+	}
+	
+	private func presentDeletionIndicationView() {
+		
+		let deletionView = view.subviews[view.subviews.endIndex - 1]
+		
+		
+		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height.multiplied(by: CGFloat(0.9)) , width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1)))
+
+		
+		deletionView.layoutIfNeeded()
+		UIView.animate(withDuration: 0.2) {
+			deletionView.frame = newFrame
+			deletionView.layoutIfNeeded()
+		}
+	}
+	
+	private func removeDeletionIndicationView() {
+		
+		let deletionView = view.subviews[view.subviews.count - 1]
+		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: CGFloat(0))
+		deletionView.layoutIfNeeded()
+		UIView.animate(withDuration: 0.2) {
+			deletionView.frame = newFrame
+			deletionView.layoutIfNeeded()
+		}
 	}
 }
