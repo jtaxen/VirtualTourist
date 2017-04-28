@@ -26,12 +26,18 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		// Everyother cell is blue, and everyother brown, so that they are visible when empty
 		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.blue : UIColor.brown
 		
+		/*
 		// TODO: - Is it supposed to look like this?!
 		cell.spinner = createSpinner(superview: cell)
 		cell.contentView.addSubview(cell.spinner)
 		cell.spinner.startAnimating()
+		*/
 		
-		
+		Service.turnDataIntoImage(data: currentAnnotation.images[indexPath.row].imageData) { (image) in 
+			DispatchQueue.main.async {
+				cell.contentView.addSubview(UIImageView(image: image))
+			}
+		}
 		
 		return cell
 		

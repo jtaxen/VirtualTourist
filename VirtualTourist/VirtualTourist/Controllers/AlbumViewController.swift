@@ -25,6 +25,7 @@ class AlbumViewController: UIViewController {
 	
 	internal var images: [UIImage?] = [] {
 		didSet {
+			CoreDataStack.sharedInstance?.save()
 			collection.reloadData()
 		}
 	}
@@ -38,10 +39,9 @@ class AlbumViewController: UIViewController {
 		
 		prepareMap()
 		prepareCollectionView()
+
 		
-		if currentAnnotation.location.image == nil {
-			makeAPIRequest()
-		}
+		makeAPIRequest()
 	}
 }
 
@@ -73,25 +73,6 @@ extension AlbumViewController {
 				debugPrint(ErrorHandler.newError(code: 110))
 				return
 			}
-			
-			self.currentAnnotation.addImages(FlickrClient.sharedInstance.saveAsImages(results!, forLocation: self.currentAnnotation.location))
-		}
-	}
-	
-	internal func downloadImage(string: String?, completionHandler: @escaping (_ data: Data?) -> Void) {
-		
-		guard string != nil else {
-			completionHandler(nil)
-			return
-		}
-		
-		let url = URL(string: string!)
-		do {
-			let data = try Data(contentsOf: url!)
-			completionHandler(data)
-		} catch {
-			debugPrint(error)
-			completionHandler(nil)
 		}
 	}
 }
