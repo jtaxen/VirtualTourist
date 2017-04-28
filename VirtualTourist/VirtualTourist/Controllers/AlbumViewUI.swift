@@ -23,4 +23,27 @@ internal extension AlbumViewController {
 		
 		return spinner
 	}
+	
+	/// Set up the map view
+	internal func prepareMap() {
+		
+		map.isUserInteractionEnabled = false
+		map.centerCoordinate = centerPoint
+		let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+		let region = MKCoordinateRegion(center: centerPoint, span: span)
+		map.setRegion(region, animated: true)
+		
+		let annotation = MKPointAnnotation()
+		annotation.coordinate = centerPoint
+		map.addAnnotation(annotation)
+		
+	}
+	
+	/// Set up the collection view
+	internal func prepareCollectionView() {
+		
+		collection.dataSource = self
+		collection.delegate = self
+		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
+	}
 }

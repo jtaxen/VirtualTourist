@@ -28,7 +28,7 @@ class AlbumViewController: UIViewController {
 			collection.reloadData()
 		}
 	}
-	
+
 	/// The point on which the map is centered.
 	internal var centerPoint: CLLocationCoordinate2D!
 	
@@ -38,33 +38,10 @@ class AlbumViewController: UIViewController {
 		
 		prepareMap()
 		prepareCollectionView()
-	}
-}
-
-// MARK: - Set up view
-extension AlbumViewController {
-	
-	/// Set up the map view
-	internal func prepareMap() {
 		
-		map.isUserInteractionEnabled = false
-		map.centerCoordinate = centerPoint
-		let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
-		let region = MKCoordinateRegion(center: centerPoint, span: span)
-		map.setRegion(region, animated: true)
-		
-		let annotation = MKPointAnnotation()
-		annotation.coordinate = centerPoint
-		map.addAnnotation(annotation)
-		
-	}
-	
-	/// Set up the collection view
-	internal func prepareCollectionView() {
-		
-		collection.dataSource = self
-		collection.delegate = self
-		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
+		if currentAnnotation.location.image == nil {
+			makeAPIRequest()
+		}
 	}
 }
 
@@ -98,6 +75,23 @@ extension AlbumViewController {
 			}
 			
 			self.currentAnnotation.addImages(FlickrClient.sharedInstance.saveAsImages(results!, forLocation: self.currentAnnotation.location))
+		}
+	}
+	
+	internal func downloadImage(string: String?, completionHandler: @escaping (_ data: Data?) -> Void) {
+		
+		guard string != nil else {
+			completionHandler(nil)
+			return
+		}
+		
+		let url = URL(string: string!)
+		do {
+			let data = try Data(contentsOf: url!)
+			completionHandler(data)
+		} catch {
+			debugPrint(error)
+			completionHandler(nil)
 		}
 	}
 }

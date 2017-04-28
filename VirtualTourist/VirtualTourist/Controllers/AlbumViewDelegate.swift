@@ -16,7 +16,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	/// Return the number of items in the collection view
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 13
+		return images.count
 	}
 	
 	/// Returns a cell
@@ -30,6 +30,8 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		cell.spinner = createSpinner(superview: cell)
 		cell.contentView.addSubview(cell.spinner)
 		cell.spinner.startAnimating()
+		
+		
 		
 		return cell
 		
