@@ -33,6 +33,7 @@
 		A09AC8821EA6444400F70A7C /* Image+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09AC87E1EA6444400F70A7C /* Image+CoreDataClass.swift */; };
 		A09AC8831EA6444400F70A7C /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */; };
 		A0A59C651EA6611D00921967 /* MapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A59C641EA6611D00921967 /* MapViewDelegate.swift */; };
+		A0CA59091EB345EA00FF3967 /* AlbumViewUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA59081EB345EA00FF3967 /* AlbumViewUI.swift */; };
 		A0CAFC0B1EA7435100F74B20 /* CoreDataTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */; };
 		A0E1CB1B1EB2300C0057CD29 /* VTAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E1CB1A1EB2300C0057CD29 /* VTAnnotation.swift */; };
 /* End PBXBuildFile section */
@@ -81,6 +82,7 @@
 		A09AC87E1EA6444400F70A7C /* Image+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataClass.swift"; path = "Model/Image+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "Model/Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A0A59C641EA6611D00921967 /* MapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewDelegate.swift; path = Controllers/MapViewDelegate.swift; sourceTree = "<group>"; };
+		A0CA59081EB345EA00FF3967 /* AlbumViewUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlbumViewUI.swift; path = Controllers/AlbumViewUI.swift; sourceTree = "<group>"; };
 		A0CAFC0A1EA7435100F74B20 /* CoreDataTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTest.swift; sourceTree = "<group>"; };
 		A0E1CB1A1EB2300C0057CD29 /* VTAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VTAnnotation.swift; path = Controllers/VTAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,6 +118,7 @@
 		A0244B391EAA10B700C81DC2 /* Album */ = {
 			isa = PBXGroup;
 			children = (
+				A0CA59081EB345EA00FF3967 /* AlbumViewUI.swift */,
 				A0244B311EAA050100C81DC2 /* AlbumViewController.swift */,
 				A0244B351EAA0D2600C81DC2 /* AlbumViewDelegate.swift */,
 			);
@@ -346,6 +349,7 @@
 				A0244B3D1EAA39CA00C81DC2 /* Pin.swift in Sources */,
 				A09AC80D1EA61CD900F70A7C /* VTMapView.swift in Sources */,
 				A03AF61D1EADE341002A0376 /* AlbumCell.swift in Sources */,
+				A0CA59091EB345EA00FF3967 /* AlbumViewUI.swift in Sources */,
 				A03034941E9E21C200870661 /* FlickrClientConstants.swift in Sources */,
 				A030348F1E9E1CDD00870661 /* MapNavigationController.swift in Sources */,
 				A03034911E9E210100870661 /* FlickrClient.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 
 class AlbumCell: UICollectionViewCell {
 	
-	@IBOutlet weak var spinner: UIActivityIndicatorView!
+	public var spinner: UIActivityIndicatorView!
 
 	/**
 	Add image to cell
@@ -23,4 +23,3 @@ class AlbumCell: UICollectionViewCell {
 		contentView.addSubview(imageView)
 	}
 }
-

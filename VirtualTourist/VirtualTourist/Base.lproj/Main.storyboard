@@ -79,38 +79,32 @@
                                 <rect key="frame" x="0.0" y="231" width="375" height="380.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yo4-rf-H62">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="282" height="249"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Jjc-Uf-UcX" customClass="AlbumCell" customModule="VirtualTourist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="46.5" y="0.0" width="282" height="249"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="282" height="249"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lVw-aS-YiU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="282" height="249"/>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="99O-MQ-n2J">
-                                                    <rect key="frame" x="15" y="15" width="20" height="20"/>
-                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="lVw-aS-YiU" firstAttribute="top" secondItem="Jjc-Uf-UcX" secondAttribute="top" id="6uB-4B-hVw"/>
                                             <constraint firstAttribute="bottom" secondItem="lVw-aS-YiU" secondAttribute="bottom" id="DyD-zd-M0f"/>
-                                            <constraint firstItem="99O-MQ-n2J" firstAttribute="centerY" secondItem="Jjc-Uf-UcX" secondAttribute="centerY" id="Jw6-j8-ZDu"/>
                                             <constraint firstItem="lVw-aS-YiU" firstAttribute="leading" secondItem="Jjc-Uf-UcX" secondAttribute="leading" id="OYR-NH-c0V"/>
-                                            <constraint firstItem="99O-MQ-n2J" firstAttribute="centerX" secondItem="Jjc-Uf-UcX" secondAttribute="centerX" id="cDr-Xm-s0w"/>
                                             <constraint firstAttribute="trailing" secondItem="lVw-aS-YiU" secondAttribute="trailing" id="xOJ-B7-0yb"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="image" destination="lVw-aS-YiU" id="VHQ-Hh-2b4"/>
-                                            <outlet property="spinner" destination="99O-MQ-n2J" id="ngT-3G-lIs"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -150,7 +144,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1hK-Rc-0on" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1162" y="152"/>
+            <point key="canvasLocation" x="1160.8" y="151.57421289355324"/>
         </scene>
     </scenes>
 </document>

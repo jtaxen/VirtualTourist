@@ -23,8 +23,11 @@ class AlbumViewController: UIViewController {
 		}
 	}
 	
-	/// Turns true when a successful server requsest is finnished, to mark that the collection view can load the images.
-	internal var dataIsReady: Bool = false
+	internal var images: [UIImage?] = [] {
+		didSet {
+			collection.reloadData()
+		}
+	}
 	
 	/// The point on which the map is centered.
 	internal var centerPoint: CLLocationCoordinate2D!
@@ -33,10 +36,8 @@ class AlbumViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		makeAPIRequest()
-		prepareCollectionView()
 		prepareMap()
-		fetchImage()
+		prepareCollectionView()
 	}
 }
 
@@ -97,42 +98,6 @@ extension AlbumViewController {
 			}
 			
 			self.currentAnnotation.addImages(FlickrClient.sharedInstance.saveAsImages(results!, forLocation: self.currentAnnotation.location))
-			self.dataIsReady = true
 		}
-	}
-	
-	/// The server request returns url paths for each image. This function downloads an image given one of these urls.
-	@available(*, deprecated: 0.1) internal func getImage(from url: URL?) -> UIImage? {
-		
-		guard url != nil else { return nil }
-		
-		do {
-			let data = try Data(contentsOf: url!)
-			let image = UIImage(data: data)
-			return image
-		} catch {
-			debugPrint(error)
-			debugPrint(ErrorHandler.newError(code: 301))
-			return nil
-		}
-	}
-	
-	/// Fetches an image entity from the core data stack.
-	internal func fetchImage() {
-		
-		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: FlickrClient.ImageProperties.ID, ascending: true)]
-		let fetchedResultsController = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.sharedInstance!.context, sectionNameKeyPath: nil, cacheName: nil)
-		
-		do {
-			try fetchedResultsController.performFetch()
-		} catch {
-			debugPrint(ErrorHandler.newError(code: 402))
-			debugPrint(error)
-			return
-		}
-		
-		let objects = fetchedResultsController.fetchedObjects
-		print(objects)
 	}
 }

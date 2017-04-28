@@ -16,7 +16,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	/// Return the number of items in the collection view
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return currentAnnotation.images.count
+		return 13
 	}
 	
 	/// Returns a cell
@@ -26,16 +26,18 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		// Everyother cell is blue, and everyother brown, so that they are visible when empty
 		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.blue : UIColor.brown
 		
-		if dataIsReady{
-			print("Data is ready!!! LOLOLOL")
-		}
+		// TODO: - Is it supposed to look like this?!
+		cell.spinner = createSpinner(superview: cell)
+		cell.contentView.addSubview(cell.spinner)
+		cell.spinner.startAnimating()
 		
 		return cell
+		
 	}
 	
 	/// Specifies the size of each cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: CGFloat((collectionView.frame.size.width) / 3), height: CGFloat((collectionView.frame.size.width) / 3))
+		return CGSize(width: CGFloat((collectionView.frame.size.width - 50) / 3), height: CGFloat((collectionView.frame.size.width - 50) / 3))
 	}
 }
 
