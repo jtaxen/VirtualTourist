@@ -16,7 +16,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	/// Return the number of items in the collection view
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return images.count
+		return numberOfCells
 	}
 	
 	/// Returns a cell
@@ -24,7 +24,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as! AlbumCell
 		// Everyother cell is blue, and everyother brown, so that they are visible when empty
-		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.blue : UIColor.brown
+		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.gray : UIColor.lightGray
 		
 		/*
 		// TODO: - Is it supposed to look like this?!
@@ -39,7 +39,10 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 				cell.contentView.addSubview(UIImageView(image: image))
 			}
 		}*/
-		cell.contentView.addSubview(UIImageView(image: images[indexPath.row]))
+		
+		if indexPath.row < images.count {
+			cell.addImage(images[indexPath.row])
+		}
 		
 		return cell
 		

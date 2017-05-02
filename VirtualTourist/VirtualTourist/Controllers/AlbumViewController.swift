@@ -17,6 +17,8 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var newCollectionButton: UIButton!
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
+	internal var numberOfCells: Int = 0
+	
 	
 	
 	public var currentAnnotation: VTAnnotation! {
@@ -26,12 +28,13 @@ class AlbumViewController: UIViewController {
 	}
 	
 	internal var modelImages: [Image?] = []
- 	internal var images: [UIImage?] = [] {
+	internal var images: [UIImage?] = []
+	/**{
 		didSet {
 			CoreDataStack.sharedInstance?.save()
 			collection.reloadData()
 		}
-	}
+	}*/
 	
 	internal var imageData: [String: AnyObject]?
 	
@@ -52,7 +55,7 @@ class AlbumViewController: UIViewController {
 		for item in modelImages {
 			Service.turnDataIntoImage(data: item?.imageData) { (processedImageData) in
 				DispatchQueue.main.async {
-				self.images.append(processedImageData)
+					self.images.append(processedImageData)
 				}
 			}
 		}
@@ -88,24 +91,49 @@ extension AlbumViewController {
 				return
 			}
 			
+			self.numberOfCells = results!.count
+			DispatchQueue.main.async {
+				self.collection.reloadData()
+			}
+			
+			/**
 			for image in results! {
-				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
-					let params: [String: AnyObject] = [
-						"location": self.currentAnnotation.location,
-						"id": image["id"] as AnyObject,
-						"owner": image["owner"] as AnyObject,
-						"title": image["title"] as AnyObject,
-						"url_m": image["url_m"] as AnyObject,
-						"image_data": data as AnyObject
-					]
-					
-					let newImage = Image(params, context: CoreDataStack.sharedInstance!.context)
-					self.modelImages.append(newImage)
-				}
+			Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
+			let params: [String: AnyObject] = [
+			"location": self.currentAnnotation.location,
+			"id": image["id"] as AnyObject,
+			"owner": image["owner"] as AnyObject,
+			"title": image["title"] as AnyObject,
+			"url_m": image["url_m"] as AnyObject,
+			"image_data": data as AnyObject
+			]
+			
+			let newImage = Image(params, context: CoreDataStack.sharedInstance!.context)
+			self.modelImages.append(newImage)
+			}
 			}
 			self.currentAnnotation.location.firstTimeOpened = false
 			DispatchQueue.main.async {
 			CoreDataStack.sharedInstance!.save()
+			}
+			*/
+			
+			var n = 0
+			for image in results! {
+				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
+					if data != nil {
+						let newImage = UIImage(data: data!)
+						self.images.append(newImage)
+						DispatchQueue.main.async {
+							self.collection.reloadData()
+						}
+					}
+					print(n)
+					n += 1
+				}
+			}
+			DispatchQueue.main.async {
+				self.collection.reloadData()
 			}
 		}
 	}
