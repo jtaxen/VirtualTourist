@@ -47,4 +47,12 @@ internal extension AlbumViewController {
 		collection.delegate = self
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
 	}
+	
+	internal func presentDeleteButton() -> UIButton {
+		
+		let button = UIButton(frame: newCollectionButton.frame)
+		button.titleLabel?.text = "Delete selected images"
+		button.addTarget(self, action: #selector(deleteChosenImages), for: .touchUpInside)
+		return button
+	}
 }

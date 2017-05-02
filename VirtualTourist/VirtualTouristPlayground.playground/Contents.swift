@@ -67,3 +67,12 @@ let image = UIImage(data: data!)
 let imageView = UIImageView(image: image)
 
 
+var collection: [Float] = [6,2,7,3,4,1,4]
+
+collection.remove(at: collection.index(of: 7)!)
+
+collection.remove(at: collection.index(of: 4)!)
+
+print(collection)
+
+

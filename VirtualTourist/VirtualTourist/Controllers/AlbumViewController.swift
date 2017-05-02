@@ -18,8 +18,7 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
 	internal var numberOfCells: Int = 0
-	
-	
+	internal var cellsToBeDeleted: [IndexPath] = []
 	
 	public var currentAnnotation: VTAnnotation! {
 		didSet {
@@ -29,12 +28,6 @@ class AlbumViewController: UIViewController {
 	
 	internal var modelImages: [Image?] = []
 	internal var images: [UIImage?] = []
-	/**{
-		didSet {
-			CoreDataStack.sharedInstance?.save()
-			collection.reloadData()
-		}
-	}*/
 	
 	internal var imageData: [String: AnyObject]?
 	
@@ -47,6 +40,7 @@ class AlbumViewController: UIViewController {
 		
 		prepareMap()
 		prepareCollectionView()
+		
 		
 		if currentAnnotation.location.firstTimeOpened {
 			makeAPIRequest()
@@ -62,7 +56,7 @@ class AlbumViewController: UIViewController {
 	}
 }
 
-/// MARK: - Handle server requests and images.
+// MARK: - Handle server requests and images.
 extension AlbumViewController {
 	
 	/// Makes a request to the Flickr server based on the location of the pin.
@@ -136,5 +130,20 @@ extension AlbumViewController {
 				self.collection.reloadData()
 			}
 		}
+	}
+}
+
+
+// MARK: - Restructure image collection
+internal extension AlbumViewController {
+	
+	@objc func deleteChosenImages() {
+		
+		for index in cellsToBeDeleted {
+			if index.row < images.count {
+				images.remove(at: index.row)
+			}
+		}
+		collection.reloadData()
 	}
 }

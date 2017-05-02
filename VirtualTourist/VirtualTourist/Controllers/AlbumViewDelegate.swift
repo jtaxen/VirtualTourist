@@ -26,31 +26,26 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		// Everyother cell is blue, and everyother brown, so that they are visible when empty
 		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.gray : UIColor.lightGray
 		
-		/*
-		// TODO: - Is it supposed to look like this?!
-		cell.spinner = createSpinner(superview: cell)
-		cell.contentView.addSubview(cell.spinner)
-		cell.spinner.startAnimating()
-		*/
-		
-		/**
-		Service.turnDataIntoImage(data: currentAnnotation.images[indexPath.row].imageData) { (image) in 
-			DispatchQueue.main.async {
-				cell.contentView.addSubview(UIImageView(image: image))
-			}
-		}*/
-		
 		if indexPath.row < images.count {
 			cell.addImage(images[indexPath.row])
 		}
 		
 		return cell
-		
 	}
 	
 	/// Specifies the size of each cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		return CGSize(width: CGFloat((collectionView.frame.size.width - 50) / 3), height: CGFloat((collectionView.frame.size.width - 50) / 3))
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		print("Did select \(indexPath)")
+		cellsToBeDeleted.append(indexPath)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+		cellsToBeDeleted.append(indexPath)
+		print("Did deselect \(indexPath)")
 	}
 }
 
