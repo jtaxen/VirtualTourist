@@ -24,15 +24,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		locations = CoreDataStack.sharedInstance?.fetchLocations()
+		appDelegate.locations = CoreDataStack.sharedInstance?.fetchLocations()
+		
 		
 		// Set up map view
 		map.delegate = self
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 		
-		if locations != nil {
-			for location in locations! {
+		if appDelegate.locations != nil {
+			for location in appDelegate.locations! {
 				let annotation = VTAnnotation(location: location)
 				annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
 				map.addAnnotation(annotation)
@@ -44,7 +45,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		// Add bar button to switch between regular mode and deletion mode
 		let deleteButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(deletionMode))
 		navigationItem.rightBarButtonItem = deleteButton
-		
 		
 	}
 	
@@ -58,8 +58,30 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.context)!)
 			newLocation?.firstTimeOpened = true
 			newAnnotation.location = newLocation!
-			locations?.append(newLocation!)
+			appDelegate.locations!.append(newLocation!)
 		}
+	}
+	
+	@objc internal func deleteAllLocations() {
+		
+		let alert = UIAlertController(title: "Remove all locations", message: "Are you sure you want to delete all your locations? (You cannot undo this action.)", preferredStyle: .actionSheet)
+		let remove = UIAlertAction(title: "Delete", style: .destructive) { (action) in
+			
+			do {
+				try CoreDataStack.sharedInstance?.dropAllData()
+				self.appDelegate.locations = []
+				self.map.removeAnnotations(self.map.annotations)
+			} catch {
+				debugPrint(error)
+			}
+		}
+		
+		let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		
+		alert.addAction(cancel)
+		alert.addAction(remove)
+		present(alert, animated: true, completion: nil)
+		
 	}
 }
 
@@ -74,9 +96,12 @@ extension MapViewController {
 		if delitingIsEnabled {
 			presentDeletionIndicationView()
 			navigationItem.rightBarButtonItem?.title = "Done"
+			navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Delete all", style: .done, target: self, action: #selector(deleteAllLocations))
+			
 		} else {
 			removeDeletionIndicationView()
 			navigationItem.rightBarButtonItem?.title = "Edit"
+			navigationItem.leftBarButtonItem = nil
 		}
 	}
 	
