@@ -11,12 +11,14 @@ import MapKit
 
 class VTAnnotation: MKPointAnnotation {
 	
-	public private(set) var location: Location!
+	public var location: Location!
 	public private(set) var images: [Image] = []
+	public var annotationIsNew: Bool!
 	
 	convenience init(location: Location) {
 		self.init()
 		self.location = location
+		annotationIsNew = true
 	}
 	
 	public func addImages(_ images: [Image]) {

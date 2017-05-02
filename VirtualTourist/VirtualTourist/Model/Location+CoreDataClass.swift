@@ -26,5 +26,6 @@ public class Location: NSManagedObject {
 		self.image = image
 		self.latitude = Float(coordinate.latitude)
 		self.longitude = Float(coordinate.longitude)
+		self.firstTimeOpened = true
 	}
 }

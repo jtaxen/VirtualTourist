@@ -84,6 +84,7 @@
 		A09AC87E1EA6444400F70A7C /* Image+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataClass.swift"; path = "Model/Image+CoreDataClass.swift"; sourceTree = "<group>"; };
 		A09AC87F1EA6444400F70A7C /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "Model/Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		A0A59C641EA6611D00921967 /* MapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewDelegate.swift; path = Controllers/MapViewDelegate.swift; sourceTree = "<group>"; };
+		A0B64BB11EB884090001C078 /* ImageModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ImageModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		A0CA59081EB345EA00FF3967 /* AlbumViewUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlbumViewUI.swift; path = Controllers/AlbumViewUI.swift; sourceTree = "<group>"; };
 		A0CA590E1EB36ED800FF3967 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Service.swift; path = Model/Service.swift; sourceTree = "<group>"; };
 		A0CA590F1EB36ED800FF3967 /* ServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ServiceProtocol.swift; path = Model/ServiceProtocol.swift; sourceTree = "<group>"; };
@@ -589,11 +590,12 @@
 		A09AC86C1EA6304200F70A7C /* ImageModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A0B64BB11EB884090001C078 /* ImageModel 4.xcdatamodel */,
 				A03AF61B1EADE023002A0376 /* ImageModel 3.xcdatamodel */,
 				A0244B3E1EAA4A2200C81DC2 /* ImageModel 2.xcdatamodel */,
 				A09AC86D1EA6304200F70A7C /* ImageModel.xcdatamodel */,
 			);
-			currentVersion = A03AF61B1EADE023002A0376 /* ImageModel 3.xcdatamodel */;
+			currentVersion = A0B64BB11EB884090001C078 /* ImageModel 4.xcdatamodel */;
 			name = ImageModel.xcdatamodeld;
 			path = Model/ImageModel.xcdatamodeld;
 			sourceTree = "<group>";

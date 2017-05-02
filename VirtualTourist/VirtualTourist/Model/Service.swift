@@ -38,4 +38,6 @@ class Service: ServiceProtocol {
 		let image = UIImage(data: data!)
 		completionHandler(image)
 	}
+	
+	
 }

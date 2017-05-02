@@ -17,19 +17,24 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var newCollectionButton: UIButton!
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
+	
+	
 	public var currentAnnotation: VTAnnotation! {
 		didSet {
 			centerPoint = currentAnnotation.coordinate
 		}
 	}
 	
-	internal var images: [UIImage?] = [] {
+	internal var modelImages: [Image?] = []
+ 	internal var images: [UIImage?] = [] {
 		didSet {
 			CoreDataStack.sharedInstance?.save()
 			collection.reloadData()
 		}
 	}
-
+	
+	internal var imageData: [String: AnyObject]?
+	
 	/// The point on which the map is centered.
 	internal var centerPoint: CLLocationCoordinate2D!
 	
@@ -39,15 +44,24 @@ class AlbumViewController: UIViewController {
 		
 		prepareMap()
 		prepareCollectionView()
-
 		
-		makeAPIRequest()
+		if currentAnnotation.location.firstTimeOpened {
+			makeAPIRequest()
+		}
+		modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
+		for item in modelImages {
+			Service.turnDataIntoImage(data: item?.imageData) { (processedImageData) in
+				DispatchQueue.main.async {
+				self.images.append(processedImageData)
+				}
+			}
+		}
 	}
 }
 
 /// MARK: - Handle server requests and images.
 extension AlbumViewController {
-
+	
 	/// Makes a request to the Flickr server based on the location of the pin.
 	internal func makeAPIRequest() {
 		
@@ -72,6 +86,26 @@ extension AlbumViewController {
 			guard results != nil else {
 				debugPrint(ErrorHandler.newError(code: 110))
 				return
+			}
+			
+			for image in results! {
+				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
+					let params: [String: AnyObject] = [
+						"location": self.currentAnnotation.location,
+						"id": image["id"] as AnyObject,
+						"owner": image["owner"] as AnyObject,
+						"title": image["title"] as AnyObject,
+						"url_m": image["url_m"] as AnyObject,
+						"image_data": data as AnyObject
+					]
+					
+					let newImage = Image(params, context: CoreDataStack.sharedInstance!.context)
+					self.modelImages.append(newImage)
+				}
+			}
+			self.currentAnnotation.location.firstTimeOpened = false
+			DispatchQueue.main.async {
+			CoreDataStack.sharedInstance!.save()
 			}
 		}
 	}

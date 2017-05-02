@@ -33,11 +33,13 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		cell.spinner.startAnimating()
 		*/
 		
+		/**
 		Service.turnDataIntoImage(data: currentAnnotation.images[indexPath.row].imageData) { (image) in 
 			DispatchQueue.main.async {
 				cell.contentView.addSubview(UIImageView(image: image))
 			}
-		}
+		}*/
+		cell.contentView.addSubview(UIImageView(image: images[indexPath.row]))
 		
 		return cell
 		
@@ -51,6 +53,8 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 
 // MARK: - Delegate for fetched results controller
 extension AlbumViewController: NSFetchedResultsControllerDelegate {
+	
+	
 	
 }
 

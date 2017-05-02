@@ -18,29 +18,34 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	internal fileprivate(set) var delitingIsEnabled: Bool = false
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	var locations: [Location]?
 	
 	// MARK: - View did load
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		locations = CoreDataStack.sharedInstance?.fetchLocations()
 		
 		// Set up map view
 		map.delegate = self
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 		
-		for location in appDelegate.locations {
-			let annotation = VTAnnotation(location: location)
-			annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
-			map.addAnnotation(annotation)
-			
-			deletionIndicationView()
+		if locations != nil {
+			for location in locations! {
+				let annotation = VTAnnotation(location: location)
+				annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+				map.addAnnotation(annotation)
+				
+				deletionIndicationView()
+			}
 		}
 		
 		// Add bar button to switch between regular mode and deletion mode
 		let deleteButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(deletionMode))
 		navigationItem.rightBarButtonItem = deleteButton
 		
-
+		
 	}
 	
 	/**
@@ -51,7 +56,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		if gesture.state == .ended {
 			let newAnnotation = map.createAnnotation()
 			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.context)!)
-			appDelegate.locations.append(newLocation!)
+			newLocation?.firstTimeOpened = true
+			newAnnotation.location = newLocation!
+			locations?.append(newLocation!)
 		}
 	}
 }
@@ -102,7 +109,7 @@ extension MapViewController {
 		
 		
 		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height.multiplied(by: CGFloat(0.9)) , width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1)))
-
+		
 		
 		deletionView.layoutIfNeeded()
 		UIView.animate(withDuration: 0.2) {
