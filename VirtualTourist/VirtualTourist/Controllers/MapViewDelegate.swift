@@ -25,10 +25,10 @@ extension MapViewController {
 			return pinView
 		}
 		
-		let location = Location(id: UUID().uuidString, image: nil, coordinate: annotation.coordinate, context: CoreDataStack.sharedInstance!.context)!
-		let vtAnnotation = VTAnnotation(location: location)
 		
-		pinView = Pin(annotation: vtAnnotation, reuseIdentifier: reuseID, coordinate: annotation.coordinate)
+//		let vtAnnotation = VTAnnotation(location: location)
+		
+		pinView = Pin(annotation: (annotation as! VTAnnotation), reuseIdentifier: reuseID, coordinate: annotation.coordinate)
 		pinView!.canShowCallout = false
 		pinView!.pinTintColor = UIColor.red
 		pinView!.animatesDrop = true
@@ -50,7 +50,9 @@ extension MapViewController {
 		}
 		
 		if delitingIsEnabled {
-			guard let annotation = view.annotation else { return }
+			guard let annotation = view.annotation as? VTAnnotation else { return }
+			CoreDataStack.sharedInstance?.context.delete(annotation.location)
+			print("removed a pin")
 			mapView.removeAnnotation(annotation)
 		}
 	}

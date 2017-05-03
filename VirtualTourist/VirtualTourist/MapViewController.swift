@@ -18,7 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	internal fileprivate(set) var delitingIsEnabled: Bool = false
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
-	var locations: [Location]?
+//	var locations: [Location]?
 	
 	// MARK: - View did load
 	override func viewDidLoad() {
@@ -58,7 +58,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.context)!)
 			newLocation?.firstTimeOpened = true
 			newAnnotation.location = newLocation!
-			appDelegate.locations!.append(newLocation!)
+//			appDelegate.locations!.append(newLocation!)
 		}
 	}
 	
@@ -100,6 +100,7 @@ extension MapViewController {
 			
 		} else {
 			removeDeletionIndicationView()
+			CoreDataStack.sharedInstance?.save()
 			navigationItem.rightBarButtonItem?.title = "Edit"
 			navigationItem.leftBarButtonItem = nil
 		}

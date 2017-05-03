@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 		locations = CoreDataStack.sharedInstance?.fetchLocations()
+
 		
 		return true
 	}
@@ -29,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		CoreDataStack.sharedInstance!.save()
 		print("Bye.. 👋")
 	}
+	
+	
 	
 }
 

@@ -73,3 +73,5 @@ let imageView = UIImageView(image: image)
 var collection: [Float] = [6,2,7,3,4,1,4]
 
 
+
+

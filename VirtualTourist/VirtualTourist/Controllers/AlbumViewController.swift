@@ -41,19 +41,13 @@ class AlbumViewController: UIViewController {
 		prepareMap()
 		prepareCollectionView()
 		
-		
 		if currentAnnotation.location.firstTimeOpened {
+			currentAnnotation.location.firstTimeOpened = false
 			makeAPIRequest()
 		}
 		
 		modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
-		for item in modelImages {
-			Service.turnDataIntoImage(data: item?.imageData! as! Data) { (processedImageData) in
-				DispatchQueue.main.async {
-					self.images.append(processedImageData)
-				}
-			}
-		}
+		reloadData()
 	}
 }
 
@@ -96,19 +90,30 @@ extension AlbumViewController {
 				/// Download image
 				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
 					if data != nil {
-						let newImage = UIImage(data: data!)
-						self.images.append(newImage)
-						DispatchQueue.main.async {
-							self.collection.reloadData()
-						}
+						//						let newImage = UIImage(data: data!)
+						//						self.images.append(newImage)
+						//						DispatchQueue.main.async {
+						//							self.collection.reloadData()
+						//						}
 						
 						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
+						self.reloadData()
 					}
 				}
 			}
 			DispatchQueue.main.async {
 				self.collection.reloadData()
-				CoreDataStack.sharedInstance?.save()
+//				CoreDataStack.sharedInstance?.save()
+			}
+		}
+	}
+	
+	func reloadData() {
+		for item in modelImages {
+			Service.turnDataIntoImage(data: item?.imageData! as Data?) { (processedImageData) in
+				DispatchQueue.main.async {
+					self.images.append(processedImageData)
+				}
 			}
 		}
 	}
