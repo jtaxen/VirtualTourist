@@ -46,7 +46,9 @@ class AlbumViewController: UIViewController {
 			makeAPIRequest()
 		}
 		
-		modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
+		
+		
+//		modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
 		reloadData()
 	}
 }
@@ -89,13 +91,7 @@ extension AlbumViewController {
 				
 				/// Download image
 				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
-					if data != nil {
-						//						let newImage = UIImage(data: data!)
-						//						self.images.append(newImage)
-						//						DispatchQueue.main.async {
-						//							self.collection.reloadData()
-						//						}
-						
+					if data != nil {						
 						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
 						self.reloadData()
 					}
@@ -103,7 +99,6 @@ extension AlbumViewController {
 			}
 			DispatchQueue.main.async {
 				self.collection.reloadData()
-//				CoreDataStack.sharedInstance?.save()
 			}
 		}
 	}

@@ -170,7 +170,9 @@ extension CoreDataStack {
 	
 	public func fetchImages(fromLocation location: Location) -> [Image]? {
 		
-		let locationPredicate = NSPredicate(format: "location == %@", location)
+		
+		
+		let locationPredicate = NSPredicate(format: "id == %@", argumentArray: [location.id!])
 		
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]

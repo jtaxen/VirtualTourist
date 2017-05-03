@@ -45,7 +45,7 @@ class Service: ServiceProtocol {
 		var parameters: [String: AnyObject] = [:]
 		
 		parameters["location"] = location
-		parameters["id"] = image["id"]
+		parameters["id"] = location.id as AnyObject
 		parameters["owner"] = image["owner"]
 		parameters["title"] = image["title"]
 		parameters["url_m"] = image["url_m"]
