@@ -90,30 +90,9 @@ extension AlbumViewController {
 				self.collection.reloadData()
 			}
 			
-			/**
 			for image in results! {
-			Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
-			let params: [String: AnyObject] = [
-			"location": self.currentAnnotation.location,
-			"id": image["id"] as AnyObject,
-			"owner": image["owner"] as AnyObject,
-			"title": image["title"] as AnyObject,
-			"url_m": image["url_m"] as AnyObject,
-			"image_data": data as AnyObject
-			]
-			
-			let newImage = Image(params, context: CoreDataStack.sharedInstance!.context)
-			self.modelImages.append(newImage)
-			}
-			}
-			self.currentAnnotation.location.firstTimeOpened = false
-			DispatchQueue.main.async {
-			CoreDataStack.sharedInstance!.save()
-			}
-			*/
-			
-			var n = 0
-			for image in results! {
+				
+				/// Download image
 				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
 					if data != nil {
 						let newImage = UIImage(data: data!)
@@ -121,13 +100,14 @@ extension AlbumViewController {
 						DispatchQueue.main.async {
 							self.collection.reloadData()
 						}
+						
+						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
 					}
-					print(n)
-					n += 1
 				}
 			}
 			DispatchQueue.main.async {
 				self.collection.reloadData()
+				CoreDataStack.sharedInstance?.save()
 			}
 		}
 	}

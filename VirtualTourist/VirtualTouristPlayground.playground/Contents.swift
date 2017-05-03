@@ -1,9 +1,12 @@
 //: Playground - noun: a place where people can play
 
+
+import Darwin.C
 import Foundation
 import UIKit
 import CoreLocation
 
+/*
 let a = 502
 let b = 100 + a / 100
 
@@ -65,14 +68,8 @@ do {
 
 let image = UIImage(data: data!)
 let imageView = UIImageView(image: image)
-
+*/
 
 var collection: [Float] = [6,2,7,3,4,1,4]
-
-collection.remove(at: collection.index(of: 7)!)
-
-collection.remove(at: collection.index(of: 4)!)
-
-print(collection)
 
 

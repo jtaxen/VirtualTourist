@@ -39,5 +39,19 @@ class Service: ServiceProtocol {
 		completionHandler(image)
 	}
 	
+	static func createImageForStorage(fromData data: Data?, location: Location, image: [String : AnyObject]) -> Image? {
+		
+		var parameters: [String: AnyObject] = [:]
+		
+		parameters["location"] = location
+		parameters["id"] = image["id"]
+		parameters["owner"] = image["owner"]
+		parameters["title"] = image["title"]
+		parameters["url_m"] = image["url_m"]
+		parameters["image_data"] = data as AnyObject
+		
+		return Image(parameters, context: (CoreDataStack.sharedInstance?.context)!)
+	}
+	
 	
 }

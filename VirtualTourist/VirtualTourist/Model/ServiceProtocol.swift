@@ -14,5 +14,7 @@ protocol ServiceProtocol {
 	static func downloadImageData(string: String?, completionHandler: @escaping (_ data: Data?) -> Void)
 	
 	static func turnDataIntoImage(data: Data?, completionHandler: @escaping (_ image: UIImage?) -> Void)
+	
+	static func createImageForStorage(fromData data: Data?, location: Location, image: [String: AnyObject]) -> Image?
 
 }
