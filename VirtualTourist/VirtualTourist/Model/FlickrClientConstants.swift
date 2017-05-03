@@ -40,7 +40,7 @@ extension FlickrClient {
 		static let Extras = "url_m"
 		static let Format = "json"
 		static let NoJSONCallback = "1"
-		static let PerPage = "39"
+		static let PerPage = "15"
 	}
 	
 	

@@ -34,7 +34,8 @@ class Service: ServiceProtocol {
 		
 		guard data != nil else {
 			completionHandler(nil)
-			return}
+			return
+		}
 		let image = UIImage(data: data!)
 		completionHandler(image)
 	}
@@ -53,5 +54,13 @@ class Service: ServiceProtocol {
 		return Image(parameters, context: (CoreDataStack.sharedInstance?.context)!)
 	}
 	
-	
+	static func returnUIImage(fromImage image: Image) -> UIImage? {
+		
+		guard let data = image.imageData else {
+			return nil
+		}
+		
+		let newImage = UIImage(data: data as Data)
+		return newImage
+	}
 }

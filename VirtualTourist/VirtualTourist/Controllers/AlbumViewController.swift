@@ -45,9 +45,10 @@ class AlbumViewController: UIViewController {
 		if currentAnnotation.location.firstTimeOpened {
 			makeAPIRequest()
 		}
+		
 		modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
 		for item in modelImages {
-			Service.turnDataIntoImage(data: item?.imageData) { (processedImageData) in
+			Service.turnDataIntoImage(data: item?.imageData! as! Data) { (processedImageData) in
 				DispatchQueue.main.async {
 					self.images.append(processedImageData)
 				}
