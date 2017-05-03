@@ -16,8 +16,7 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	/// Return the number of items in the collection view
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		guard images != nil else { return 0 }
-		return images!.count
+		return numberOfCells
 	}
 	
 	/// Returns a cell
@@ -25,10 +24,10 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as! AlbumCell
 		// Everyother cell is blue, and everyother brown, so that they are visible when empty
-		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.blue : UIColor.brown
+		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.gray : UIColor.lightGray
 		
-		if dataIsReady{
-			print("Data is ready!!! LOLOLOL")
+		if indexPath.row < images.count {
+			cell.addImage(images[indexPath.row])
 		}
 		
 		return cell
@@ -36,12 +35,24 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	/// Specifies the size of each cell
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: CGFloat((collectionView.frame.size.width) / 3), height: CGFloat((collectionView.frame.size.width) / 3))
+		return CGSize(width: CGFloat((collectionView.frame.size.width - 50) / 3), height: CGFloat((collectionView.frame.size.width - 50) / 3))
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		print("Did select \(indexPath)")
+		cellsToBeDeleted.append(indexPath)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+		cellsToBeDeleted.append(indexPath)
+		print("Did deselect \(indexPath)")
 	}
 }
 
 // MARK: - Delegate for fetched results controller
 extension AlbumViewController: NSFetchedResultsControllerDelegate {
+	
+	
 	
 }
 

@@ -22,6 +22,7 @@ public class Image: NSManagedObject {
 		self.owner = image.owner
 		self.title = image.title
 		self.url_m = image.url_m
+		self.imageData = nil
 	}
 	
 	// MARK: - Initializer independent of the FlickrImage struct.
@@ -35,9 +36,10 @@ public class Image: NSManagedObject {
 		
 		self.location = parameters["location"] as! Location?
 		self.id = parameters["id"] as! String?
-		self.owner = parameters["owners"] as! String?
+		self.owner = parameters["owner"] as! String?
 		self.title = parameters["title"] as! String?
 		self.url_m = parameters["url_m"] as! String?
+		self.imageData = parameters["image_data"] as! Data?
 		
 	}
 }

@@ -21,5 +21,6 @@ extension Image {
     @NSManaged public var title: String?
     @NSManaged public var url_m: String?
     @NSManaged public var location: Location?
+	@NSManaged public var imageData: Data?
 
 }

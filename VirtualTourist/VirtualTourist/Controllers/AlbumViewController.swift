@@ -17,64 +17,48 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var newCollectionButton: UIButton!
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
-	/// Turns true when a successful server requsest is finnished, to mark that the collection view can load the images.
-	internal var dataIsReady: Bool = false
+	internal var numberOfCells: Int = 0
+	internal var cellsToBeDeleted: [IndexPath] = []
 	
-	/// All pictures associated with a given location. When set, the collection view data source is reloaded.
-	var images: [[String: AnyObject]]? {
+	public var currentAnnotation: VTAnnotation! {
 		didSet {
-			DispatchQueue.main.async{
-				self.collection.reloadData()
-			}
+			centerPoint = currentAnnotation.coordinate
 		}
 	}
 	
+	internal var modelImages: [Image?] = []
+	internal var images: [UIImage?] = []
+	
+	internal var imageData: [String: AnyObject]?
+	
 	/// The point on which the map is centered.
 	internal var centerPoint: CLLocationCoordinate2D!
-	
-	public func setCenter(_ point: CLLocationCoordinate2D) { centerPoint = point }
 	
 	// MARK: - View did load
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		makeAPIRequest()
-		prepareCollectionView()
 		prepareMap()
-		fetchImage()
+		prepareCollectionView()
+		
+		
+		if currentAnnotation.location.firstTimeOpened {
+			makeAPIRequest()
+		}
+		modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
+		for item in modelImages {
+			Service.turnDataIntoImage(data: item?.imageData) { (processedImageData) in
+				DispatchQueue.main.async {
+					self.images.append(processedImageData)
+				}
+			}
+		}
 	}
 }
 
-// MARK: - Set up view
+// MARK: - Handle server requests and images.
 extension AlbumViewController {
 	
-	/// Set up the map view
-	internal func prepareMap() {
-		
-		map.isUserInteractionEnabled = false
-		map.centerCoordinate = centerPoint
-		let span = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
-		let region = MKCoordinateRegion(center: centerPoint, span: span)
-		map.setRegion(region, animated: true)
-		
-		let annotation = MKPointAnnotation()
-		annotation.coordinate = centerPoint
-		map.addAnnotation(annotation)
-		
-	}
-	
-	/// Set up the collection view
-	internal func prepareCollectionView() {
-		
-		collection.dataSource = self
-		collection.delegate = self
-		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
-	}
-}
-
-/// MARK: - Handle server requests and images.
-extension AlbumViewController {
-
 	/// Makes a request to the Flickr server based on the location of the pin.
 	internal func makeAPIRequest() {
 		
@@ -96,45 +80,70 @@ extension AlbumViewController {
 				return
 			}
 			
-			self.images = results
-			FlickrClient.sharedInstance.parsedResults = results
-//			FlickrClient.sharedInstance.saveImages()
-			self.dataIsReady = true
+			guard results != nil else {
+				debugPrint(ErrorHandler.newError(code: 110))
+				return
+			}
+			
+			self.numberOfCells = results!.count
+			DispatchQueue.main.async {
+				self.collection.reloadData()
+			}
+			
+			/**
+			for image in results! {
+			Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
+			let params: [String: AnyObject] = [
+			"location": self.currentAnnotation.location,
+			"id": image["id"] as AnyObject,
+			"owner": image["owner"] as AnyObject,
+			"title": image["title"] as AnyObject,
+			"url_m": image["url_m"] as AnyObject,
+			"image_data": data as AnyObject
+			]
+			
+			let newImage = Image(params, context: CoreDataStack.sharedInstance!.context)
+			self.modelImages.append(newImage)
+			}
+			}
+			self.currentAnnotation.location.firstTimeOpened = false
+			DispatchQueue.main.async {
+			CoreDataStack.sharedInstance!.save()
+			}
+			*/
+			
+			var n = 0
+			for image in results! {
+				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
+					if data != nil {
+						let newImage = UIImage(data: data!)
+						self.images.append(newImage)
+						DispatchQueue.main.async {
+							self.collection.reloadData()
+						}
+					}
+					print(n)
+					n += 1
+				}
+			}
+			DispatchQueue.main.async {
+				self.collection.reloadData()
+			}
 		}
 	}
+}
+
+
+// MARK: - Restructure image collection
+internal extension AlbumViewController {
 	
-	/// The server request returns url paths for each image. This function downloads an image given one of these urls.
-	@available(*, deprecated: 0.1) internal func getImage(from url: URL?) -> UIImage? {
+	@objc func deleteChosenImages() {
 		
-		guard url != nil else { return nil }
-		
-		do {
-			let data = try Data(contentsOf: url!)
-			let image = UIImage(data: data)
-			return image
-		} catch {
-			debugPrint(error)
-			debugPrint(ErrorHandler.newError(code: 301))
-			return nil
+		for index in cellsToBeDeleted {
+			if index.row < images.count {
+				images.remove(at: index.row)
+			}
 		}
-	}
-	
-	/// Fetches an image entity from the core data stack.
-	internal func fetchImage() {
-		
-		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: FlickrClient.ImageProperties.ID, ascending: true)]
-		let fetchedResultsController = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.sharedInstance!.context, sectionNameKeyPath: nil, cacheName: nil)
-		
-		do {
-			try fetchedResultsController.performFetch()
-		} catch {
-			debugPrint(ErrorHandler.newError(code: 402))
-			debugPrint(error)
-			return
-		}
-		
-		let objects = fetchedResultsController.fetchedObjects
-		print(objects)
+		collection.reloadData()
 	}
 }

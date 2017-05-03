@@ -20,6 +20,7 @@ extension Location {
     @NSManaged public var image: NSSet?
 	@NSManaged public var latitude: Float
 	@NSManaged public var longitude: Float
+	@NSManaged public var firstTimeOpened: Bool
 
 }
 

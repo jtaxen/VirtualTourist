@@ -24,7 +24,7 @@ class CoreDataStack {
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	
 	init?(modelName: String) {
-
+		
 		guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "momd") else {
 			print("Unable to find \(modelName) in the main bundle.")
 			return nil
@@ -89,7 +89,7 @@ extension CoreDataStack {
 	func performBackgroundBatchOperation(_ batch: @escaping Batch) {
 		backgroundContext.perform() {
 			batch(self.backgroundContext)
-
+			
 			do {
 				try self.backgroundContext.save()
 			} catch {
@@ -147,9 +147,9 @@ extension CoreDataStack {
 }
 
 extension CoreDataStack {
-
-	public func fetchLocations() {
 	
+	public func fetchLocations() -> [Location]? {
+		
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Location")
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
 		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -159,11 +159,29 @@ extension CoreDataStack {
 			try controller.performFetch()
 		} catch {
 			debugPrint(error)
-			return
+			return nil
 		}
 		
-		appDelegate.locations = controller.fetchedObjects as! [Location]
 		print("Fetched \((controller.fetchedObjects?.count ?? 0 )) locations.")
+		return controller.fetchedObjects as? [Location]
 	}
 	
+	public func fetchImages(fromLocation location: Location) -> [Image]? {
+		
+		let locationPredicate = NSPredicate(format: "location == %@", location)
+		
+		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+		fetchRequest.predicate = locationPredicate
+		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+		
+		do {
+			try controller.performFetch()
+		} catch {
+			debugPrint(error)
+			return nil
+		}
+		
+		return controller.fetchedObjects as? [Image]
+	}
 }

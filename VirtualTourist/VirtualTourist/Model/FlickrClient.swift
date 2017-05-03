@@ -126,4 +126,18 @@ class FlickrClient {
 		
 //		coreDataStack.save()
 	}
+	
+	public func saveAsImages(_ data: [[String: AnyObject]], forLocation location: Location) -> [Image] {
+	
+		var returnArray: [Image] = []
+		
+		for item in data {
+			var newItem = item
+			newItem["location"] = location as AnyObject
+			if let newImage = Image(newItem, context: coreDataStack.context) {
+				returnArray.append(newImage)
+			}
+		}
+		return returnArray
+	}
 }

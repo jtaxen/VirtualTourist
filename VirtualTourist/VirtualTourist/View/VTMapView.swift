@@ -28,9 +28,9 @@ class VTMapView: MKMapView {
 	/**
 	Creates a new annotation and adds it to the map.
 	*/
-	public func createAnnotation() -> MKPointAnnotation {
+	public func createAnnotation() -> VTAnnotation {
 	
-		let annotation = MKPointAnnotation()
+		let annotation = VTAnnotation()
 		annotation.coordinate = clPoint
 		addAnnotation(annotation)
 		return annotation
