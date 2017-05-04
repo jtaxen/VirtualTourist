@@ -8,6 +8,7 @@
 
 import XCTest
 import CoreData
+import CoreLocation
 @testable import VirtualTourist
 
 class CoreDataTest: XCTestCase {
@@ -125,7 +126,7 @@ class CoreDataTest: XCTestCase {
 		
 		let imageSet = NSSet(object: CoreDataTest.testImage)
 		
-		let location = Location(id: CoreDataTest.testLocationId, image: imageSet, context: CoreDataTest.stack!.context)
+		let location = Location(id: CoreDataTest.testLocationId, image: imageSet, coordinate: CLLocationCoordinate2DMake(CLLocationDegrees(2.2), CLLocationDegrees(3.3)) , context: (CoreDataTest.stack?.context)!)
 		
 		XCTAssertNotNil(location)
 		

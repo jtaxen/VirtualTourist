@@ -2,7 +2,7 @@
 //  Location+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by ÅF Jacob Taxén on 2017-04-18.
+//  Created by ÅF Jacob Taxén on 2017-05-03.
 //  Copyright © 2017 Jacob Taxén. All rights reserved.
 //
 
@@ -13,13 +13,14 @@ import CoreData
 extension Location {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Location> {
-        return NSFetchRequest<Location>(entityName: "Location");
+        return NSFetchRequest<Location>(entityName: "Location")
     }
 
+    @NSManaged public var firstTimeOpened: Bool
     @NSManaged public var id: String?
+    @NSManaged public var latitude: Float
+    @NSManaged public var longitude: Float
     @NSManaged public var image: NSSet?
-	@NSManaged public var latitude: Float
-	@NSManaged public var longitude: Float
 
 }
 

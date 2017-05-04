@@ -110,7 +110,8 @@ class FlickrClient {
 	/*
 	Save image data in parsed result array to the core data stack. This function should obviously take an array of FlickrImage objects as an argument, and not refer to an internal variable.
 	**/
-	func saveImages() {
+	
+	/** func saveImages() {
 	
 		guard parsedResults != nil else {
 			let error = ErrorHandler.newError(code: 401)
@@ -119,11 +120,25 @@ class FlickrClient {
 		}
 		
 		for item in parsedResults! {
-			let image = FlickrImage(item)
-			_ = Image(image, context: coreDataStack.context)
+			
+			_ = Image(item, context: coreDataStack.context)
 			print("")
 		}
 		
 //		coreDataStack.save()
+	}
+	*/
+	public func saveAsImages(_ data: [[String: AnyObject]], forLocation location: Location) -> [Image] {
+	
+		var returnArray: [Image] = []
+		
+		for item in data {
+			var newItem = item
+			newItem["location"] = location as AnyObject
+			if let newImage = Image(newItem, context: coreDataStack.context) {
+				returnArray.append(newImage)
+			}
+		}
+		return returnArray
 	}
 }

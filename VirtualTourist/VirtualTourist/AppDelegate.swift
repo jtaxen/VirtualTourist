@@ -12,11 +12,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
-	public var locations: [Location] = []
+	public var locations: [Location]?
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+		locations = CoreDataStack.sharedInstance?.fetchLocations()
+
 		
-		CoreDataStack.sharedInstance!.fetchLocations()
 		return true
 	}
 	
@@ -29,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		CoreDataStack.sharedInstance!.save()
 		print("Bye.. 👋")
 	}
+	
+	
 	
 }
 

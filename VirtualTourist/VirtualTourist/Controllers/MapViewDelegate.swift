@@ -25,7 +25,10 @@ extension MapViewController {
 			return pinView
 		}
 		
-		pinView = Pin(annotation: annotation, reuseIdentifier: reuseID, coordinate: annotation.coordinate)
+		
+//		let vtAnnotation = VTAnnotation(location: location)
+		
+		pinView = Pin(annotation: (annotation as! VTAnnotation), reuseIdentifier: reuseID, coordinate: annotation.coordinate)
 		pinView!.canShowCallout = false
 		pinView!.pinTintColor = UIColor.red
 		pinView!.animatesDrop = true
@@ -42,12 +45,14 @@ extension MapViewController {
 			let storyboard = UIStoryboard(name: "Main", bundle: nil)
 			let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
 			
-			controller.setCenter(pin.coordinate)
+			controller.currentAnnotation = pin.annotation as! VTAnnotation!
 			navigationController?.pushViewController(controller, animated: true)
 		}
 		
 		if delitingIsEnabled {
-			guard let annotation = view.annotation else { return }
+			guard let annotation = view.annotation as? VTAnnotation else { return }
+			CoreDataStack.sharedInstance?.context.delete(annotation.location)
+			print("removed a pin")
 			mapView.removeAnnotation(annotation)
 		}
 	}

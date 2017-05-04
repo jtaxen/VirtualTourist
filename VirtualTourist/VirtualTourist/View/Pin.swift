@@ -14,7 +14,7 @@ class Pin: MKPinAnnotationView {
 	private(set) var coordinate: CLLocationCoordinate2D!
 	public var hasStoredImages: Bool!
 	
-	init(annotation: MKAnnotation?, reuseIdentifier: String?, coordinate: CLLocationCoordinate2D) {
+	init(annotation: VTAnnotation?, reuseIdentifier: String?, coordinate: CLLocationCoordinate2D) {
 		super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 		self.coordinate = coordinate
 		hasStoredImages = false

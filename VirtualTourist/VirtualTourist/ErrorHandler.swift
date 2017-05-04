@@ -70,7 +70,7 @@ struct ErrorHandler {
 		let message = errorMessage(errorCode: code)
 		
 		let userInfo = [NSLocalizedDescriptionKey: message["message"]]
-		let error = NSError(domain: message["domain"]!, code: code, userInfo: userInfo)
+		let error = NSError(domain: message["domain"]!, code: code, userInfo: userInfo as Any)
 		return error
 		
 	}
