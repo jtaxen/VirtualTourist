@@ -18,7 +18,19 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
 	internal var numberOfCells: Int = 0
-	internal var cellsToBeDeleted: [IndexPath] = []
+	internal var deletionMode = false
+	internal var cellsToBeDeleted: [IndexPath] = [] {
+		didSet {
+			// As long as the number of elements are greater than zero, the delete button should be visible.
+			if deletionMode && cellsToBeDeleted.count == 0 {
+				deletionMode = false
+				removeDeleteButton()
+			} else if !deletionMode && cellsToBeDeleted.count > 0 {
+				deletionMode = true
+				presentDeleteButton()
+			}
+		}
+	}
 	
 	public var currentAnnotation: VTAnnotation! {
 		didSet {
@@ -38,8 +50,14 @@ class AlbumViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		newCollectionButton.setTitle("Get new collection of images", for: .normal)
+		newCollectionButton.titleLabel?.font = UIFont(name: "Futura", size: CGFloat(17))
+		
+		
 		prepareMap()
 		prepareCollectionView()
+		
+		
 		
 		if currentAnnotation.location.firstTimeOpened {
 			currentAnnotation.location.firstTimeOpened = false
@@ -125,11 +143,14 @@ internal extension AlbumViewController {
 	
 	@objc func deleteChosenImages() {
 		
+		numberOfCells = numberOfCells - cellsToBeDeleted.count
+		
 		for index in cellsToBeDeleted {
 			if index.row < images.count {
 				images.remove(at: index.row)
 			}
 		}
+		cellsToBeDeleted = []
 		collection.reloadData()
 	}
 }
