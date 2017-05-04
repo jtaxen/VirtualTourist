@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class AlbumCell: UICollectionViewCell {
 	
 	public var spinner: UIActivityIndicatorView!
@@ -24,6 +23,12 @@ class AlbumCell: UICollectionViewCell {
 		imageView = UIImageView(frame: contentView.frame)
 		imageView.contentMode = UIViewContentMode.scaleAspectFit
 		contentView.addSubview(imageView)
+		
+		
+		let mask = UIView(frame: self.bounds)
+		mask.backgroundColor = UIColor.white
+		mask.alpha = 1.0
+		self.mask = mask
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

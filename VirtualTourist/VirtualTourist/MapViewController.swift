@@ -132,10 +132,7 @@ extension MapViewController {
 	private func presentDeletionIndicationView() {
 		
 		let deletionView = view.subviews[view.subviews.endIndex - 1]
-		
-		
 		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height.multiplied(by: CGFloat(0.9)) , width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1)))
-		
 		
 		deletionView.layoutIfNeeded()
 		UIView.animate(withDuration: 0.2) {
