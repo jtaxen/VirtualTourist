@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class AlbumCell: UICollectionViewCell {
 	
 	public var spinner: UIActivityIndicatorView!
