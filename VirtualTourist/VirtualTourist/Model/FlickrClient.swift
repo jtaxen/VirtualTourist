@@ -37,7 +37,7 @@ class FlickrClient {
 	- Parameter error: Error if the request fails, nil otherwise.
 	
 	*/
-	func searchRequest(_ parameters: [String: AnyObject]?, searchRequestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
+	func searchRequest(_ parameters: [String: AnyObject]?, searchRequestCompletionHandler: @escaping (_ result: [[String: AnyObject]]?, _ pages: Int?, _ error: NSError?) -> Void ) -> URLSessionDataTask {
 	
 		var urlComponents = URLComponents()
 		urlComponents.scheme = Constants.Scheme
@@ -63,7 +63,7 @@ class FlickrClient {
 			
 			let error1 = ErrorHandler.checkServerResponse(withData: data, inResponse: response, forError: error as NSError?)
 			guard error1 == nil else {
-				searchRequestCompletionHandler(nil, error1)
+				searchRequestCompletionHandler(nil, nil, error1)
 				return
 			}
 			self.statusCode = (response as? HTTPURLResponse)?.statusCode
@@ -82,52 +82,36 @@ class FlickrClient {
 	- Parameter results: An array of dictionaries containing the JSON data parsed in a Swift compatible format.
 	- Parameter error: Error if the parsing fails, nil otherwise.
 	*/
-	public func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ error: NSError?) -> Void) {
+	public func parseResults (_ data: Data, parseDataCompletionHandler: (_ results: [[String: AnyObject]]?, _ numberOfPages: Int?, _ error: NSError?) -> Void) {
 		
 		var parsedData: [String: AnyObject]
 		do {
 			parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: AnyObject]
 		} catch {
 			debugPrint(error)
-			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 200))
+			parseDataCompletionHandler(nil, nil, ErrorHandler.newError(code: 200))
 			return
 	
 		}
 		
 		guard let photos = parsedData["photos"] as? [String: AnyObject] else {
-			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 201))
+			parseDataCompletionHandler(nil, nil, ErrorHandler.newError(code: 201))
+			return
+		}
+		
+		guard let pages = photos["pages"] as? Int else {
+			parseDataCompletionHandler(nil, nil, ErrorHandler.newError(code: 202))
 			return
 		}
 		
 		guard let photo = photos["photo"] as? [[String: AnyObject]] else {
-			parseDataCompletionHandler(nil, ErrorHandler.newError(code: 202))
+			parseDataCompletionHandler(nil, nil, ErrorHandler.newError(code: 202))
 			return
 		}
 		
-		parseDataCompletionHandler(photo, nil)
+		parseDataCompletionHandler(photo, pages, nil)
 	}
 	
-	/*
-	Save image data in parsed result array to the core data stack. This function should obviously take an array of FlickrImage objects as an argument, and not refer to an internal variable.
-	**/
-	
-	/** func saveImages() {
-	
-		guard parsedResults != nil else {
-			let error = ErrorHandler.newError(code: 401)
-			debugPrint(error)
-			return
-		}
-		
-		for item in parsedResults! {
-			
-			_ = Image(item, context: coreDataStack.context)
-			print("")
-		}
-		
-//		coreDataStack.save()
-	}
-	*/
 	public func saveAsImages(_ data: [[String: AnyObject]], forLocation location: Location) -> [Image] {
 	
 		var returnArray: [Image] = []

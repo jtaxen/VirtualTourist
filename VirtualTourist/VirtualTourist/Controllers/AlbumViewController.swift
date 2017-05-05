@@ -18,6 +18,14 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
 	internal var numberOfCells: Int = 0
+	internal var pageNumber: Int! {
+		didSet {
+			if pageNumber > numberOfPages && numberOfPages >= 1 {
+				pageNumber = 1
+			}
+		}
+	}
+	internal var numberOfPages: Int!
 	internal var deletionMode = false
 	internal var cellsToBeDeleted: [IndexPath] = [] {
 		didSet {
@@ -40,7 +48,6 @@ class AlbumViewController: UIViewController {
 	
 	internal var modelImages: [Image?] = []
 	internal var images: [UIImage?] = []
-	
 	internal var imageData: [String: AnyObject]?
 	
 	/// The point on which the map is centered.
@@ -88,10 +95,11 @@ extension AlbumViewController {
 			FlickrClient.ParameterKeys.Latitude: "\(centerPoint.latitude)" as AnyObject,
 			FlickrClient.ParameterKeys.Longitude: "\(centerPoint.longitude)" as AnyObject,
 			FlickrClient.ParameterKeys.NoJSONCallback: FlickrClient.ParameterValues.NoJSONCallback as AnyObject,
-			FlickrClient.ParameterKeys.PerPage: FlickrClient.ParameterValues.PerPage as AnyObject
+			FlickrClient.ParameterKeys.PerPage: FlickrClient.ParameterValues.PerPage as AnyObject,
+			FlickrClient.ParameterKeys.PageNumber: "\(pageNumber)" as AnyObject
 		]
 		
-		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (results, error) in
+		_ = FlickrClient.sharedInstance.searchRequest(parameters) { (results, pages, error) in
 			
 			guard error == nil else {
 				debugPrint(error!)
@@ -107,6 +115,8 @@ extension AlbumViewController {
 			DispatchQueue.main.async {
 				self.collection.reloadData()
 			}
+			
+			self.numberOfPages = pages
 			
 			for image in results! {
 				

@@ -30,6 +30,7 @@ extension FlickrClient {
 		static let Format = "format"
 		static let NoJSONCallback = "nojsoncallback"
 		static let PerPage = "per_page"
+		static let PageNumber = "page"
 	}
 	
 	/// Flickr REST API parameter values
