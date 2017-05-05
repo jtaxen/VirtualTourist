@@ -26,5 +26,7 @@ public class Location: NSManagedObject {
 		self.latitude = Float(coordinate.latitude)
 		self.longitude = Float(coordinate.longitude)
 		self.firstTimeOpened = true
+		self.numberOfPages = 1
+		self.page = 1
 	}
 }

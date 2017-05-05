@@ -18,14 +18,18 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
 	internal var numberOfCells: Int = 0
-	internal var pageNumber: Int! {
+	internal var pageNumber: Int = 1 {
 		didSet {
 			if pageNumber > numberOfPages && numberOfPages >= 1 {
 				pageNumber = 1
 			}
 		}
 	}
-	internal var numberOfPages: Int!
+	internal var numberOfPages: Int! {
+		willSet {
+			currentAnnotation.location.numberOfPages = Int32(newValue)
+		}
+	}
 	internal var deletionMode = false
 	internal var cellsToBeDeleted: [IndexPath] = [] {
 		didSet {
@@ -57,14 +61,16 @@ class AlbumViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		numberOfPages = Int(currentAnnotation.location.numberOfPages)
+		pageNumber = Int(currentAnnotation.location.page)
+		
 		newCollectionButton.setTitle("Get new collection of images", for: .normal)
 		newCollectionButton.titleLabel?.font = UIFont(name: "Futura", size: CGFloat(17))
-		
+		newCollectionButton.setTitleColor(UIColor.blue, for: .normal)
+		newCollectionButton.addTarget(self, action: #selector(newCollection), for: .touchUpInside)
 		
 		prepareMap()
 		prepareCollectionView()
-		
-		
 		
 		if currentAnnotation.location.firstTimeOpened {
 			currentAnnotation.location.firstTimeOpened = false
@@ -162,5 +168,16 @@ internal extension AlbumViewController {
 		}
 		cellsToBeDeleted = []
 		collection.reloadData()
+	}
+	
+	@objc func newCollection() {
+	
+		pageNumber += 1
+		modelImages.removeAll()
+		images.removeAll()
+		currentAnnotation.location.image = nil
+		collection.reloadData()
+		makeAPIRequest()
+		currentAnnotation.location.page = Int32(pageNumber)
 	}
 }

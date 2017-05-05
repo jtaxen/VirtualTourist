@@ -14,10 +14,11 @@
         <attribute name="latitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="longitude" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="numberOfPages" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="image" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Image" inverseName="location" inverseEntity="Image" syncable="YES"/>
     </entity>
     <elements>
         <element name="Image" positionX="-45" positionY="0" width="128" height="135"/>
-        <element name="Location" positionX="-18" positionY="54" width="128" height="135"/>
+        <element name="Location" positionX="-18" positionY="54" width="128" height="150"/>
     </elements>
 </model>

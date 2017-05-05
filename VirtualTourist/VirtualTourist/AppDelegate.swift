@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 		locations = CoreDataStack.sharedInstance?.fetchLocations()
-
+		CoreDataStack.sharedInstance!.autosave(10)
 		
 		return true
 	}
