@@ -120,7 +120,7 @@ extension MapViewController {
 	
 	fileprivate func deletionIndicationView() {
 		
-		let deletionView = UILabel(frame: CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: CGFloat(0)))
+		let deletionView = UILabel(frame: CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1))))
 		deletionView.backgroundColor = UIColor(colorLiteralRed: 117/256, green: 8/256, blue: 28/256, alpha: 1)
 		deletionView.text = "Tap pin to delete it"
 		deletionView.font = UIFont(name: "Futura", size: CGFloat(20))
@@ -144,7 +144,7 @@ extension MapViewController {
 	private func removeDeletionIndicationView() {
 		
 		let deletionView = view.subviews.last!
-		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: CGFloat(0))
+		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1)))
 		deletionView.layoutIfNeeded()
 		UIView.animate(withDuration: 0.2) {
 			deletionView.frame = newFrame

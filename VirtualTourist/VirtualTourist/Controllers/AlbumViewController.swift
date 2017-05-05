@@ -74,10 +74,8 @@ class AlbumViewController: UIViewController {
 		
 		if currentAnnotation.location.firstTimeOpened {
 			currentAnnotation.location.firstTimeOpened = false
-			print("First time opened")
 			makeAPIRequest()
 		} else {
-			print("Not first time")
 			modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
 			numberOfCells = modelImages.count
 			
@@ -146,7 +144,6 @@ extension AlbumViewController {
 			Service.turnDataIntoImage(data: item?.imageData! as Data?) { (processedImageData) in
 				DispatchQueue.main.async {
 					self.images.append(processedImageData)
-					print(self.images.count)
 				}
 			}
 		}

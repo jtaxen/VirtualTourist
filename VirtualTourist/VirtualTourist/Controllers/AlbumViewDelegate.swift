@@ -40,7 +40,6 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		print("Did select \(indexPath)")
 		let cell = collectionView.cellForItem(at: indexPath)
 		
 		if cellsToBeDeleted.contains(indexPath) {
@@ -50,7 +49,6 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 			cellsToBeDeleted.append(indexPath)
 			cell?.mask?.alpha = 0.5
 		}
-		print("Number of cells in deletion line is \(cellsToBeDeleted.count)")
 	}
 }
 

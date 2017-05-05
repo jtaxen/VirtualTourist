@@ -11,19 +11,6 @@ import UIKit
 import MapKit
 
 internal extension AlbumViewController {
-
-	func createSpinner(superview view: UIView) -> UIActivityIndicatorView {
-		
-		let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-		spinner.hidesWhenStopped = true
-		
-		let x = view.frame.width.subtracting(spinner.frame.width).multiplied(by: CGFloat(0.5))
-		let y = view.frame.height.subtracting(spinner.frame.height).multiplied(by: CGFloat(0.5))
-		let newFrame = CGRect(x: x, y: y, width: spinner.frame.width, height: spinner.frame.height)
-		spinner.frame = newFrame
-		
-		return spinner
-	}
 	
 	/// Set up the map view
 	func prepareMap() {

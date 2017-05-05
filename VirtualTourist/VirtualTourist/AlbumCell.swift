@@ -13,6 +13,7 @@ class AlbumCell: UICollectionViewCell {
 	public var spinner: UIActivityIndicatorView!
 	private var imageView: UIImageView!
 	
+	// MARK: - Initializer
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
@@ -40,12 +41,14 @@ class AlbumCell: UICollectionViewCell {
 	- Parameter image: image.
 	*/
 	public func addImage(_ image: UIImage?) {
-		
 		imageView.image = image
-//		spinner.stopAnimating()
-		
 	}
 	
+	/**
+	Creates an UIIndicatorView to mark that an image is not yet download.
+	
+	- Returns: An UIIndicatorView
+	*/
 	private func createSpinner() -> UIActivityIndicatorView {
 		
 		let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
