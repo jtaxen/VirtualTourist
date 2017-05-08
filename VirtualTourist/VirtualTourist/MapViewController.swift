@@ -69,6 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 			
 			do {
 				try CoreDataStack.sharedInstance?.dropAllData()
+				CoreDataStack.sharedInstance?.save()
 				LocationDataSource.shared.locations = []
 				self.map.removeAnnotations(self.map.annotations)
 			} catch {

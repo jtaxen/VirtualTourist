@@ -83,7 +83,7 @@ class AlbumViewController: UIViewController {
 			currentAnnotation.location.firstTimeOpened = false
 			makeAPIRequest()
 		}
-
+		
 	}
 }
 
@@ -128,7 +128,7 @@ extension AlbumViewController {
 				
 				/// Download image
 				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
-					if data != nil {						
+					if data != nil {
 						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
 						self.reloadData()
 					}
@@ -173,13 +173,14 @@ internal extension AlbumViewController {
 			}
 		}
 		
-		cellsToBeDeleted = []
-		CoreDataStack.sharedInstance?.save()
-		collection.reloadData()
+			cellsToBeDeleted = []
+			CoreDataStack.sharedInstance?.save()
+			collection.reloadData()
+		
 	}
 	
 	@objc func newCollection() {
-	
+		
 		pageNumber += 1
 		
 		for image in modelImages {
@@ -192,8 +193,10 @@ internal extension AlbumViewController {
 		CoreDataStack.sharedInstance?.save()
 		
 		currentAnnotation.location.image = nil
-		collection.reloadData()
 		makeAPIRequest()
+		DispatchQueue.main.async {
+			self.collection.reloadData()
+		}
 		currentAnnotation.location.page = Int32(pageNumber)
 	}
 }

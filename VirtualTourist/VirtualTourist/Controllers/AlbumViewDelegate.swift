@@ -30,6 +30,12 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 			cell.addImage(images[indexPath.row])
 		}
 		
+		if cellsToBeDeleted.contains(indexPath) {
+			cell.mask?.alpha = 0.5
+		} else {
+			cell.mask?.alpha = 1.0
+		}
+		
 		return cell
 	}
 	
