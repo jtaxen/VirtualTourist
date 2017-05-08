@@ -35,6 +35,10 @@ internal extension AlbumViewController {
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
 	}
 	
+	/**
+	Create and configure the button to delete images.
+	- Returns: The delete button.
+	*/
 	func deleteButton() -> UIButton {
 		
 		let frame = newCollectionButton.frame
@@ -54,6 +58,7 @@ internal extension AlbumViewController {
 		return button
 	}
 	
+	/// 
 	func presentDeleteButton() {
 		
 		let button = deleteButton()

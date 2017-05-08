@@ -17,14 +17,15 @@ class AlbumCell: UICollectionViewCell {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
-		spinner = createSpinner()
-		spinner.startAnimating()
-		backgroundView = spinner
-		
 		imageView = UIImageView(frame: contentView.frame)
 		imageView.contentMode = UIViewContentMode.scaleAspectFit
 		contentView.addSubview(imageView)
 		
+		if imageView.image == nil {
+			spinner = createSpinner()
+			spinner.startAnimating()
+			backgroundView = spinner
+		}
 		
 		let mask = UIView(frame: self.bounds)
 		mask.backgroundColor = UIColor.white
@@ -42,6 +43,7 @@ class AlbumCell: UICollectionViewCell {
 	*/
 	public func addImage(_ image: UIImage?) {
 		imageView.image = image
+		spinner.stopAnimating()
 	}
 	
 	/**

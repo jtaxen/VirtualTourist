@@ -17,7 +17,7 @@ class AlbumViewController: UIViewController {
 	@IBOutlet weak var newCollectionButton: UIButton!
 	@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
 	
-	internal var numberOfCells: Int = 0
+	public var numberOfCells: Int = 0
 	internal var pageNumber: Int = 1 {
 		didSet {
 			if pageNumber > numberOfPages && numberOfPages >= 1 {
@@ -50,16 +50,23 @@ class AlbumViewController: UIViewController {
 		}
 	}
 	
-	internal var modelImages: [Image?] = []
+	public var modelImages: [Image?] = []
 	internal var images: [UIImage?] = []
 	internal var imageData: [String: AnyObject]?
 	
 	/// The point on which the map is centered.
 	internal var centerPoint: CLLocationCoordinate2D!
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+	}
+	
 	// MARK: - View did load
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		reloadData()
+		collection.reloadData()
 		
 		numberOfPages = Int(currentAnnotation.location.numberOfPages)
 		pageNumber = Int(currentAnnotation.location.page)
@@ -75,13 +82,8 @@ class AlbumViewController: UIViewController {
 		if currentAnnotation.location.firstTimeOpened {
 			currentAnnotation.location.firstTimeOpened = false
 			makeAPIRequest()
-		} else {
-			modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: currentAnnotation.location)!
-			numberOfCells = modelImages.count
-			
 		}
-		reloadData()
-		collection.reloadData()
+
 	}
 }
 
@@ -148,6 +150,11 @@ extension AlbumViewController {
 			}
 		}
 	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		CoreDataStack.sharedInstance?.save()
+	}
 }
 
 
@@ -161,17 +168,29 @@ internal extension AlbumViewController {
 		for index in cellsToBeDeleted {
 			if index.row < images.count {
 				images.remove(at: index.row)
+				CoreDataStack.sharedInstance?.context.delete(modelImages[index.row]!)
+				modelImages.remove(at: index.row)
 			}
 		}
+		
 		cellsToBeDeleted = []
+		CoreDataStack.sharedInstance?.save()
 		collection.reloadData()
 	}
 	
 	@objc func newCollection() {
 	
 		pageNumber += 1
+		
+		for image in modelImages {
+			CoreDataStack.sharedInstance?.context.delete(image!)
+		}
+		
 		modelImages.removeAll()
 		images.removeAll()
+		
+		CoreDataStack.sharedInstance?.save()
+		
 		currentAnnotation.location.image = nil
 		collection.reloadData()
 		makeAPIRequest()

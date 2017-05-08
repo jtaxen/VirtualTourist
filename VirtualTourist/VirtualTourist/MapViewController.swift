@@ -24,7 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		appDelegate.locations = CoreDataStack.sharedInstance?.fetchLocations()
+		LocationDataSource.shared.locations = CoreDataStack.sharedInstance?.fetchLocations()
 		
 		
 		// Set up map view
@@ -32,8 +32,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 		
-		if appDelegate.locations != nil {
-			for location in appDelegate.locations! {
+		if LocationDataSource.shared.locations != nil {
+			for location in LocationDataSource.shared.locations! {
 				let annotation = VTAnnotation(location: location)
 				annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
 				map.addAnnotation(annotation)
@@ -69,7 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 			
 			do {
 				try CoreDataStack.sharedInstance?.dropAllData()
-				self.appDelegate.locations = []
+				LocationDataSource.shared.locations = []
 				self.map.removeAnnotations(self.map.annotations)
 			} catch {
 				debugPrint(error)

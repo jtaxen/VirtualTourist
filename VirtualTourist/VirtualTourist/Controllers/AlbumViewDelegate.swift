@@ -52,13 +52,6 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	}
 }
 
-// MARK: - Delegate for fetched results controller
-extension AlbumViewController: NSFetchedResultsControllerDelegate {
-	
-	
-	
-}
-
 // MARK: - Delegate for map view
 extension AlbumViewController: MKMapViewDelegate {
 	
