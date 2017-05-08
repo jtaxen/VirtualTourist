@@ -2,7 +2,7 @@
 //  Location+CoreDataProperties.swift
 //  VirtualTourist
 //
-//  Created by ÅF Jacob Taxén on 2017-05-03.
+//  Created by ÅF Jacob Taxén on 2017-05-05.
 //  Copyright © 2017 Jacob Taxén. All rights reserved.
 //
 
@@ -20,8 +20,9 @@ extension Location {
     @NSManaged public var id: String?
     @NSManaged public var latitude: Float
     @NSManaged public var longitude: Float
+    @NSManaged public var numberOfPages: Int32
+    @NSManaged public var page: Int32
     @NSManaged public var image: NSSet?
-	@NSManaged public var numberOfPages: Int32?
 
 }
 

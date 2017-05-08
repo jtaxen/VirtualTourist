@@ -11,22 +11,9 @@ import UIKit
 import MapKit
 
 internal extension AlbumViewController {
-
-	func createSpinner(superview view: UIView) -> UIActivityIndicatorView {
-		
-		let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-		spinner.hidesWhenStopped = true
-		
-		let x = view.frame.width.subtracting(spinner.frame.width).multiplied(by: CGFloat(0.5))
-		let y = view.frame.height.subtracting(spinner.frame.height).multiplied(by: CGFloat(0.5))
-		let newFrame = CGRect(x: x, y: y, width: spinner.frame.width, height: spinner.frame.height)
-		spinner.frame = newFrame
-		
-		return spinner
-	}
 	
 	/// Set up the map view
-	internal func prepareMap() {
+	func prepareMap() {
 		
 		map.isUserInteractionEnabled = false
 		map.centerCoordinate = centerPoint
@@ -41,18 +28,64 @@ internal extension AlbumViewController {
 	}
 	
 	/// Set up the collection view
-	internal func prepareCollectionView() {
+	func prepareCollectionView() {
 		
 		collection.dataSource = self
 		collection.delegate = self
 		collection.register(AlbumCell.self, forCellWithReuseIdentifier: "albumCell")
 	}
 	
-	internal func presentDeleteButton() -> UIButton {
+	/**
+	Create and configure the button to delete images.
+	- Returns: The delete button.
+	*/
+	func deleteButton() -> UIButton {
 		
-		let button = UIButton(frame: newCollectionButton.frame)
-		button.titleLabel?.text = "Delete selected images"
+		let frame = newCollectionButton.frame
+		let origin = CGPoint(x: frame.origin.x, y: frame.origin.y.adding(frame.size.height))
+		let size = frame.size
+		
+		let newFrame = CGRect(origin: origin, size: size)
+		
+		let button = UIButton(frame: newFrame)
 		button.addTarget(self, action: #selector(deleteChosenImages), for: .touchUpInside)
+		
+		button.setTitle("Remove images", for: .normal)
+		button.backgroundColor = UIColor.white
+		button.setTitleColor(UIColor.blue, for: .normal)
+		button.titleLabel?.font = UIFont(name: "Futura", size: CGFloat(17))
+		
 		return button
+	}
+	
+	/// 
+	func presentDeleteButton() {
+		
+		let button = deleteButton()
+		let frame = newCollectionButton.frame
+		
+		view.addSubview(button)
+		button.layoutIfNeeded()
+		UIView.animate(withDuration: 0.2) {
+			button.frame = frame
+			button.layoutIfNeeded()
+		}
+	}
+	
+	func removeDeleteButton() {
+		
+		let button = view.subviews.last!
+		let origin = CGPoint(x: button.frame.origin.x, y: button.frame.origin.y.adding((button.frame.height)))
+		let size = button.frame.size
+		
+		button.layoutIfNeeded()
+		UIView.animate(withDuration: 0.2) {
+			button.frame = CGRect(origin: origin, size: size)
+			button.layoutIfNeeded()
+		}
+		
+		for i in collection.indexPathsForSelectedItems! {
+			collection.deselectItem(at: i, animated: false)
+		}
 	}
 }

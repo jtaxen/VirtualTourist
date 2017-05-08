@@ -69,8 +69,8 @@ struct ErrorHandler {
 	
 		let message = errorMessage(errorCode: code)
 		
-		let userInfo = [NSLocalizedDescriptionKey: message["message"]]
-		let error = NSError(domain: message["domain"]!, code: code, userInfo: userInfo as Any)
+		let userInfo = [NSLocalizedDescriptionKey: message["message"] as Any]
+		let error = NSError(domain: message["domain"]!, code: code, userInfo: userInfo)
 		return error
 		
 	}

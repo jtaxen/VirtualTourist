@@ -8,22 +8,29 @@
 
 import UIKit
 
-
 class AlbumCell: UICollectionViewCell {
 	
 	public var spinner: UIActivityIndicatorView!
 	private var imageView: UIImageView!
 	
+	// MARK: - Initializer
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		
-		spinner = createSpinner()
-		spinner.startAnimating()
-		backgroundView = spinner
 		
 		imageView = UIImageView(frame: contentView.frame)
 		imageView.contentMode = UIViewContentMode.scaleAspectFit
 		contentView.addSubview(imageView)
+		
+		if imageView.image == nil {
+			spinner = createSpinner()
+			spinner.startAnimating()
+			backgroundView = spinner
+		}
+		
+		let mask = UIView(frame: self.bounds)
+		mask.backgroundColor = UIColor.white
+		mask.alpha = 1.0
+		self.mask = mask
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -35,12 +42,15 @@ class AlbumCell: UICollectionViewCell {
 	- Parameter image: image.
 	*/
 	public func addImage(_ image: UIImage?) {
-		
 		imageView.image = image
-//		spinner.stopAnimating()
-		
+		spinner.stopAnimating()
 	}
 	
+	/**
+	Creates an UIIndicatorView to mark that an image is not yet download.
+	
+	- Returns: An UIIndicatorView
+	*/
 	private func createSpinner() -> UIActivityIndicatorView {
 		
 		let spinner = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)

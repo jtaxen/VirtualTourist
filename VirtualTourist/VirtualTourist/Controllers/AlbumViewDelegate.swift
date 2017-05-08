@@ -23,11 +23,17 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "albumCell", for: indexPath) as! AlbumCell
-		// Everyother cell is blue, and everyother brown, so that they are visible when empty
-		cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.gray : UIColor.lightGray
+		
+		cell.backgroundColor = UIColor(colorLiteralRed: 0.95, green: 0.95, blue: 0.95, alpha: 1)
 		
 		if indexPath.row < images.count {
 			cell.addImage(images[indexPath.row])
+		}
+		
+		if cellsToBeDeleted.contains(indexPath) {
+			cell.mask?.alpha = 0.5
+		} else {
+			cell.mask?.alpha = 1.0
 		}
 		
 		return cell
@@ -38,22 +44,18 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		return CGSize(width: CGFloat((collectionView.frame.size.width - 50) / 3), height: CGFloat((collectionView.frame.size.width - 50) / 3))
 	}
 	
+	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		print("Did select \(indexPath)")
-		cellsToBeDeleted.append(indexPath)
+		let cell = collectionView.cellForItem(at: indexPath)
+		
+		if cellsToBeDeleted.contains(indexPath) {
+			cellsToBeDeleted.remove(at: cellsToBeDeleted.index(of: indexPath)!)
+			cell?.mask?.alpha = 1.0
+		} else {
+			cellsToBeDeleted.append(indexPath)
+			cell?.mask?.alpha = 0.5
+		}
 	}
-	
-	func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-		cellsToBeDeleted.append(indexPath)
-		print("Did deselect \(indexPath)")
-	}
-}
-
-// MARK: - Delegate for fetched results controller
-extension AlbumViewController: NSFetchedResultsControllerDelegate {
-	
-	
-	
 }
 
 // MARK: - Delegate for map view

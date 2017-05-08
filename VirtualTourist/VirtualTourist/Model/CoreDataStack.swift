@@ -156,7 +156,6 @@ extension CoreDataStack {
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
 		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
 		
-		
 		do {
 			try controller.performFetch()
 		} catch {
@@ -169,8 +168,6 @@ extension CoreDataStack {
 	}
 	
 	public func fetchImages(fromLocation location: Location) -> [Image]? {
-		
-		
 		
 		let locationPredicate = NSPredicate(format: "id == %@", argumentArray: [location.id!])
 		

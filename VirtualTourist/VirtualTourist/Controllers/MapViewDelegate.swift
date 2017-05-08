@@ -46,6 +46,9 @@ extension MapViewController {
 			let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
 			
 			controller.currentAnnotation = pin.annotation as! VTAnnotation!
+			controller.modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: (pin.annotation as! VTAnnotation).location)!
+			controller.numberOfCells = controller.modelImages.count
+			
 			navigationController?.pushViewController(controller, animated: true)
 		}
 		

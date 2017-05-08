@@ -24,7 +24,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		appDelegate.locations = CoreDataStack.sharedInstance?.fetchLocations()
+		LocationDataSource.shared.locations = CoreDataStack.sharedInstance?.fetchLocations()
 		
 		
 		// Set up map view
@@ -32,8 +32,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 		
-		if appDelegate.locations != nil {
-			for location in appDelegate.locations! {
+		if LocationDataSource.shared.locations != nil {
+			for location in LocationDataSource.shared.locations! {
 				let annotation = VTAnnotation(location: location)
 				annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
 				map.addAnnotation(annotation)
@@ -69,7 +69,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 			
 			do {
 				try CoreDataStack.sharedInstance?.dropAllData()
-				self.appDelegate.locations = []
+				CoreDataStack.sharedInstance?.save()
+				LocationDataSource.shared.locations = []
 				self.map.removeAnnotations(self.map.annotations)
 			} catch {
 				debugPrint(error)
@@ -120,7 +121,7 @@ extension MapViewController {
 	
 	fileprivate func deletionIndicationView() {
 		
-		let deletionView = UILabel(frame: CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: CGFloat(0)))
+		let deletionView = UILabel(frame: CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1))))
 		deletionView.backgroundColor = UIColor(colorLiteralRed: 117/256, green: 8/256, blue: 28/256, alpha: 1)
 		deletionView.text = "Tap pin to delete it"
 		deletionView.font = UIFont(name: "Futura", size: CGFloat(20))
@@ -131,11 +132,8 @@ extension MapViewController {
 	
 	private func presentDeletionIndicationView() {
 		
-		let deletionView = view.subviews[view.subviews.endIndex - 1]
-		
-		
+		let deletionView = view.subviews.last!
 		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height.multiplied(by: CGFloat(0.9)) , width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1)))
-		
 		
 		deletionView.layoutIfNeeded()
 		UIView.animate(withDuration: 0.2) {
@@ -146,8 +144,8 @@ extension MapViewController {
 	
 	private func removeDeletionIndicationView() {
 		
-		let deletionView = view.subviews[view.subviews.count - 1]
-		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: CGFloat(0))
+		let deletionView = view.subviews.last!
+		let newFrame = CGRect(x: CGFloat(0), y: view.frame.height, width: view.frame.width, height: view.frame.height.multiplied(by: CGFloat(0.1)))
 		deletionView.layoutIfNeeded()
 		UIView.animate(withDuration: 0.2) {
 			deletionView.frame = newFrame
