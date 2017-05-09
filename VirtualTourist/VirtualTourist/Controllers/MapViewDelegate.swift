@@ -55,7 +55,7 @@ extension MapViewController {
 		
 		if delitingIsEnabled {
 			guard let annotation = view.annotation as? VTAnnotation else { return }
-			CoreDataStack.sharedInstance?.context.delete(annotation.location)
+			CoreDataStack.sharedInstance?.persistingContext.delete(annotation.location)
 			print("removed a pin")
 			mapView.removeAnnotation(annotation)
 		}

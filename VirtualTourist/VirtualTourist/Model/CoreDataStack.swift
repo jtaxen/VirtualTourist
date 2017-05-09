@@ -16,9 +16,7 @@ class CoreDataStack {
 	internal let coordinator: NSPersistentStoreCoordinator
 	private let modelURL: URL
 	internal let dbURL: URL
-	internal let persistingContext: NSManagedObjectContext
-	internal let backgroundContext: NSManagedObjectContext
-	let context: NSManagedObjectContext
+	let persistingContext: NSManagedObjectContext
 	
 	static let sharedInstance = CoreDataStack(modelName: "ImageModel")
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -43,12 +41,6 @@ class CoreDataStack {
 		
 		persistingContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 		persistingContext.persistentStoreCoordinator = coordinator
-		
-		context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-		context.parent = persistingContext
-		
-		backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-		backgroundContext.parent = context
 		
 		let fm = FileManager.default
 		
@@ -84,44 +76,16 @@ internal extension CoreDataStack {
 
 extension CoreDataStack {
 	
-	typealias Batch = (_ workerContext: NSManagedObjectContext) -> ()
-	
-	func performBackgroundBatchOperation(_ batch: @escaping Batch) {
-		backgroundContext.perform() {
-			batch(self.backgroundContext)
-			
-			do {
-				try self.backgroundContext.save()
-			} catch {
-				debugPrint(error)
-				fatalError("Error while saving main context: \(error)")
-			}
-		}
-	}
-}
-
-extension CoreDataStack {
-	
 	func save() {
 		
-		context.performAndWait {
-			if self.context.hasChanges {
+		persistingContext.performAndWait {
+			if self.persistingContext.hasChanges {
 				do {
-					try self.context.save()
+					try self.persistingContext.save()
 					print("Saved context")
 				} catch {
 					debugPrint(error)
 					fatalError("Error while saving main context \(error)")
-				}
-				
-				self.persistingContext.perform() {
-					do {
-						try self.persistingContext.save()
-						print("Saved persisting context")
-					} catch {
-						debugPrint(error)
-						fatalError("Error while saving persisting context: \(error)")
-					}
 				}
 			}
 		}
@@ -131,7 +95,7 @@ extension CoreDataStack {
 		
 		if delayInSeconds > 0 {
 			do {
-				try self.context.save()
+				try self.persistingContext.save()
 				print("Autosaving")
 			} catch {
 				debugPrint(error)
@@ -154,7 +118,7 @@ extension CoreDataStack {
 		
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Location")
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: persistingContext, sectionNameKeyPath: nil, cacheName: nil)
 		
 		do {
 			try controller.performFetch()
@@ -174,7 +138,7 @@ extension CoreDataStack {
 		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
 		fetchRequest.predicate = locationPredicate
-		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: persistingContext, sectionNameKeyPath: nil, cacheName: nil)
 		
 		do {
 			try controller.performFetch()

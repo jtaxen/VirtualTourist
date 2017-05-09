@@ -169,7 +169,7 @@ internal extension AlbumViewController {
 		for index in cellsToBeDeleted {
 			if index.row < images.count {
 				images.remove(at: index.row)
-				CoreDataStack.sharedInstance?.context.delete(modelImages[index.row]!)
+				CoreDataStack.sharedInstance?.persistingContext.delete(modelImages[index.row]!)
 				modelImages.remove(at: index.row)
 			}
 		}
@@ -185,7 +185,7 @@ internal extension AlbumViewController {
 		pageNumber += 1
 		
 		for image in modelImages {
-			CoreDataStack.sharedInstance?.context.delete(image!)
+			CoreDataStack.sharedInstance?.persistingContext.delete(image!)
 		}
 		
 		modelImages.removeAll()

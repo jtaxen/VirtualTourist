@@ -55,7 +55,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		
 		if gesture.state == .began {
 			let newAnnotation = map.createAnnotation()
-			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.context)!)
+			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.persistingContext)!)
 			newLocation?.firstTimeOpened = true
 			newAnnotation.location = newLocation!
 //			appDelegate.locations!.append(newLocation!)

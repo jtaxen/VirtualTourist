@@ -51,7 +51,7 @@ class Service: ServiceProtocol {
 		parameters["url_m"] = image["url_m"]
 		parameters["image_data"] = data as AnyObject
 		
-		return Image(parameters, context: (CoreDataStack.sharedInstance?.context)!)
+		return Image(parameters, context: (CoreDataStack.sharedInstance?.persistingContext)!)
 	}
 	
 	static func returnUIImage(fromImage image: Image) -> UIImage? {
