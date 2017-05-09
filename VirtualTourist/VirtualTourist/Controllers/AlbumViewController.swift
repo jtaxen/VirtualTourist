@@ -132,6 +132,7 @@ extension AlbumViewController {
 						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
 						self.reloadData()
 					}
+					CoreDataStack.sharedInstance?.save()
 				}
 			}
 			DispatchQueue.main.async {
@@ -189,8 +190,6 @@ internal extension AlbumViewController {
 		
 		modelImages.removeAll()
 		images.removeAll()
-		
-		CoreDataStack.sharedInstance?.save()
 		
 		currentAnnotation.location.image = nil
 		makeAPIRequest()

@@ -50,6 +50,7 @@ extension MapViewController {
 			controller.numberOfCells = controller.modelImages.count
 			
 			navigationController?.pushViewController(controller, animated: true)
+			mapView.deselectAnnotation(pin.annotation, animated: true)
 		}
 		
 		if delitingIsEnabled {

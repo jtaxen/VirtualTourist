@@ -53,7 +53,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	*/
 	@objc private func newAnnotationOnTap(gesture: UILongPressGestureRecognizer) {
 		
-		if gesture.state == .ended {
+		if gesture.state == .began {
 			let newAnnotation = map.createAnnotation()
 			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.context)!)
 			newLocation?.firstTimeOpened = true
