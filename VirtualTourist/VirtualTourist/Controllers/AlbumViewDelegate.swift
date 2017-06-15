@@ -26,14 +26,37 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		
 		cell.backgroundColor = UIColor(colorLiteralRed: 0.95, green: 0.95, blue: 0.95, alpha: 1)
 		
-		if firstTime {
-			cell.spinner.startAnimating()
-			cell.backgroundView = cell.spinner
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+			if self.images.count == 0 {
+				cell.spinner.startAnimating()
+				if let imagePath = self.jsonResults[indexPath.row]["url_m"] as? String {
+					Service.downloadImageData(imagePath: imagePath) { data, error in
+						guard error == nil else {
+							debugPrint(error!)
+							return
+						}
+						
+						CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+							if let image = Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: self.jsonResults[indexPath.row]) {
+								self.modelImages.append(image)
+								if let uiimage = Service.returnUIImage(fromImage: image) {
+									DispatchQueue.main.async {
+										cell.spinner.stopAnimating()
+										self.images.append(uiimage)
+										cell.addImage(uiimage)
+									}
+								}
+							}
+						}
+					}
+				}
+			} else {
+				if self.images.count > indexPath.row {
+					cell.addImage(self.images[indexPath.row])
+				}
+			}
 		}
-		
-		if indexPath.row < images.count {
-			cell.addImage(images[indexPath.row])
-		}
+
 		
 		if cellsToBeDeleted.contains(indexPath) {
 			cell.mask?.alpha = 0.5
