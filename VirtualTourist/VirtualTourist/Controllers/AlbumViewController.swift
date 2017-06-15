@@ -143,13 +143,16 @@ extension AlbumViewController {
 					if data != nil {
 						CoreDataStack.sharedInstance?.persistingContext.performAndWait {
 							self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
+							CoreDataStack.sharedInstance?.save()
 						}
-						self.reloadData()
+						/*
 						DispatchQueue.main.async {
+													self.reloadData()
 							self.collection.reloadData()
 						}
+						*/
 					}
-					CoreDataStack.sharedInstance?.save()
+					
 				}
 			}
 			DispatchQueue.main.async {

@@ -133,7 +133,7 @@ extension CoreDataStack {
 	
 	public func fetchImages(fromLocation location: Location) -> [Image]? {
 		var returnImage: [Image]?
-		persistingContext.perform {
+		persistingContext.performAndWait {
 			let locationPredicate = NSPredicate(format: "id == %@", argumentArray: [location.id!])
 			
 			let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
