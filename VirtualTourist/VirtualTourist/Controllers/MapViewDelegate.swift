@@ -40,7 +40,7 @@ extension MapViewController {
 	**/
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 		
-		if !delitingIsEnabled {
+		if !deletingIsEnabled {
 			
 			let pin = view as! Pin
 			let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -55,9 +55,11 @@ extension MapViewController {
 			
 		}
 		
-		if delitingIsEnabled {
+		if deletingIsEnabled {
 			guard let annotation = view.annotation as? VTAnnotation else { return }
-			CoreDataStack.sharedInstance?.persistingContext.delete(annotation.location)
+			CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+				CoreDataStack.sharedInstance?.persistingContext.delete(annotation.location)
+			}
 			print("removed a pin")
 			mapView.removeAnnotation(annotation)
 		}

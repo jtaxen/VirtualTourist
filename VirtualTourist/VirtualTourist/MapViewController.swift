@@ -15,7 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	@IBOutlet weak var map: VTMapView!
 	
 	/// When true, annotations are deleted when touched, instead of pushing the album view controller.
-	internal fileprivate(set) var delitingIsEnabled: Bool = false
+	internal fileprivate(set) var deletingIsEnabled: Bool = false
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	//	var locations: [Location]?
@@ -93,12 +93,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 // MARK: - Set up
 extension MapViewController {
 	
-	/// Action associated with the right bar button item. Toggles the delitingIsEnabled variable and changes the title of the button.
+	/// Action associated with the right bar button item. Toggles the deletingIsEnabled variable and changes the title of the button.
 	@objc fileprivate func deletionMode() {
 		
-		delitingIsEnabled = !delitingIsEnabled
+		deletingIsEnabled = !deletingIsEnabled
 		
-		if delitingIsEnabled {
+		if deletingIsEnabled {
 			presentDeletionIndicationView()
 			navigationItem.rightBarButtonItem?.title = "Done"
 			navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Delete all", style: .done, target: self, action: #selector(deleteAllLocations))
