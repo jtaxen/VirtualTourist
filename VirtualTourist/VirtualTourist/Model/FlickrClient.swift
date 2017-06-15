@@ -119,7 +119,7 @@ class FlickrClient {
 		for item in data {
 			var newItem = item
 			newItem["location"] = location as AnyObject
-			if let newImage = Image(newItem, context: coreDataStack.context) {
+			if let newImage = Image(newItem, context: coreDataStack.persistingContext) {
 				returnArray.append(newImage)
 			}
 		}

@@ -26,6 +26,11 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		
 		cell.backgroundColor = UIColor(colorLiteralRed: 0.95, green: 0.95, blue: 0.95, alpha: 1)
 		
+		if firstTime {
+			cell.spinner.startAnimating()
+			cell.backgroundView = cell.spinner
+		}
+		
 		if indexPath.row < images.count {
 			cell.addImage(images[indexPath.row])
 		}
@@ -35,7 +40,6 @@ extension AlbumViewController: UICollectionViewDelegateFlowLayout, UICollectionV
 		} else {
 			cell.mask?.alpha = 1.0
 		}
-		
 		return cell
 	}
 	

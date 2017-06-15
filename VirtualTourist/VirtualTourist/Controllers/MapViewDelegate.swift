@@ -11,7 +11,7 @@ import MapKit
 // MARK: - MKMapView delegate
 extension MapViewController {
 	
-	/* 
+	/*
 	Adds an annotation view for each annotation
 	**/
 	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -26,7 +26,7 @@ extension MapViewController {
 		}
 		
 		
-//		let vtAnnotation = VTAnnotation(location: location)
+		//		let vtAnnotation = VTAnnotation(location: location)
 		
 		pinView = Pin(annotation: (annotation as! VTAnnotation), reuseIdentifier: reuseID, coordinate: annotation.coordinate)
 		pinView!.canShowCallout = false
@@ -41,20 +41,23 @@ extension MapViewController {
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 		
 		if !delitingIsEnabled {
+			
 			let pin = view as! Pin
 			let storyboard = UIStoryboard(name: "Main", bundle: nil)
 			let controller = storyboard.instantiateViewController(withIdentifier: "albumView") as! AlbumViewController
 			
 			controller.currentAnnotation = pin.annotation as! VTAnnotation!
-			controller.modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: (pin.annotation as! VTAnnotation).location)!
+			controller.modelImages = CoreDataStack.sharedInstance!.fetchImages(fromLocation: (pin.annotation as! VTAnnotation).location) ?? []
 			controller.numberOfCells = controller.modelImages.count
 			
 			navigationController?.pushViewController(controller, animated: true)
+			mapView.deselectAnnotation(pin.annotation, animated: true)
+			
 		}
 		
 		if delitingIsEnabled {
 			guard let annotation = view.annotation as? VTAnnotation else { return }
-			CoreDataStack.sharedInstance?.context.delete(annotation.location)
+			CoreDataStack.sharedInstance?.persistingContext.delete(annotation.location)
 			print("removed a pin")
 			mapView.removeAnnotation(annotation)
 		}
