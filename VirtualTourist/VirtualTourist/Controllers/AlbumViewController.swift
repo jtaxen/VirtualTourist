@@ -137,10 +137,6 @@ extension AlbumViewController {
 			for image in results! {
 				self.jsonResults.append(image)
 			}
-			DispatchQueue.main.async {
-				self.reloadData()
-				self.collection.reloadData()
-			}
 		}
 	}
 	
@@ -201,10 +197,15 @@ internal extension AlbumViewController {
 		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
 			self.currentAnnotation.location.image = nil
 		}
-		makeAPIRequest()
+		
+		numberOfCells = 0
+		
 		DispatchQueue.main.async {
 			self.collection.reloadData()
 		}
+		
+		makeAPIRequest()
+		
 		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
 			self.currentAnnotation.location.page = Int32(self.pageNumber)
 		}

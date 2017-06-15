@@ -41,7 +41,7 @@ extension FlickrClient {
 		static let Extras = "url_m"
 		static let Format = "json"
 		static let NoJSONCallback = "1"
-		static let PerPage = "18"
+		static let PerPage = "19"
 	}
 	
 	
@@ -57,7 +57,7 @@ extension FlickrClient {
 	/// Time limit for server requests.
 	struct Timer {
 		
-		static let Timeout: Double = 10
+		static let Timeout: Double = 60
 	}
 	
 	
