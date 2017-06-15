@@ -141,7 +141,9 @@ extension AlbumViewController {
 				/// Download image
 				Service.downloadImageData(string: (image["url_m"] as! String)) { (data) in
 					if data != nil {
-						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
+						CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+							self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
+						}
 						self.reloadData()
 						DispatchQueue.main.async {
 							self.collection.reloadData()
@@ -158,9 +160,12 @@ extension AlbumViewController {
 	}
 	
 	func reloadData() {
-		for item in modelImages {
-			Service.turnDataIntoImage(data: item?.imageData! as Data?) { (processedImageData) in
-				self.images.append(processedImageData)
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+			for item in self.modelImages {
+				
+				Service.turnDataIntoImage(data: item?.imageData! as Data?) { (processedImageData) in
+					self.images.append(processedImageData)
+				}
 			}
 		}
 	}
@@ -182,7 +187,9 @@ internal extension AlbumViewController {
 		for index in cellsToBeDeleted {
 			if index.row < images.count {
 				images.remove(at: index.row)
-				CoreDataStack.sharedInstance?.persistingContext.delete(modelImages[index.row]!)
+				CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+					CoreDataStack.sharedInstance?.persistingContext.delete(self.modelImages[index.row]!)
+				}
 				modelImages.remove(at: index.row)
 			}
 		}
@@ -198,17 +205,23 @@ internal extension AlbumViewController {
 		pageNumber += 1
 		
 		for image in modelImages {
-			CoreDataStack.sharedInstance?.persistingContext.delete(image!)
+			CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+				CoreDataStack.sharedInstance?.persistingContext.delete(image!)
+			}
 		}
 		
 		modelImages.removeAll()
 		images.removeAll()
 		
-		currentAnnotation.location.image = nil
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+			self.currentAnnotation.location.image = nil
+		}
 		makeAPIRequest()
 		DispatchQueue.main.async {
 			self.collection.reloadData()
 		}
-		currentAnnotation.location.page = Int32(pageNumber)
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+			self.currentAnnotation.location.page = Int32(self.pageNumber)
+		}
 	}
 }
