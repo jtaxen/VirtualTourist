@@ -53,7 +53,6 @@
                     <navigationItem key="navigationItem" id="Qv1-JY-zsy"/>
                     <connections>
                         <outlet property="map" destination="Wb4-bo-GAt" id="Pmi-aH-HDg"/>
-                        <segue destination="LOT-jR-DSP" kind="show" identifier="showAlbum" id="RNZ-wU-Mg2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hac-vY-qa2" userLabel="First Responder" sceneMemberID="firstResponder"/>

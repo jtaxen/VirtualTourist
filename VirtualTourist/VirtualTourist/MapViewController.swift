@@ -18,7 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	internal fileprivate(set) var delitingIsEnabled: Bool = false
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//	var locations: [Location]?
+	//	var locations: [Location]?
 	
 	// MARK: - View did load
 	override func viewDidLoad() {
@@ -32,15 +32,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 		map.isUserInteractionEnabled = true
 		map.addGestureRecognizer(gestureRecognizer(action: #selector(newAnnotationOnTap(gesture:))))
 		
-		if LocationDataSource.shared.locations != nil {
-			for location in LocationDataSource.shared.locations! {
-				let annotation = VTAnnotation(location: location)
-				annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
-				map.addAnnotation(annotation)
-				
-				deletionIndicationView()
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+			if LocationDataSource.shared.locations != nil {
+				for location in LocationDataSource.shared.locations! {
+					let annotation = VTAnnotation(location: location)
+					annotation.coordinate = CLLocationCoordinate2D(latitude: Double(location.latitude), longitude: Double(location.longitude))
+					self.map.addAnnotation(annotation)
+				}
 			}
 		}
+		
+		deletionIndicationView()
 		
 		// Add bar button to switch between regular mode and deletion mode
 		let deleteButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(deletionMode))
@@ -54,11 +56,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 	@objc private func newAnnotationOnTap(gesture: UILongPressGestureRecognizer) {
 		
 		if gesture.state == .began {
-			let newAnnotation = map.createAnnotation()
-			let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: (CoreDataStack.sharedInstance?.persistingContext)!)
-			newLocation?.firstTimeOpened = true
-			newAnnotation.location = newLocation!
-//			appDelegate.locations!.append(newLocation!)
+			CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+				let newAnnotation = self.map.createAnnotation()
+				let newLocation = Location(id: UUID().uuidString, image: nil, coordinate: newAnnotation.coordinate, context: CoreDataStack.sharedInstance!.persistingContext)
+				newLocation?.firstTimeOpened = true
+				newAnnotation.location = newLocation!
+			}
+			CoreDataStack.sharedInstance?.save()
 		}
 	}
 	

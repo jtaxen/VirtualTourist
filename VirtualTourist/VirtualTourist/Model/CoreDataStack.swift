@@ -12,14 +12,14 @@ import CoreData
 
 class CoreDataStack {
 	
-	private let model: NSManagedObjectModel
-	internal let coordinator: NSPersistentStoreCoordinator
-	private let modelURL: URL
-	internal let dbURL: URL
-	let persistingContext: NSManagedObjectContext
+	private let model        : NSManagedObjectModel
+	internal let coordinator : NSPersistentStoreCoordinator
+	private let modelURL     : URL
+	internal let dbURL       : URL
+	let persistingContext    : NSManagedObjectContext
 	
-	static let sharedInstance = CoreDataStack(modelName: "ImageModel")
-	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	static let sharedInstance = CoreDataStack(modelName : "ImageModel")
+	let appDelegate           = UIApplication.shared.delegate as! AppDelegate
 	
 	init?(modelName: String) {
 		
@@ -85,7 +85,7 @@ extension CoreDataStack {
 					print("Saved context")
 				} catch {
 					debugPrint(error)
-					fatalError("Error while saving main context \(error)")
+					fatalError("Error while saving persisting context \(error)")
 				}
 			}
 		}
@@ -132,21 +132,23 @@ extension CoreDataStack {
 	}
 	
 	public func fetchImages(fromLocation location: Location) -> [Image]? {
-		
-		let locationPredicate = NSPredicate(format: "id == %@", argumentArray: [location.id!])
-		
-		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-		fetchRequest.predicate = locationPredicate
-		let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: persistingContext, sectionNameKeyPath: nil, cacheName: nil)
-		
-		do {
-			try controller.performFetch()
-		} catch {
-			debugPrint(error)
-			return nil
+		var returnImage: [Image]?
+		persistingContext.perform {
+			let locationPredicate = NSPredicate(format: "id == %@", argumentArray: [location.id!])
+			
+			let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Image")
+			fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+			fetchRequest.predicate = locationPredicate
+			let controller = NSFetchedResultsController<NSFetchRequestResult>(fetchRequest: fetchRequest, managedObjectContext: self.persistingContext, sectionNameKeyPath: nil, cacheName: nil)
+			
+			do {
+				try controller.performFetch()
+			} catch {
+				debugPrint(error)
+				return
+			}
+			returnImage = controller.fetchedObjects as? [Image]
 		}
-		
-		return controller.fetchedObjects as? [Image]
+		return returnImage
 	}
 }

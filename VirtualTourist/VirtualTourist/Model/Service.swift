@@ -43,15 +43,15 @@ class Service: ServiceProtocol {
 	static func createImageForStorage(fromData data: Data?, location: Location, image: [String : AnyObject]) -> Image? {
 		
 		var parameters: [String: AnyObject] = [:]
-		
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
 		parameters["location"] = location
 		parameters["id"] = location.id as AnyObject
 		parameters["owner"] = image["owner"]
 		parameters["title"] = image["title"]
 		parameters["url_m"] = image["url_m"]
 		parameters["image_data"] = data as AnyObject
-		
-		return Image(parameters, context: (CoreDataStack.sharedInstance?.persistingContext)!)
+		}
+		return Image(parameters, context: CoreDataStack.sharedInstance!.persistingContext)
 	}
 	
 	static func returnUIImage(fromImage image: Image) -> UIImage? {

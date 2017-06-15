@@ -27,7 +27,9 @@ class AlbumViewController: UIViewController {
 	}
 	internal var numberOfPages: Int! {
 		willSet {
-			currentAnnotation.location.numberOfPages = Int32(newValue)
+			CoreDataStack.sharedInstance?.persistingContext.perform {
+				self.currentAnnotation.location.numberOfPages = Int32(newValue)
+			}
 		}
 	}
 	internal var deletionMode = false
@@ -43,7 +45,7 @@ class AlbumViewController: UIViewController {
 			}
 		}
 	}
-	
+	internal var firstTime = false
 	public var currentAnnotation: VTAnnotation! {
 		didSet {
 			centerPoint = currentAnnotation.coordinate
@@ -68,8 +70,21 @@ class AlbumViewController: UIViewController {
 		reloadData()
 		collection.reloadData()
 		
-		numberOfPages = Int(currentAnnotation.location.numberOfPages)
-		pageNumber = Int(currentAnnotation.location.page)
+		
+		CoreDataStack.sharedInstance?.persistingContext.performAndWait {
+			self.numberOfPages = Int(self.currentAnnotation.location.numberOfPages)
+			self.pageNumber = Int(self.currentAnnotation.location.page)
+			self.firstTime = self.currentAnnotation.location.firstTimeOpened
+		}
+		
+		if firstTime {
+			firstTime = false
+			CoreDataStack.sharedInstance?.persistingContext.perform {
+				
+				self.currentAnnotation.location.firstTimeOpened = false
+			}
+			makeAPIRequest()
+		}
 		
 		newCollectionButton.setTitle("Get new collection of images", for: .normal)
 		newCollectionButton.titleLabel?.font = UIFont(name: "Futura", size: CGFloat(17))
@@ -79,10 +94,7 @@ class AlbumViewController: UIViewController {
 		prepareMap()
 		prepareCollectionView()
 		
-		if currentAnnotation.location.firstTimeOpened {
-			currentAnnotation.location.firstTimeOpened = false
-			makeAPIRequest()
-		}
+		
 		
 	}
 }
@@ -131,6 +143,9 @@ extension AlbumViewController {
 					if data != nil {
 						self.modelImages.append(Service.createImageForStorage(fromData: data, location: self.currentAnnotation.location, image: image))
 						self.reloadData()
+						DispatchQueue.main.async {
+							self.collection.reloadData()
+						}
 					}
 					CoreDataStack.sharedInstance?.save()
 				}
@@ -145,9 +160,7 @@ extension AlbumViewController {
 	func reloadData() {
 		for item in modelImages {
 			Service.turnDataIntoImage(data: item?.imageData! as Data?) { (processedImageData) in
-				DispatchQueue.main.async {
-					self.images.append(processedImageData)
-				}
+				self.images.append(processedImageData)
 			}
 		}
 	}
@@ -174,9 +187,9 @@ internal extension AlbumViewController {
 			}
 		}
 		
-			cellsToBeDeleted = []
-			CoreDataStack.sharedInstance?.save()
-			collection.reloadData()
+		cellsToBeDeleted = []
+		CoreDataStack.sharedInstance?.save()
+		collection.reloadData()
 		
 	}
 	

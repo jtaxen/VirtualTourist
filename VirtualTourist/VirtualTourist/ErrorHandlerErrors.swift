@@ -29,13 +29,13 @@ internal extension ErrorHandler {
 			errorInfo["domain"] = "serverRequestDomain"
 			
 			switch code {
-			case 100: message = "Server did not return any status code."
-			case 101: message = "Server returned 1xx - Informal response."
-			case 103: message = "Server returned 3xx - Redirection respone."
-			case 104: message = "Server returned 4xx - Client error response."
-			case 105: message = "Server returned 5xx - Server error response."
-			case 110: message = "No data was returned."
-			default: message = "Unknown server request error."
+			case 100 : message = "Server did not return any status code."
+			case 101 : message = "Server returned 1xx - Informal response."
+			case 103 : message = "Server returned 3xx - Redirection respone."
+			case 104 : message = "Server returned 4xx - Client error response."
+			case 105 : message = "Server returned 5xx - Server error response."
+			case 110 : message = "No data was returned."
+			default  : message = "Unknown server request error."
 			}
 		}
 		
@@ -44,10 +44,10 @@ internal extension ErrorHandler {
 			errorInfo["domain"] = "jsonParsingError"
 			
 			switch code {
-			case 200: message = "JSON parsing failed."
-			case 201: message = "Could not find photos in JSON results."
-			case 202: message = "Could not find photo in JSON results."
-			default: message = "Unknown parsing error."
+			case 200 : message = "JSON parsing failed."
+			case 201 : message = "Could not find photos in JSON results."
+			case 202 : message = "Could not find photo in JSON results."
+			default  : message = "Unknown parsing error."
 			}
 		}
 		
