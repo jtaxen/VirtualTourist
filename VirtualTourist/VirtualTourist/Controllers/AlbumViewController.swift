@@ -134,9 +134,9 @@ extension AlbumViewController {
 			
 			self.numberOfPages = pages
 			
-			for image in results! {
-				self.jsonResults.append(image)
-			}
+			
+			self.jsonResults = results!
+			
 		}
 	}
 	
