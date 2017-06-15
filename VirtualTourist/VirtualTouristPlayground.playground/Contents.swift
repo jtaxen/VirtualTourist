@@ -8,4 +8,4 @@ let en_US = locale.displayName(forKey: .identifier, value: "en_US")
 
 
 
-let locString = NSLocalizedString(<#T##key: String##String#>, comment: <#T##String#>)
+let locString = NSLocalizedString("Çey", comment: "ﬂæ")

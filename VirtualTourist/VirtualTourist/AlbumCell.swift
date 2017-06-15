@@ -12,6 +12,11 @@ class AlbumCell: UICollectionViewCell {
 	
 	public var spinner: UIActivityIndicatorView!
 	private var imageView: UIImageView!
+	public var hasImage: Bool {
+		get {
+			return imageView.image != nil
+		}
+	}
 	
 	// MARK: - Initializer
 	override init(frame: CGRect) {
@@ -22,6 +27,7 @@ class AlbumCell: UICollectionViewCell {
 		contentView.addSubview(imageView)
 
 		spinner = createSpinner()
+		contentView.addSubview(spinner)
 		
 		let mask = UIView(frame: self.bounds)
 		mask.backgroundColor = UIColor.white
@@ -39,9 +45,6 @@ class AlbumCell: UICollectionViewCell {
 	*/
 	public func addImage(_ image: UIImage?) {
 		imageView.image = image
-		if spinner.isAnimating {
-			spinner.stopAnimating()
-		}
 	}
 	
 	/**
