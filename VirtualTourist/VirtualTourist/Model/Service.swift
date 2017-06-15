@@ -9,25 +9,22 @@
 import Foundation
 import UIKit
 
-class Service: ServiceProtocol {
+class Service {
 	
-	static func downloadImageData(string: String?, completionHandler: @escaping (_ data: Data?) -> Void) {
+	static func downloadImageData( imagePath: String, completionHandler: @escaping (_ imageData: Data?, _ errorString: String?) -> Void) {
+		let session = URLSession.shared
+		let imgURL = URL(string: imagePath)
+		let request: URLRequest = URLRequest(url: imgURL!)
 		
-		guard string != nil else {
-			completionHandler(nil)
-			return
+		let task = session.dataTask(with: request) { data, response, downloadError in
+			
+			if downloadError != nil {
+				completionHandler(nil, "Could not download image \(imagePath)")
+			} else {
+				completionHandler(data, nil)
+			}
 		}
-		guard let url = URL(string: string!) else {
-			completionHandler(nil)
-			return
-		}
-		do {
-			let data = try Data(contentsOf: url)
-			completionHandler(data)
-		} catch {
-			debugPrint(error)
-			completionHandler(nil)
-		}
+		task.resume()
 	}
 	
 	static func turnDataIntoImage(data: Data?, completionHandler: @escaping (_ image: UIImage?) -> Void) {
